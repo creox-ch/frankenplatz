@@ -1,0 +1,183 @@
+/* Frankenplatz — захват e-mail после расчёта в калькуляторах.
+   Один модуль на все калькуляторы: рисует карточку, отсекает ботов
+   (honeypot + time-trap), шлёт заявку на общий приёмник форм платформы.
+
+   Данные уходят в единый Supabase «база аудитории» через эндпоинт
+   slswiss-tickets /api/forms (тот же, что у chudina/atlasintegra/creox).
+   На сервере уже есть: жёсткий Origin-чек, honeypot, time-trap, GDPR-согласие.
+
+   Подключение в калькуляторе (внизу body, после его скрипта):
+     <div id="report-capture"></div>
+     <script src="report-capture.js"></script>
+     <script>
+       FPReport.init({
+         mount: '#report-capture',
+         formKey: 'calc-pension',                 // ключ формы в базе
+         title: 'Прислать отчёт на почту?',       // опц.
+         getSummary: function () {                 // снимок результатов → в письмо/базу
+           return { 'Пенсия, CHF/мес': document.getElementById('totalV').textContent };
+         }
+       });
+     </script>
+*/
+(function () {
+  'use strict';
+
+  // Общий приёмник форм платформы (Next-приложение slswiss-tickets).
+  // Формы форума живут на другом домене → это кросс-доменный fetch (CORS).
+  var ENDPOINT = 'https://slswiss-tickets.vercel.app/api/forms';
+
+  // Быстрее этого времени форму «заполняет» только бот (совпадает с сервером).
+  var MIN_FILL_MS = 2500;
+
+  var STYLE_ID = 'fp-report-style';
+  var CSS = [
+    '.fp-report{background:var(--glass,rgba(255,255,255,.045));border:1px solid var(--line,rgba(255,255,255,.10));',
+    'border-radius:20px;padding:22px 24px;backdrop-filter:blur(8px);margin-top:18px}',
+    '.fp-report h3{font-family:"Unbounded","Manrope",sans-serif;font-size:17px;font-weight:700;',
+    'letter-spacing:-.02em;color:var(--heading,#fff);margin:0 0 4px}',
+    '.fp-report p.fp-sub{font-size:13.5px;color:var(--muted,#C3B7D4);margin:0 0 16px}',
+    '.fp-report .fp-row{display:flex;gap:10px;flex-wrap:wrap}',
+    '.fp-report input[type=email]{flex:1 1 220px;background:rgba(0,0,0,.20);border:1px solid var(--line-strong,rgba(255,255,255,.16));',
+    'border-radius:12px;padding:12px 14px;color:var(--ink,#F3EEF9);font:inherit;font-size:15px}',
+    '.fp-report input[type=email]:focus{outline:none;border-color:var(--gold,#E6B450)}',
+    '.fp-report button{background:linear-gradient(92deg,var(--gold,#E6B450),var(--gold-bright,#F5C969));',
+    'color:#231433;border:0;border-radius:12px;padding:12px 20px;font:inherit;font-weight:700;font-size:15px;cursor:pointer}',
+    '.fp-report button:disabled{opacity:.55;cursor:default}',
+    '.fp-report label.fp-consent{display:flex;align-items:flex-start;gap:9px;cursor:pointer;',
+    'font-size:12.5px;color:var(--muted2,#9A8BB3);line-height:1.4;margin-top:12px}',
+    '.fp-report label.fp-consent input{accent-color:var(--gold,#E6B450);width:16px;height:16px;margin-top:1px;cursor:pointer}',
+    '.fp-report .fp-msg{font-size:13.5px;margin-top:12px;line-height:1.45}',
+    '.fp-report .fp-msg.ok{color:var(--green,#8BE59B)}',
+    '.fp-report .fp-msg.err{color:var(--red,#FF7A8A)}',
+    // honeypot: прячем надёжно (не display:none — некоторые боты его игнорят как «невидимое»)
+    '.fp-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}'
+  ].join('');
+
+  function injectStyle() {
+    if (document.getElementById(STYLE_ID)) return;
+    var s = document.createElement('style');
+    s.id = STYLE_ID;
+    s.textContent = CSS;
+    document.head.appendChild(s);
+  }
+
+  function el(html) {
+    var d = document.createElement('div');
+    d.innerHTML = html.trim();
+    return d.firstChild;
+  }
+
+  function init(opts) {
+    opts = opts || {};
+    var mount = typeof opts.mount === 'string' ? document.querySelector(opts.mount) : opts.mount;
+    if (!mount) return; // нет точки монтирования — тихо выходим
+    injectStyle();
+
+    var title = opts.title || 'Прислать отчёт на почту?';
+    var sub = opts.sub || 'Оставь e-mail — пришлём результат расчёта и полезные разборы с форума. Без спама.';
+    var formKey = opts.formKey || 'calculator';
+    var endpoint = opts.endpoint || ENDPOINT;
+
+    var card = el(
+      '<div class="fp-report">' +
+        '<h3></h3>' +
+        '<p class="fp-sub"></p>' +
+        '<form novalidate>' +
+          '<div class="fp-row">' +
+            '<input type="email" name="email" placeholder="you@example.ch" autocomplete="email" required>' +
+            '<button type="submit"></button>' +
+          '</div>' +
+          // honeypot — реальный человек это поле не видит и не заполняет
+          '<div class="fp-hp" aria-hidden="true"><label>Не заполняйте<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>' +
+          '<label class="fp-consent"><input type="checkbox" name="consent"><span>Согласен(на) на обработку e-mail для отправки отчёта и писем форума (можно отписаться в любой момент).</span></label>' +
+          '<div class="fp-msg" role="status" aria-live="polite"></div>' +
+        '</form>' +
+      '</div>'
+    );
+    card.querySelector('h3').textContent = title;
+    card.querySelector('p.fp-sub').textContent = sub;
+    card.querySelector('button').textContent = 'Прислать отчёт';
+    mount.innerHTML = '';
+    mount.appendChild(card);
+
+    var form = card.querySelector('form');
+    var emailInput = form.email;
+    var consentInput = form.consent;
+    var hpInput = form.website;
+    var btn = form.querySelector('button');
+    var msg = card.querySelector('.fp-msg');
+    var shownAt = Date.now(); // старт time-trap
+
+    function setMsg(text, kind) {
+      msg.textContent = text || '';
+      msg.className = 'fp-msg' + (kind ? ' ' + kind : '');
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      setMsg('');
+
+      var email = (emailInput.value || '').trim();
+      if (!email || email.indexOf('@') < 1) {
+        setMsg('Проверь e-mail — кажется, есть опечатка.', 'err');
+        emailInput.focus();
+        return;
+      }
+      if (!consentInput.checked) {
+        setMsg('Нужно согласие на обработку данных.', 'err');
+        return;
+      }
+
+      var summary = {};
+      try {
+        summary = (typeof opts.getSummary === 'function' && opts.getSummary()) || {};
+      } catch (err) {
+        summary = {};
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Отправляю…';
+
+      fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          source: 'forum',
+          form_key: formKey,
+          kind: 'lead',
+          source_url: location.href,
+          email: email,
+          consent: true,
+          website: hpInput.value, // honeypot → сервер отсечёт, если заполнено
+          elapsed_ms: Date.now() - shownAt,
+          payload: summary
+        })
+      })
+        .then(function (r) {
+          return r.json().catch(function () { return {}; }).then(function (data) {
+            return { status: r.status, data: data };
+          });
+        })
+        .then(function (res) {
+          if (res.status >= 200 && res.status < 300 && res.data && res.data.ok) {
+            card.querySelector('.fp-row').style.display = 'none';
+            form.querySelector('.fp-consent').style.display = 'none';
+            setMsg('Готово! Отчёт пришлём на ' + email + '.', 'ok');
+          } else {
+            var err = (res.data && res.data.error) || 'Не получилось отправить. Попробуй ещё раз.';
+            setMsg(err, 'err');
+            btn.disabled = false;
+            btn.textContent = 'Прислать отчёт';
+          }
+        })
+        .catch(function () {
+          setMsg('Сеть недоступна. Попробуй ещё раз чуть позже.', 'err');
+          btn.disabled = false;
+          btn.textContent = 'Прислать отчёт';
+        });
+    });
+  }
+
+  window.FPReport = { init: init, MIN_FILL_MS: MIN_FILL_MS };
+})();

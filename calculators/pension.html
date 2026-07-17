@@ -166,6 +166,7 @@
         <div class="cap" id="p3Cap"></div>
         <div class="note">Единственная опора полностью под твоим контролем + налоговая льгота при взносе.</div>
       </div>
+      <div id="report-capture"></div>
     </div>
   </div>
 
@@ -254,6 +255,24 @@
   });
   render();
 })();
+</script>
+
+<!-- Захват e-mail: отчёт на почту → общий приёмник форм /api/forms -->
+<script src="report-capture.js"></script>
+<script>
+  FPReport.init({
+    mount: '#report-capture',
+    formKey: 'calc-pension',
+    title: 'Прислать разбор пенсии на почту?',
+    getSummary: function () {
+      return {
+        'Пенсия всего, CHF/мес': document.getElementById('totalV').textContent,
+        'AHV (1-я опора)': document.getElementById('p1V').textContent,
+        'Pensionskasse (2-я опора)': document.getElementById('p2V').textContent,
+        'Säule 3a (3-я опора)': document.getElementById('p3V').textContent
+      };
+    }
+  });
 </script>
 </body>
 </html>
