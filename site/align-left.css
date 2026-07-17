@@ -1,0 +1,16 @@
+/* Frankenplatz — основная версия: центровка контента по левой стороне.
+   Архивная центрированная версия: «Сайт (центровка по центру).html» (site-center/).
+   !important нужен: стили компонентов инжектятся ds.bundle.js после этого файла. */
+.hero{text-align:left}
+.hero .sub,.hero .micro{margin-left:0;margin-right:0}
+.kit .center{text-align:left}
+.kit .cta-mid{align-items:flex-start;text-align:left}
+.fp-band--final{text-align:left !important}
+.fp-band--final .fp-band__body{margin-left:0 !important;margin-right:0 !important}
+.fp-eyebrow--center{justify-content:flex-start !important}
+.fp-foot{text-align:left !important}
+
+/* единый боковой отступ: ≥60px на десктопе, сужается только у мобильных краёв */
+.kit .inner{padding-left:clamp(20px,6vw,80px) !important;padding-right:clamp(20px,6vw,80px) !important}
+.fp-top{padding-left:clamp(20px,6vw,80px) !important;padding-right:clamp(20px,6vw,80px) !important}
+.fp-foot{padding-left:clamp(20px,6vw,80px) !important;padding-right:clamp(20px,6vw,80px) !important}
