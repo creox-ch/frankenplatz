@@ -10,7 +10,14 @@
 .fp-eyebrow--center{justify-content:flex-start !important}
 .fp-foot{text-align:left !important}
 
-/* единый боковой отступ: ≥60px на десктопе, сужается только у мобильных краёв */
-.kit .inner{padding-left:clamp(20px,6vw,80px) !important;padding-right:clamp(20px,6vw,80px) !important}
-.fp-top{padding-left:clamp(20px,6vw,80px) !important;padding-right:clamp(20px,6vw,80px) !important}
-.fp-foot{padding-left:clamp(20px,6vw,80px) !important;padding-right:clamp(20px,6vw,80px) !important}
+/* ЕДИНАЯ ЛИНИЯ КОНТЕНТА: меню, секции и футтер выровнены по одной сетке.
+   Ширина контента = --fp-content (линия колонок футтера), боковой отступ = --fp-pad.
+   На широких экранах паддинг сам растёт так, что контент центрируется на 1240px. */
+:root{--fp-content:1240px;--fp-pad:clamp(20px,6vw,80px)}
+.kit .inner{max-width:calc(var(--fp-content) + 2*var(--fp-pad)) !important;
+  padding-left:var(--fp-pad) !important;padding-right:var(--fp-pad) !important}
+.fp-top{padding-left:max(var(--fp-pad),calc((100% - var(--fp-content))/2)) !important;
+  padding-right:max(var(--fp-pad),calc((100% - var(--fp-content))/2)) !important}
+.fp-foot{padding-left:max(var(--fp-pad),calc((100% - var(--fp-content))/2)) !important;
+  padding-right:max(var(--fp-pad),calc((100% - var(--fp-content))/2)) !important}
+.fp-foot__grid,.fp-foot__bottom{max-width:var(--fp-content) !important;margin-left:0 !important;margin-right:0 !important}
