@@ -1,0 +1,10 @@
+# Внутренние планы/заметки — не в публичный репо
+frankenplatz-action-plan.md
+*-action-plan.md
+*.local.md
+
+# ОС/редакторы
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
