@@ -78,6 +78,8 @@
     var sub = opts.sub || 'Оставь e-mail — пришлём результат расчёта и полезные разборы с форума. Без спама.';
     var formKey = opts.formKey || 'calculator';
     var endpoint = opts.endpoint || ENDPOINT;
+    // человекочитаемое имя расчёта — идёт в тему письма-отчёта
+    var reportName = opts.reportName || document.title || formKey;
 
     var card = el(
       '<div class="fp-report">' +
@@ -146,9 +148,11 @@
           source: 'forum',
           form_key: formKey,
           kind: 'lead',
+          role: reportName,
           source_url: location.href,
           email: email,
           consent: true,
+          send_report: true, // просим сервер прислать отчёт на почту юзера
           website: hpInput.value, // honeypot → сервер отсечёт, если заполнено
           elapsed_ms: Date.now() - shownAt,
           payload: summary
