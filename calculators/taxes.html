@@ -184,6 +184,8 @@
     <p class="note" id="t-note"></p>
   </div>
 
+  <div id="report-capture"></div>
+
   <div class="card" id="prog-card">
     <h2 id="t-prog-h">Как растёт налог с дохода</h2>
     <p class="hint" id="t-prog-intro" style="margin:-8px 0 14px;"></p>
@@ -777,6 +779,22 @@ buildCantonSel(); buildMuniSel(); seed(); renderAll();
     window.scrollTo({top:0,behavior:'smooth'});
   });
 })();
+</script>
+
+<script src="report-capture.js"></script>
+<script>
+  FPReport.init({
+    mount: '#report-capture',
+    formKey: 'calc-taxes',
+    reportName: 'Сравнение налогов',
+    title: 'Прислать сравнение налогов на почту?',
+    getSummary: function () {
+      var s = {}, w = document.getElementById('wealth-net-val'), r = document.getElementById('result-table');
+      if (w && w.textContent.trim() && w.textContent.trim() !== '—') s['Чистое имущество'] = w.textContent.trim();
+      if (r && r.textContent.trim()) s['Сравнение (налог/год)'] = r.textContent.replace(/\s+/g, ' ').trim().slice(0, 500);
+      return s;
+    }
+  });
 </script>
 </body>
 </html>

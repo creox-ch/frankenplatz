@@ -246,6 +246,7 @@
     <input type="range" id="wsoc" min="0" max="100" value="20">
     <div class="wsum" id="wsum">Сумма весов: 100%</div>
     <button class="btn ghost" id="backTo2">Изменить вклады</button>
+    <div id="report-capture"></div>
   </div>
 
   <div class="card hidden reveal" id="gateCard">
@@ -568,6 +569,21 @@
   }
   $("buyBtn").addEventListener("click",function(){window.location.href="#";});
 })();
+</script>
+
+<script src="report-capture.js"></script>
+<script>
+  FPReport.init({
+    mount: '#report-capture',
+    formKey: 'calc-shares',
+    reportName: 'Справедливые доли',
+    title: 'Прислать распределение на почту?',
+    getSummary: function () {
+      var s = {}, r = document.getElementById('resRows');
+      if (r && r.textContent.trim()) s['Распределение долей'] = r.textContent.replace(/\s+/g, ' ').trim().slice(0, 500);
+      return s;
+    }
+  });
 </script>
 </body>
 </html>

@@ -367,6 +367,7 @@
     <div class="card"><h2>📈 Крупнейшие статьи</h2><div id="bars"></div></div>
     <div class="card"><div class="steplabel">правило 50 / 30 / 20</div><h2 style="margin-top:2px;">Потребности · Желания · Накопления</h2><div id="ratioBars"></div></div>
     <div class="card"><h2>🚩 На что обратить внимание</h2><div id="flags"></div></div>
+    <div id="report-capture"></div>
     <div class="cta">
       <h3>Хотите разобрать свой бюджет с экспертами?</h3>
       <p>На форуме Frankenplatz в октябре — живые разборы денег, налогов и пенсии для русскоязычных в Швейцарии.</p>
@@ -1040,6 +1041,21 @@ function runInner(){
   $('ctaLink').href=CTA_URL;
   go(6);
 }
+</script>
+
+<script src="report-capture.js"></script>
+<script>
+  FPReport.init({
+    mount: '#report-capture',
+    formKey: 'calc-budget',
+    reportName: 'Семейный бюджет',
+    title: 'Прислать разбор бюджета на почту?',
+    getSummary: function () {
+      var s = {}, n = document.getElementById('balanceNum'), l = document.getElementById('balanceLbl');
+      if (n && n.textContent.trim()) s['Итог за месяц'] = n.textContent.trim() + (l && l.textContent.trim() ? ' — ' + l.textContent.trim() : '');
+      return s;
+    }
+  });
 </script>
 </body>
 </html>

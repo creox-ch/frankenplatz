@@ -537,6 +537,8 @@
         </div>
       </div>
 
+      <div id="report-capture"></div>
+
       <div class="disclaimer" data-i18n="disclaimer">
         Расчёт ориентировочный. Реальный платёж — по вашей ставке; требуемый доход банк считает по гипотетической 5% (проверяет, выдержите ли рост ставок), плюс содержание 1% и амортизация 2-й ипотеки за 15 лет. «Капитал» здесь — только погашенный долг (амортизация), без учёта изменения цены жилья. Реальные условия зависят от банка, кантона, типа пермита и истории. Это не финансовая консультация.
       </div>
@@ -1324,6 +1326,22 @@ document.getElementById('startBtn').addEventListener('click',function(){
   document.getElementById('body').style.display='';
   window.scrollTo({top:0,behavior:'smooth'});
 });
+</script>
+
+<script src="report-capture.js"></script>
+<script>
+  FPReport.init({
+    mount: '#report-capture',
+    formKey: 'calc-rent-vs-buy',
+    reportName: 'Аренда или ипотека',
+    title: 'Прислать расчёт на почту?',
+    getSummary: function () {
+      var s = {}, p = document.getElementById('payout'), t = document.getElementById('txResult');
+      if (p && p.textContent.trim()) s['Платёж по ипотеке'] = p.textContent.replace(/\s+/g, ' ').trim().slice(0, 400);
+      if (t && t.textContent.trim()) s['Налоговый эффект'] = t.textContent.replace(/\s+/g, ' ').trim().slice(0, 400);
+      return s;
+    }
+  });
 </script>
 </body>
 </html>
