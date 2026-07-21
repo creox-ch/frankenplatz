@@ -45,6 +45,7 @@ html,body{overflow-x:clip}
 .hero h1{font-family:var(--font-display);font-weight:700;font-size:clamp(42px,7.2vw,80px);color:#fff;
   margin:22px 0;letter-spacing:-.03em;line-height:1.04;
   overflow-wrap:normal;word-break:normal;hyphens:none;-webkit-hyphens:none}
+.hero-split h1{font-size:clamp(38px,6.2vw,76px)}
 /* Деление длинного слова по слогам (мягкий перенос) разрешаем ТОЛЬКО ниже 480px.
    Шире 480 — слово переносится целиком (без деления), чтобы не выглядело странно. */
 @media (max-width:480px){
@@ -137,10 +138,10 @@ html,body{overflow-x:clip}
 
 @media(max-width:720px){
   .kit .g2,.kit .g3{grid-template-columns:1fr}
-  .hero{padding:120px 0 60px}
+  .hero{padding:100px 0 48px}
   .hero:has(.cow){padding-top:60px}
   .hero h1{margin:16px 0}
-  .kit section{padding:56px 0}
+  .kit section{padding:44px 0}
   .kit .inner{padding:0 20px}
   .kit h2{font-size:clamp(26px,7vw,34px)}
   .kit .lead{font-size:17px}
@@ -165,7 +166,7 @@ html,body{overflow-x:clip}
   .kit .statrow{grid-template-columns:1fr}
   .kit .inner{padding:0 16px}
   .hero h1{font-size:clamp(28px,8.4vw,44px)}
-  .hero{padding:112px 0 52px}
+  .hero{padding:96px 0 44px}
   .hero:has(.cow){padding-top:52px}
   .day__more{margin:auto -20px -22px;padding:15px 20px}
 }

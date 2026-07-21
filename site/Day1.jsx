@@ -1,15 +1,15 @@
 /* Frankenplatz — День №1. Экспортирует window.Day1. */
 const {
   TopBar, Footer, Button, Badge, Eyebrow,
-  Card, StatCard, ReliefBand, FAQItem,
+  Card, StatCard, ReliefBand, FAQItem, SpeakerCard,
 } = window.FrankenplatzDesignSystem_144b92;
+const { SpeakerRows, FlipCard } = window.FPSpeakerBits;
 
 const D1_NAV = [
   { label: "На главную", href: "index.html" },
   { label: "Программа", href: "index.html#program" },
   { label: "День №1", href: "day1.html", active: true },
   { label: "День №2", href: "day2.html" },
-  { label: "Спикерам", href: "speakers.html" },
   { label: "Записаться", href: "index.html#reg", cta: true },
 ];
 
@@ -35,7 +35,7 @@ function Day1() {
       <header className="hero gridbg">
         <div className="inner">
           <div style={{ display: "flex", justifyContent: "flex-start", marginBottom: 8 }}>
-            <Badge variant="lila" dot>День №1 · для всех · база, с которой стоит начать</Badge>
+            <Badge variant="lila" dot>День №1<span className="bdg-tail"> · база 🇨🇭, с которой стоит начать</span></Badge>
           </div>
           <h1>Где бабки — <span className="hl">и как<br />их не потерять</span></h1>
           <p className="sub">День 1 — про самые частые и самые тихие вопросы, которые есть почти у каждого, кто живёт в Швейцарии. Мы их называем вслух. Ты можешь просто прийти и послушать — ничего никому не рассказывая.</p>
@@ -134,6 +134,26 @@ function Day1() {
         </div>
       </section>
 
+      {/* СПИКЕРЫ ДНЯ 1 */}
+      <section id="speakers1">
+        <div className="inner">
+          <Eyebrow>Кто выйдет на сцену</Eyebrow>
+          <h2>Спикеры <span className="hl">Дня №1</span> —<br />по темам, которые болят</h2>
+          <p className="lead">Небольшие карточки: фото, кто это и о чём доклад. Список пополняется.</p>
+          <div className="spk-desk">
+            <div className="grid gauto" style={{ marginTop: 26 }}>
+              {window.FP_SPEAKERS.filter((s) => s.day === 1).map((s) => (
+                <FlipCard key={s.id} s={s} />
+              ))}
+            </div>
+          </div>
+          <div className="spk-mob">
+            <SpeakerRows speakers={window.FP_SPEAKERS.filter((s) => s.day === 1)} />
+          </div>
+          <p className="spk-note">Хочешь на эту сцену сам? <a href="speakers.html">Стань спикером →</a></p>
+        </div>
+      </section>
+
       {/* МОТИВАЦИЯ */}
       <section id="inspire">
         <div className="inner">
@@ -147,7 +167,7 @@ function Day1() {
           </div>
           <p className="para"><strong>Знать базу — значит перестать тревожиться.</strong> Именно за этим и стоит прийти.</p>
           <div className="cta-mid">
-            <p className="cta-mid__note">В зале <b>всего 500 мест</b>. На ранней регистрации цена ниже — а программа Дня 1 придёт тебе первой.</p>
+            <p className="cta-mid__note">В зале <b>всего 300 мест</b>. На ранней регистрации цена ниже — а программа Дня 1 придёт тебе первой.</p>
             <Button variant="gold" href="index.html#reg">Забронировать место</Button>
           </div>
         </div>
@@ -168,7 +188,7 @@ function Day1() {
       <Footer links={[
         { label: "На главную", href: "index.html" },
         { label: "День №2", href: "day2.html" },
-        { label: "Спикерам", href: "speakers.html" },
+        { label: "Правовая информация", href: "legal.html" },
       ]} />
     </div>
   );

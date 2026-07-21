@@ -1192,13 +1192,11 @@ const CSS = `
  * `instagram`: URL или null.
  */
 function Footer({
-  brandLine = "Форум о деньгах в Швейцарии · 24–25.10.2026 · Zürich",
+  brandLine = "Форум о деньгах в Швейцарии · 24–25.10.2026 · Baden 🇨🇭 · 15 мин от Zürich HB",
   links = [],
   instagram = "https://www.instagram.com/frankenplatz.ch/",
   socials = [
     { id: "instagram", label: "Instagram", href: instagram },
-    { id: "facebook", label: "Facebook" },
-    { id: "linkedin", label: "LinkedIn" },
   ],
   className = "",
   ...rest
@@ -1216,7 +1214,7 @@ function Footer({
     h("div", { className: "fp-foot__grid" },
       h("div", null,
         h("div", { className: "fp-foot__logo" }, "место для логотипа"),
-        h("p", { className: "fp-foot__name" }, "Frankenplatz")),
+        h("p", { className: "fp-foot__name" }, h("a", { href: "speakers.html", style: { color: "inherit", textDecoration: "none" } }, "Frankenplatz.ch"))),
       h("nav", null,
         h("p", { className: "fp-foot__h" }, "Страницы"),
         h("div", { className: "fp-foot__nav" }, nav.map((l, i) => h("a", { key: i, href: l.href }, l.label)))),
@@ -1235,7 +1233,7 @@ function Footer({
               h("button", { className: "fp-foot__send", type: "submit" }, "Подписаться")),
         !sent && h("p", { className: "fp-foot__note" }, "Никакого спама — только программа и спикеры."))),
     h("div", { className: "fp-foot__bottom" },
-      h("span", null, "© 2026 Frankenplatz · ", brandLine),
+      h("span", null, "© 2026 Frankenplatz.ch · ", brandLine), h("span", { className: "fp-foot__legal" }, h("a", { href: "legal.html#impressum" }, "Impressum"), " · ", h("a", { href: "legal.html#agb" }, "AGB"), " · ", h("a", { href: "legal.html#datenschutz" }, "Datenschutz")),
       h("span", null, h("a", { href: instagram || "#", target: "_blank", rel: "noopener" }, "@frankenplatz.ch"))));
 }
 
@@ -1289,7 +1287,7 @@ const CSS = `
  * `links`: Array<{ label, href, cta?: boolean }>.
  */
 function TopBar({
-  brand = "Frankenplatz",
+  brand = "Frankenplatz.ch",
   logoGlyph = null,
   brandHref = "index.html",
   links = [],

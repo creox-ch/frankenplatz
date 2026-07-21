@@ -1,15 +1,15 @@
 /* Frankenplatz — День №2. Экспортирует window.Day2. */
 const {
   TopBar, Footer, Button, Badge, Eyebrow, Marquee,
-  Card, ReliefBand,
+  Card, ReliefBand, SpeakerCard,
 } = window.FrankenplatzDesignSystem_144b92;
+const { SpeakerRows, FlipCard } = window.FPSpeakerBits;
 
 const D2_NAV = [
   { label: "На главную", href: "index.html" },
   { label: "Программа", href: "index.html#program" },
   { label: "День №1", href: "day1.html" },
   { label: "День №2", href: "day2.html", active: true },
-  { label: "Спикерам", href: "speakers.html" },
   { label: "Записаться", href: "index.html#reg", cta: true },
 ];
 
@@ -192,12 +192,12 @@ function Day2() {
       <header className="hero gridbg">
         <div className="inner">
           <div style={{ display: "flex", justifyContent: "flex-start", marginBottom: 8 }}>
-            <Badge variant="lila" dot>День №2 · следующий уровень · продвинутый микс</Badge>
+            <Badge variant="lila" dot>День №2<span className="bdg-tail"> · следующий уровень · продвинутый микс</span></Badge>
           </div>
           <h1>Деньги работают<br />на тебя — <br /><span className="hl">или ты на деньги?</span></h1>
           <p className="sub">Для тех, у кого база уже есть: не «с чего начать», а «куда расти». Инвестиции и направления всерьёз — и своё дело: ремесло, бизнес, риски и возможности.</p>
           <div className="d2-marq"><Marquee items={["Инвестиции", "Своё дело", "Новый уровень", "Инвестиции", "Своё дело", "Новый уровень", "Инвестиции", "Своё дело", "Новый уровень"]} /></div>
-          <div style={{ marginTop: 28 }}>
+          <div style={{ marginTop: 44 }}>
             <Button variant="gold" href="index.html#reg">Забронировать место</Button>
           </div>
         </div>
@@ -242,6 +242,25 @@ function Day2() {
         </div>
       </section>
 
+      {/* СПИКЕРЫ ДНЯ 2 */}
+      <section id="speakers2">
+        <div className="inner">
+          <Eyebrow>Кто выйдет на сцену</Eyebrow>
+          <h2>Спикеры <span className="hl">Дня №2</span> —<br />коротко и по делу</h2>
+          <p className="lead">Небольшие карточки: фото, кто это и о чём доклад. Состав пополняется.</p>
+          <div className="spk-desk">
+            <div className="grid gauto" style={{ marginTop: 26 }}>
+              {window.FP_SPEAKERS.filter((s) => s.day === 2).map((s) => (
+                <FlipCard key={s.id} s={s} />
+              ))}
+            </div>
+          </div>
+          <div className="spk-mob">
+            <SpeakerRows speakers={window.FP_SPEAKERS.filter((s) => s.day === 2)} />
+          </div>
+        </div>
+      </section>
+
       {/* МОТИВАЦИЯ */}
       <section id="inspire2">
         <div className="inner">
@@ -271,7 +290,7 @@ function Day2() {
       <Footer links={[
         { label: "На главную", href: "index.html" },
         { label: "День №1", href: "day1.html" },
-        { label: "Спикерам", href: "speakers.html" },
+        { label: "Правовая информация", href: "legal.html" },
       ]} />
     </div>
   );

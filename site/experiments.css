@@ -389,11 +389,11 @@
   .rrm__frame::before{content:"Отсортировано по риску и доходности";
     display:block;font-family:var(--font-display);font-weight:700;font-size:11px;
     letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
-  .rrm__pt{position:static;transform:none;white-space:normal;width:auto;height:auto;
-    display:flex;align-items:flex-start;gap:13px;
+  .rrm__pt{position:relative;left:0!important;right:auto!important;top:auto!important;bottom:auto!important;
+    transform:none;white-space:normal;width:auto;height:auto;display:block;
     background:var(--glass);border:1px solid var(--line);border-radius:14px;
-    padding:14px 16px}
-  .rrm__dot{position:static;transform:none;margin-top:4px}
+    padding:14px 14px 14px 54px}
+  .rrm__dot{position:absolute;left:27px;top:50%;transform:translate(-50%,-50%);margin:0}
   .rrm__frame.fp-in .rrm__dot{animation:none}
   .rrm__lab{position:static;transform:none;white-space:normal}
   .rrm__lab b{font-size:15px}
@@ -686,3 +686,106 @@
 .kit .calc-card.is-focus,.kit .sp-fmt__card.is-focus{border-color:rgba(230,180,80,.4);box-shadow:0 14px 44px -24px rgba(230,180,80,.55);transition:border-color .45s ease,box-shadow .45s ease}
 .kit .sp-fmt__card--danger.is-focus{border-color:rgba(240,115,111,.45);box-shadow:0 14px 44px -24px rgba(240,115,111,.55)}
 }
+
+/* ===== Компактные спикеры: стрип / аккордеон / мини-перевёртыши ===== */
+.kit .spk-subh{font-family:var(--font-display);font-weight:700;font-size:clamp(19px,2.2vw,25px);color:#fff;margin:44px 0 0;letter-spacing:-.02em}
+.kit .spk-note{margin-top:14px;font-size:13.5px;color:var(--muted-2)}
+.spk-ava{flex:0 0 auto;width:54px;height:54px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:15px;color:#fff;border:1px solid rgba(255,255,255,.18);overflow:hidden}
+.spk-ava img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.spk-ava--gold{background:linear-gradient(145deg,rgba(230,180,80,.55),rgba(230,180,80,.14))}
+.spk-ava--lila{background:linear-gradient(145deg,rgba(155,111,212,.6),rgba(123,63,228,.18))}
+.spk-tag{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:30px;border:1px solid rgba(230,180,80,.32);color:#F5C969;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+/* стрип (главная) */
+.spk-strip{margin-top:26px;display:flex;gap:14px;overflow-x:auto;padding:4px 2px 16px;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.spk-strip::-webkit-scrollbar{display:none}
+.spk-chip{scroll-snap-align:start;flex:0 0 218px;display:flex;flex-direction:column;gap:10px;padding:16px;border-radius:18px;border:1px solid var(--line);background:var(--glass);transition:transform .2s ease,border-color .2s ease}
+.spk-chip:hover{transform:translateY(-4px);border-color:rgba(230,180,80,.4)}
+.spk-chip__top{display:flex;align-items:center;gap:12px}
+.spk-chip__name{font-weight:800;font-size:15px;color:#fff;line-height:1.25}
+.spk-chip__role{font-size:12px;color:var(--muted-2);line-height:1.35;margin-top:2px}
+.spk-chip__topic{font-size:13px;color:var(--muted);line-height:1.45;margin:0;flex:1}
+.spk-chip .spk-tag{align-self:flex-start}
+/* аккордеон (день 1 / страница спикеров) */
+.spk-acc{margin-top:26px;display:flex;flex-direction:column;gap:10px;max-width:860px}
+.spk-acc details{border:1px solid var(--line);border-radius:16px;background:var(--glass);overflow:hidden;transition:border-color .2s ease}
+.spk-acc details:hover{border-color:rgba(185,139,255,.36)}
+.spk-acc summary{display:flex;align-items:center;gap:14px;padding:13px 18px;cursor:pointer;list-style:none}
+.spk-acc summary::-webkit-details-marker{display:none}
+.spk-acc .spk-ava{width:46px;height:46px;font-size:13px}
+.spk-acc__who{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.spk-acc__name{font-weight:800;font-size:15.5px;color:#fff;line-height:1.2}
+.spk-acc__role{font-size:12.5px;color:var(--muted-2)}
+.spk-acc__chev{flex:0 0 auto;width:28px;height:28px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:transform .25s ease}
+.spk-acc details[open] .spk-acc__chev{transform:rotate(180deg)}
+.spk-acc__body{padding:2px 18px 16px 78px}
+.spk-acc__topic{font-family:var(--font-display);font-weight:700;font-size:15px;line-height:1.4;background:var(--grad-gold-lila);-webkit-background-clip:text;background-clip:text;color:transparent;margin:0 0 8px}
+.spk-acc__about{font-size:14px;color:var(--muted);line-height:1.55;margin:0}
+@media(max-width:600px){.spk-acc summary .spk-tag{display:none}.spk-acc__body{padding-left:18px}}
+/* мини-перевёртыши (день 2) */
+.spk-flip{margin-top:26px;display:grid;grid-template-columns:repeat(auto-fill,minmax(172px,1fr));gap:12px}
+.spk-fcard{position:relative;height:210px;perspective:900px;cursor:pointer}
+.spk-fcard__in{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.2,.7,.3,1)}
+.spk-fcard.is-flipped .spk-fcard__in{transform:rotateY(180deg)}
+@media(hover:hover){.spk-fcard:hover .spk-fcard__in{transform:rotateY(180deg)}}
+.spk-fface{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:16px;border:1px solid var(--line);background:var(--glass);padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:7px}
+.spk-fback{transform:rotateY(180deg);background:linear-gradient(160deg,rgba(155,111,212,.16),rgba(20,16,30,.55));align-items:flex-start;text-align:left;justify-content:center;gap:8px}
+.spk-fback .spk-acc__topic{font-size:13.5px}
+.spk-fback__about{font-size:12.5px;color:var(--muted);line-height:1.5;margin:0;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
+
+/* спикеры: большие карточки на десктопе, компактный аккордеон на мобилке */
+.spk-mob{display:none}
+@media(max-width:480px){.spk-desk{display:none}.spk-mob{display:block}}
+
+/* мобильные строки спикеров: фото-прямоугольник слева, имя/должность справа, описание ниже */
+.spk-rows{margin-top:24px;display:flex;flex-direction:column;gap:10px}
+.spk-row{display:grid;grid-template-columns:92px 1fr;gap:6px 14px;align-items:start;padding:12px;border:1px solid var(--line);border-radius:16px;background:var(--glass)}
+.spk-row__ph{width:92px;height:92px;border-radius:12px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;color:#fff;font-size:17px;border:1px solid rgba(255,255,255,.18)}
+.spk-row__ph img{width:100%;height:100%;object-fit:cover}
+.spk-row__ph--gold{background:linear-gradient(145deg,rgba(230,180,80,.55),rgba(230,180,80,.14))}
+.spk-row__ph--lila{background:linear-gradient(145deg,rgba(155,111,212,.6),rgba(123,63,228,.18))}
+.spk-row__who{min-width:0;display:flex;flex-direction:column;gap:2px}
+.spk-row__name{font-weight:800;font-size:15px;color:#fff;line-height:1.25}
+.spk-row__role{font-size:12.5px;color:var(--muted-2);line-height:1.35}
+.spk-row__day{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#F5C969;margin-top:2px}
+.spk-row__topic{margin:6px 0 0;font-family:var(--font-display);font-weight:700;font-size:17px;line-height:1.35;letter-spacing:-.01em;background:var(--grad-gold-lila);-webkit-background-clip:text;background-clip:text;color:transparent}
+.spk-row__about{grid-column:1/-1;margin:2px 0 0;font-size:12.5px;color:var(--muted);line-height:1.5}
+
+/* «Подробнее» в мобильных карточках спикеров */
+.spk-row__more{grid-column:1/-1;justify-self:start;margin-top:2px;padding:8px 16px;min-height:36px;border-radius:30px;border:1px solid rgba(230,180,80,.4);background:transparent;color:#F5C969;font-family:var(--font-body,Manrope,sans-serif);font-weight:700;font-size:12.5px;cursor:pointer}
+.spk-row__more:active{transform:translateY(1px)}
+.spk-row__ext{grid-column:1/-1;padding:10px 12px;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08)}
+.spk-row__full{margin:0 0 6px;font-size:13.5px;font-weight:700;color:var(--text,#F3EEF9);line-height:1.45}
+
+/* подзаголовок группы дня в блоках спикеров */
+.kit .spk-dayh{font-family:var(--font-display);font-weight:700;font-size:clamp(16px,1.9vw,20px);letter-spacing:-.01em;color:#fff;margin:34px 0 0}
+.kit .spk-dayh::before{content:"";display:inline-block;width:26px;height:2px;background:var(--grad-gold-lila);border-radius:2px;margin-right:10px;vertical-align:middle}
+.kit .spk-mob .spk-dayh{margin:26px 0 0;font-size:16px}
+.kit .spk-mob .spk-dayh + .spk-rows{margin-top:14px}
+
+/* переключатель дней у спикеров — вкладки как в браузере */
+.spk-daysw{margin-top:30px;display:flex;gap:6px;padding:0 16px;position:relative;z-index:1}
+.spk-daysw__tab{appearance:none;cursor:pointer;display:inline-flex;align-items:center;
+  padding:12px 24px;min-height:46px;border-radius:14px 14px 0 0;border:1px solid var(--line);border-bottom:none;
+  background:rgba(255,255,255,.02);margin-bottom:0;
+  font-family:var(--font-display);font-weight:700;font-size:13px;letter-spacing:.02em;text-transform:uppercase;
+  color:var(--muted-2);transition:color .2s ease,background .2s ease,border-color .2s ease}
+.spk-daysw__tab:hover{color:var(--gold);border-color:rgba(230,180,80,.35)}
+.spk-daysw__tab--d2:hover{color:var(--lila-bright);border-color:rgba(185,139,255,.4)}
+.spk-daysw__tab.is-on{background:rgba(38,26,56,.5);color:var(--gold);border-color:rgba(230,180,80,.4);
+  position:relative;margin-bottom:-1px;padding-bottom:13px}
+.spk-daysw__tab--d2.is-on{color:var(--lila-bright);border-color:rgba(185,139,255,.45)}
+.spk-daysw__panel{border:1px solid var(--line);border-radius:18px;background:rgba(38,26,56,.5);padding:14px 16px 18px}
+@media(max-width:480px){
+  .spk-daysw{margin-top:20px;padding:0}
+  .spk-daysw__tab{flex:1;justify-content:center;padding:11px 10px;font-size:12px}
+  /* панель — на всю ширину экрана, карточки внутри остаются прежней ширины */
+  .spk-daysw__panel{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);
+    border-radius:18px;border-left:none;border-right:none;padding:14px 20px 18px}
+}
+
+
+/* на мобилке длинный хвост hero-бейджа скрывается — остаётся только «День №1/№2» */
+@media(max-width:480px){.bdg-tail{display:none}}
+
+/* спикеры на десктопе — ровно 3 в ряд */
+@media(min-width:721px){.spk-desk .grid.gauto{grid-template-columns:repeat(3,1fr)}}
