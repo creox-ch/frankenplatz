@@ -146,6 +146,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           source: 'forum',
+          event: 'frankenplatz-2026-10', // к какому форуму относится лид
           form_key: formKey,
           kind: 'lead',
           role: reportName,
