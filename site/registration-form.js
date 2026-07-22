@@ -252,23 +252,19 @@
     });
   }
 
-  // ---------- инлайн-форма в блоке #reg ----------
-  function mountInline() {
-    var sec = document.getElementById('reg');
-    if (!sec) return false;                          // React ещё не отрисовал — ждём
-    if (sec.querySelector('.fp-reg')) return true;   // уже смонтировано
-    injectStyle();
-    (sec.querySelector('.inner') || sec).appendChild(buildForm());
-    return true;
-  }
+  // Инлайн-формы в блоке #reg СОЗНАТЕЛЬНО НЕТ: под полупрозрачным фоном
+  // модалки просвечивала вторая такая же форма — выглядело как дубль.
+  // Форма живёт только в модалке; в блоке #reg остаётся кнопка, которая
+  // её открывает (перехватывается тем же обработчиком).
 
   function start() {
     interceptButtons();
-    if (mountInline()) return;
-    var tries = 0;
-    var t = setInterval(function () {
-      if (mountInline() || ++tries > 60) clearInterval(t);
-    }, 250);
+    // Прямая ссылка вида frankenplatz.ch/#reg (из письма, закладки): клика
+    // нет, а форма нужна — открываем сами. Это не автопопап: человек сам
+    // пришёл по ссылке именно на регистрацию.
+    if (location.hash === '#reg') {
+      setTimeout(openModal, 600); // даём React дорисовать страницу
+    }
   }
 
   if (document.readyState === 'loading') {
