@@ -166,6 +166,8 @@
         })
         .then(function (res) {
           if (res.status >= 200 && res.status < 300 && res.data && res.data.ok) {
+            // Конверсия «расчёт → e-mail» (уйдёт только при согласии на cookies)
+            if (window.FPConsent) window.FPConsent.track('calculator_report_email', { form_key: formKey });
             card.querySelector('.fp-row').style.display = 'none';
             form.querySelector('.fp-consent').style.display = 'none';
             setMsg('Готово! Отчёт пришлём на ' + email + '.', 'ok');
