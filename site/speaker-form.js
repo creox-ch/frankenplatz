@@ -67,6 +67,15 @@
       options: ['Доклад', 'Мастер-класс', 'Панель / дискуссия', 'Пока не знаю'] }
   ];
 
+  // Уникальный ASCII-id на поле. По ключу его строить нельзя: ключи
+  // кириллические, и «только латиница» схлопнула бы их в одинаковые пустые id.
+  FIELDS.forEach(function (f, i) { f.id = 'sf-' + i; });
+
+  function byKey(key) {
+    for (var i = 0; i < FIELDS.length; i++) if (FIELDS[i].key === key) return FIELDS[i];
+    return null;
+  }
+
   function injectStyle() {
     if (document.getElementById(STYLE_ID)) return;
     var s = document.createElement('style');
@@ -76,7 +85,7 @@
   }
 
   function fieldHtml(f) {
-    var id = 'sf-' + f.key.replace(/[^a-zA-Z]+/g, '');
+    var id = f.id;
     var req = f.required ? ' <span class="req">*</span>' : '';
     var ctrl;
     if (f.type === 'textarea') {
@@ -121,8 +130,7 @@
     var shownAt = Date.now(); // старт time-trap
 
     function val(f) {
-      var id = 'sf-' + f.key.replace(/[^a-zA-Z]+/g, '');
-      var el = card.querySelector('#' + id);
+      var el = f && f.id ? card.querySelector('#' + f.id) : null;
       return el ? String(el.value || '').trim() : '';
     }
     function setMsg(t, kind) {
@@ -139,12 +147,12 @@
         var f = FIELDS[i];
         if (f.required && !val(f)) {
           setMsg('Заполни поле «' + f.label + '».', 'err');
-          var el = card.querySelector('#sf-' + f.key.replace(/[^a-zA-Z]+/g, ''));
+          var el = card.querySelector('#' + f.id);
           if (el) el.focus();
           return;
         }
       }
-      var email = val({ key: 'email' });
+      var email = val(byKey('email'));
       if (email.indexOf('@') < 1) { setMsg('Проверь e-mail — кажется, есть опечатка.', 'err'); return; }
       if (!form.consent.checked) { setMsg('Нужно согласие на обработку данных.', 'err'); return; }
 
@@ -167,9 +175,9 @@
           kind: 'application',
           role: 'Спикер',
           source_url: location.href,
-          name: val({ key: 'name' }),
+          name: val(byKey('name')),
           email: email,
-          telegram: val({ key: 'telegram' }),
+          telegram: val(byKey('telegram')),
           consent: true,
           website: form.website.value,       // honeypot
           elapsed_ms: Date.now() - shownAt,  // time-trap
