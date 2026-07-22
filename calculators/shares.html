@@ -579,8 +579,17 @@
     reportName: 'Справедливые доли',
     title: 'Прислать распределение на почту?',
     getSummary: function () {
-      var s = {}, r = document.getElementById('resRows');
-      if (r && r.textContent.trim()) s['Распределение долей'] = r.textContent.replace(/\s+/g, ' ').trim().slice(0, 500);
+      // По участнику на строку: textContent всего блока склеивал имя
+      // с процентом («Аня56%из чего: деньги 100%»).
+      var s = {};
+      Array.from(document.querySelectorAll('#resRows .prow')).forEach(function (r) {
+        var pctEl = r.querySelector('.pct');
+        var topEl = r.querySelector('.top');
+        if (!pctEl || !topEl) return;
+        var pct = String(pctEl.textContent || '').trim();
+        var name = String(topEl.textContent || '').replace(pct, '').trim();
+        if (name && pct) s[name] = pct;
+      });
       return s;
     }
   });

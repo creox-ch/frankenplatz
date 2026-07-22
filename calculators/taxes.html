@@ -789,9 +789,30 @@ buildCantonSel(); buildMuniSel(); seed(); renderAll();
     reportName: 'Сравнение налогов',
     title: 'Прислать сравнение налогов на почту?',
     getSummary: function () {
-      var s = {}, w = document.getElementById('wealth-net-val'), r = document.getElementById('result-table');
-      if (w && w.textContent.trim() && w.textContent.trim() !== '—') s['Чистое имущество'] = w.textContent.trim();
-      if (r && r.textContent.trim()) s['Сравнение (налог/год)'] = r.textContent.replace(/\s+/g, ' ').trim().slice(0, 500);
+      // Разбираем таблицу по ячейкам: её textContent целиком склеивается
+      // в нечитаемую строку («МестоДоходИмуществоИтого/год...»).
+      var s = {};
+      var w = document.getElementById('wealth-net-val');
+      if (w && w.textContent.trim() && w.textContent.trim() !== '—' && w.textContent.trim() !== '0 CHF') {
+        s['Чистое имущество'] = w.textContent.trim();
+      }
+      var t = document.getElementById('result-table');
+      if (t) {
+        Array.from(t.rows).slice(1).forEach(function (row) {   // slice(1) — без шапки
+          if (row.cells.length < 4) return;
+          var c0 = row.cells[0];
+          // firstChild — название места без строки «Kanton · 130%»
+          var name = String((c0.firstChild || c0).textContent || '').trim();
+          var total = String(row.cells[3].textContent || '').trim();
+          if (!name || !total) return;
+          var diff = '';
+          if (row.cells[4]) {
+            var m = String(row.cells[4].textContent || '').match(/[−+\-][^\s]*\/мес/);
+            if (m) diff = ' (' + m[0] + ')';
+          }
+          s[name] = total + ' CHF/год' + diff;
+        });
+      }
       return s;
     }
   });

@@ -1336,9 +1336,23 @@ document.getElementById('startBtn').addEventListener('click',function(){
     reportName: 'Аренда или ипотека',
     title: 'Прислать расчёт на почту?',
     getSummary: function () {
-      var s = {}, p = document.getElementById('payout'), t = document.getElementById('txResult');
-      if (p && p.textContent.trim()) s['Платёж по ипотеке'] = p.textContent.replace(/\s+/g, ' ').trim().slice(0, 400);
-      if (t && t.textContent.trim()) s['Налоговый эффект'] = t.textContent.replace(/\s+/g, ' ').trim().slice(0, 400);
+      // Берём значения по отдельности: textContent целого блока склеивает
+      // подписи с пояснениями в нечитаемую кашу.
+      var s = {};
+      Array.from(document.querySelectorAll('#payout .prow')).forEach(function (r) {
+        var pt = r.querySelector('.pt') || r.querySelector('.pk');
+        // firstChild — только сама подпись, без вложенного тега «в никуда»/«ваш резерв»
+        var label = pt ? String((pt.firstChild || pt).textContent || '').trim() : '';
+        var pv = r.querySelector('.pv');
+        if (!label || !pv) return;
+        var year = String((pv.firstChild || pv).textContent || '').trim();
+        var pm = pv.querySelector('.pm');
+        var month = pm ? String(pm.textContent || '').trim() : '';
+        if (year) s[label] = year + ' CHF/год' + (month ? ' (' + month + ')' : '');
+      });
+      var num = document.querySelector('#txResult .txr-num');
+      var lbl = document.querySelector('#txResult .txr-lbl');
+      if (num) s[(lbl ? lbl.textContent.trim() : 'Налоговый эффект')] = num.textContent.trim();
       return s;
     }
   });
