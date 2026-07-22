@@ -175,7 +175,9 @@
 
   function mount() {
     var sec = document.getElementById('reg');
-    if (!sec || sec.querySelector('.fp-reg')) return true;
+    // Секции ещё нет — React не дорисовал: НЕ «готово», надо ждать дальше.
+    if (!sec) return false;
+    if (sec.querySelector('.fp-reg')) return true; // уже смонтировано
     var host = sec.querySelector('.inner') || sec;
     injectStyle();
     var box = build();
