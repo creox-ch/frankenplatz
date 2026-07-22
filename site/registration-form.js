@@ -21,6 +21,12 @@
   var STYLE_ID = 'fp-reg-style';
   var uid = 0; // чтобы id полей не дублировались (форма может быть на странице дважды)
 
+  // Time-trap отсчитываем от ЗАГРУЗКИ СТРАНИЦЫ, а не от создания формы.
+  // Иначе в модалке таймер стартовал бы в момент открытия окна, и человек
+  // с автозаполнением успел бы отправить быстрее порога 2.5 с — сервер
+  // молча отбросил бы заявку, показав «Готово». Тихая потеря лида.
+  var PAGE_LOADED = Date.now();
+
   var CSS = [
     '.fp-reg{max-width:560px;margin:26px auto 0;text-align:left;background:var(--glass,rgba(255,255,255,.045));',
     'border:1px solid var(--line-strong,rgba(255,255,255,.16));border-radius:20px;padding:24px 26px;backdrop-filter:blur(8px)}',
@@ -115,7 +121,6 @@
     var form = box.querySelector('form');
     var msg = box.querySelector('.fp-reg__msg');
     var btn = box.querySelector('.fp-reg__btn');
-    var shownAt = Date.now();
 
     function setMsg(t, kind) {
       msg.textContent = t || '';
@@ -158,7 +163,7 @@
           phone: contact.indexOf('@') === 0 ? '' : contact,
           consent: true,
           website: form.website.value,
-          elapsed_ms: Date.now() - shownAt,
+          elapsed_ms: Date.now() - PAGE_LOADED,
           payload: { 'Интересует': form.day.value, 'Мест': form.seats.value }
         })
       })
