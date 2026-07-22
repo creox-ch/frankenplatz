@@ -415,7 +415,6 @@ function Landing() {
         { label: "День №1", href: "day1.html" },
         { label: "День №2", href: "day2.html" },
         { label: "Калькуляторы", href: "calculators/index.html" },
-        { label: "Правовая информация", href: "legal.html" },
       ]} />
 
       <CalcModal calc={calc} onClose={() => setCalc(null)} />

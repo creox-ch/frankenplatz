@@ -290,7 +290,6 @@ function Day2() {
       <Footer links={[
         { label: "На главную", href: "index.html" },
         { label: "День №1", href: "day1.html" },
-        { label: "Правовая информация", href: "legal.html" },
       ]} />
     </div>
   );
