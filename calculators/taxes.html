@@ -805,10 +805,18 @@ buildCantonSel(); buildMuniSel(); seed(); renderAll();
           var name = String((c0.firstChild || c0).textContent || '').trim();
           var total = String(row.cells[3].textContent || '').trim();
           if (!name || !total) return;
+          // В ячейке разницы слиплись годовая и месячная («−14'128−1'177/мес»).
+          // Месячная лежит отдельным элементом — берём её.
           var diff = '';
           if (row.cells[4]) {
-            var m = String(row.cells[4].textContent || '').match(/[−+\-][^\s]*\/мес/);
-            if (m) diff = ' (' + m[0] + ')';
+            var monthEl = Array.prototype.slice
+              .call(row.cells[4].querySelectorAll('*'))
+              .reverse()
+              .filter(function (el) { return /\/мес\s*$/.test(el.textContent || ''); })[0];
+            var d = monthEl
+              ? String(monthEl.textContent || '').trim()
+              : (String(row.cells[4].textContent || '').match(/[−+\-][^−+\-\s]*\/мес\s*$/) || [''])[0].trim();
+            if (d) diff = ' (' + d + ')';
           }
           s[name] = total + ' CHF/год' + diff;
         });
