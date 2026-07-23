@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark only">
+<title>Frankenplatz 2026 · Анкета спикера</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="site/kit.css?v=3">
+<link rel="stylesheet" href="site/experiments.css?v=3">
+<link rel="stylesheet" href="site/polish.css?v=3">
+<link rel="stylesheet" href="site/align-left.css">
+</head>
+<body>
+<div id="root"></div>
+<script src="site/vendor/react.js"></script>
+<script src="site/vendor/react-dom.js"></script>
+<script src="site/vendor/babel-standalone.js"></script>
+<script src="site/ds.bundle.js"></script>
+<script src="site/anketa-data.js"></script>
+<script type="text/babel" src="site/Anketa.jsx"></script>
+<script type="text/babel">
+  ReactDOM.createRoot(document.getElementById("root")).render(<Anketa/>);
+  requestAnimationFrame(() => requestAnimationFrame(() => { if (window.FPReArm) window.FPReArm(); }));
+</script>
+<script src="site/effects.js"></script>
+<script src="site/typograf.js"></script>
+<!-- Согласие на cookies + Google Analytics -->
+<script src="site/cookie-consent.js"></script>
+</body>
+</html>
