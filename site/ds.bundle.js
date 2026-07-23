@@ -1213,8 +1213,7 @@ function Footer({
   return h("footer", _extends({ className: ["fp-foot", className].filter(Boolean).join(" ") }, rest),
     h("div", { className: "fp-foot__grid" },
       h("div", null,
-        h("div", { className: "fp-foot__logo" }, "место для логотипа"),
-        h("p", { className: "fp-foot__name" }, h("a", { href: "speakers.html", style: { color: "inherit", textDecoration: "none" } }, "Frankenplatz.ch"))),
+                h("p", { className: "fp-foot__name" }, h("a", { href: "speakers.html", style: { color: "inherit", textDecoration: "none" } }, "Frankenplatz.ch"))),
       h("nav", null,
         h("p", { className: "fp-foot__h" }, "Страницы"),
         h("div", { className: "fp-foot__nav" }, nav.map((l, i) => h("a", { key: i, href: l.href }, l.label)))),
@@ -1229,7 +1228,7 @@ function Footer({
         sent
           ? h("p", { className: "fp-foot__done" }, "Спасибо! Напишем, когда будут новости о программе и спикерах.")
           : h("form", { className: "fp-foot__form", onSubmit: (e) => { e.preventDefault(); setSent(true); } },
-              h("input", { className: "fp-foot__input", type: "email", required: true, placeholder: "Ваш e-mail", "aria-label": "E-mail" }),
+              h("input", { className: "fp-foot__input", type: "email", required: true, placeholder: "Твой e-mail", "aria-label": "E-mail" }),
               h("button", { className: "fp-foot__send", type: "submit" }, "Подписаться")),
         !sent && h("p", { className: "fp-foot__note" }, "Никакого спама — только программа и спикеры."))),
     h("div", { className: "fp-foot__bottom" },

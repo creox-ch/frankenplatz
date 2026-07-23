@@ -178,6 +178,43 @@ function Countdown() {
   );
 }
 
+function SpeakBox() {
+  const [open, setOpen] = React.useState(false);
+  const [done, setDone] = React.useState("");
+  const [v, setV] = React.useState(() => localStorage.getItem("fp_speak_email") || "");
+  if (done) return (
+    <div className="speakbox">
+      <p className="speakbox__ok">Готово! Письмо с деталями — что, как и в каком формате — уже летит на <strong>{done}</strong>.</p>
+    </div>
+  );
+  return (
+    <div className="speakbox">
+      {!open ? (
+        <Button variant="ghost" onClick={() => setOpen(true)}>Хочу выступить — как?</Button>
+      ) : (
+        <form className="speakbox__form" onSubmit={(e) => { e.preventDefault(); if (!v.trim()) return; localStorage.setItem("fp_speak_email", v.trim()); setDone(v.trim()); }}>
+          <input type="email" required placeholder="Твой e-mail" value={v} onChange={(e) => setV(e.target.value)} />
+          <Button variant="gold" type="submit">Получить инфо для спикера</Button>
+        </form>
+      )}
+    </div>
+  );
+}
+
+function SponsorBox() {
+  const [open, setOpen] = React.useState(false);
+  const [done, setDone] = React.useState("");
+  const [v, setV] = React.useState("");
+  if (done) return <p className="speakbox__ok">Готово! В ответ пришлём прайс и план фойе — на <strong>{done}</strong>.</p>;
+  if (!open) return <Button variant="ghost" onClick={() => setOpen(true)}>Спонсорам и маркету</Button>;
+  return (
+    <form className="speakbox__form" onSubmit={(e) => { e.preventDefault(); if (!v.trim()) return; localStorage.setItem("fp_sponsor_email", v.trim()); setDone(v.trim()); }}>
+      <input type="email" required placeholder="Твой e-mail — пришлём условия" value={v} onChange={(e) => setV(e.target.value)} />
+      <Button variant="gold" type="submit">Получить условия маркета</Button>
+    </form>
+  );
+}
+
 function Landing() {
   const [calc, setCalc] = React.useState(null);
   return (
@@ -191,6 +228,9 @@ function Landing() {
         { label: "Спикеры", href: "#lineup" },
         { label: "День №1", href: "day1.html" },
         { label: "День №2", href: "day2.html" },
+        { label: "Маркет", href: "brand-market.html" },
+        { label: "Сотрудничество", href: "collaboration.html" },
+        { label: "Другие форумы", href: "trips.html" },
         { label: "Записаться", href: "#reg", cta: true },
       ]} />
 
@@ -208,7 +248,10 @@ function Landing() {
             </div>
             <p className="hero-mini">Самый большой русскоязычный форум о деньгах в Швейцарии</p>
           </div>
-          <div className="hero-right">
+        </div>
+        <div className="inner">
+          <div className="hero-figure">
+            <img className="hero-cows" src="site/img/cows-porsche.jpg" alt="" aria-hidden="true" />
             <Countdown />
           </div>
         </div>
@@ -224,10 +267,10 @@ function Landing() {
           <div className="grid g2">
             <DayCard tag="День №1 · база 🇨🇭" title="База 🇨🇭 финансов"
               sub="С которой стоит начать каждому в Швейцарии." href="day1.html" label="Смотреть темы Дня 1"
-              items={["Работа: контракты и пособия", "Личные и семейные финансы", "Пенсия: AHV / BVG / 3a — реальные цифры", "Налоги, страховки, ипотека, недвижимость", "Самозанятость и ферайны", "Любовь и деньги: брак, развод, защита", "Из точки 0 — в масштаб на всю страну"]} />
+              items={["Работа: что тебе должны по контракту — и о каких пособиях ты не знаешь", "Куда каждый месяц утекают деньги семьи — и как это перекрыть", "Пенсия AHV / BVG / 3a: сколько тебе реально светит (спойлер: меньше)", "Налоги, страховки, ипотека: где ты переплачиваешь прямо сейчас", "Самозанятость и ферайны: как начать и не налететь на штрафы", "Любовь и деньги: что будет с твоим при браке и разводе", "Из точки 0 — в масштаб на всю страну"]} />
             <DayCard d2 tag="День №2 · LvL UP" title="LvL UP: следующий уровень"
               sub="Для тех, кто готов расти дальше." href="day2.html" label="Смотреть темы Дня 2"
-              items={["Портфельное инвестирование в Швейцарии", "Недвижимость как актив", "Альтернативы: крипто, P2P, REIT", "Маркетинг, PR и развитие бизнеса", "Личный бренд и нетворкинг («витамин B»)", "Партнёрства и сотрудничества", "Масштабирование и налоговое планирование"]} />
+              items={["Деньги лежат на счету и тают? Портфельное инвестирование в Швейцарии", "Недвижимость как актив — а не вечный платёж банку", "Крипто, P2P, REIT: альтернативы без казино", "Клиенты не приходят сами: маркетинг, PR и развитие бизнеса", "Тебя никто не знает — личный бренд и нетворкинг («витамин B»)", "Партнёрства: как не потерять деньги и дружбу", "Масштабирование и налоговое планирование"]} />
           </div>
         </div>
       </section>
@@ -239,12 +282,12 @@ function Landing() {
           <h2>Знания, которые останутся<br />с тобой навсегда</h2>
           <p className="lead">За два дня ты получаешь то, на что обычно уходят годы.<br />Frankenplatz собирает всё в одной точке — и это знание остаётся с тобой на всю жизнь.</p>
           <div className="grid g3">
-            <Card tone="gold" num="01" title="Полная карта финансов">Все области сразу — пенсия, налоги, инвестиции, бизнес, недвижимость, защита семьи.</Card>
-            <Card tone="gold" num="02" title="Экономия тысяч франков">На ошибках со страховкой, ипотекой, пенсионной кассой и упущенном 3a.</Card>
-            <Card tone="gold" num="03" title="Экономия месяцев">Не блуждаешь в чужой системе вслепую — сразу видишь, что важно лично тебе.</Card>
-            <Card tone="gold" num="04" title="Не одна идея, а копилка">Уходишь с конкретными кейсами и направлениями на год вперёд.</Card>
-            <Card tone="gold" num="05" title="Нужные контакты">Реальные имена специалистов, проверенных другими — к кому идти осознанно.</Card>
-            <Card tone="gold" num="06" title="Спокойствие">Понимание, что используешь то, что положено, и защищаешь то, что есть.</Card>
+            <Card tone="gold" num="01" title="Полная карта финансов"><strong>Все области сразу</strong> — пенсия, налоги, инвестиции, бизнес, недвижимость, защита семьи.</Card>
+            <Card tone="gold" num="02" title="Экономия тысяч франков">На ошибках со <strong>страховкой, ипотекой, пенсионной кассой</strong> и упущенном 3a.</Card>
+            <Card tone="gold" num="03" title="Экономия месяцев">Не блуждаешь в чужой системе вслепую — <strong>сразу видишь, что важно лично тебе</strong>.</Card>
+            <Card tone="gold" num="04" title="Не одна идея, а копилка">Уходишь с <strong>конкретными кейсами и направлениями</strong> на год вперёд.</Card>
+            <Card tone="gold" num="05" title="Нужные контакты"><strong>Реальные имена специалистов</strong>, проверенных другими — к кому идти осознанно.</Card>
+            <Card tone="gold" num="06" title="Спокойствие">Понимание, что <strong>используешь то, что положено</strong>, и защищаешь то, что есть.</Card>
           </div>
           <div className="cta-mid">
             <p className="cta-mid__note"><b>Ранняя регистрация уже открыта.</b> Цена ниже, а программа, цены и отчёты по калькуляторам придут тебе первыми.</p>
@@ -259,7 +302,7 @@ function Landing() {
           <Eyebrow>Кто выйдет на сцену</Eyebrow>
           <h2>Спикеры с подтверждённым опытом</h2>
           <p className="lead"><strong>Не верь — проверь.</strong> Мы зовём не по громким регалиям, а по реальному результату.<br />Четыре типа спикеров, которых ты услышишь:</p>
-          <div className="grid gauto">
+          <div className="grid g2">
             <SpeakerType accent="practik" badge="🎯 Практик" title="Тот, у кого получилось" body="Свой портфель, свой бизнес, недвижимость под сдачу, пассивный доход. Расскажет не теорию, а как это было на деле." example="«Как собрать портфель ETF с зарплаты в 6k и выйти на первый пассивный доход»" />
             <SpeakerType accent="spec" badge="📜 Специалист" title="Тот, кто знает систему" body="Профессионал в своей теме — пенсии, налоги, страхование, право — с опытом работы в Швейцарии." example="«3a, BVG и выкуп пенсии: как легально платить меньше налогов уже в этом году»" />
             <SpeakerType accent="story" badge="💔 Личная история" title="Тот, у кого это уже позади" body="Обычный человек, прошедший через развод, переезд с нуля, первый бизнес. Честно — что помогло, а что нет." example="«Развод в Швейцарии: что я знаю теперь и о чём жалею, что не узнала раньше»" />
@@ -282,11 +325,17 @@ function Landing() {
           <p className="lead">Не теоретики со слайдами, а свои люди с результатом: свой портфель, свой бизнес, свой пройденный путь. Каждый выходит на сцену с одной целью — <strong>чтобы получилось и у тебя</strong>.</p>
           <SpeakerStrip />
           <p className="spk-note">Состав пополняется каждую неделю. Темы по дням: <a href="day1.html">День 1</a> · <a href="day2.html">День 2</a>.</p>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 22 }}>
+            <Button variant="gold" href="#reg">Получить полную программу</Button>
+            <Button variant="ghost" href="#reg">Забронировать место</Button>
+            <SpeakBox />
+            <SponsorBox />
+          </div>
         </div>
       </section>
 
       {/* ЧЕСТНО */}
-      <section id="findnot">
+      <section id="findnot" style={{ paddingTop: 0 }}>
         <div className="inner">
           <Eyebrow>Честно</Eyebrow>
           <h2>Что тебя ждёт — и чего точно<br />не будет</h2>
@@ -370,21 +419,6 @@ function Landing() {
         </div>
       </section>
 
-      {/* ПЛАТФОРМА SVOI */}
-      <section id="platform">
-        <div className="inner">
-          <Eyebrow>Платформа SVOI</Eyebrow>
-          <h2>Форум — это старт.<br />Платформа SVOI — продолжение</h2>
-          <p className="lead">Под форумом мы строим платформу <strong>SVOI</strong> — место, где свои специалисты, услуги и продукты находят своих. Спикерам первого форума — особые условия:</p>
-          <div className="grid g3">
-            <Card fill="glass" tone="gold" className="sp"><div style={{ marginBottom: 14 }}><Badge variant="gold">🆓 Размещение</Badge></div><h3>Профиль, бизнес и услуги</h3><p>Размести себя, свой бизнес и услуги на платформе — бесплатно. Обычно это стоит <strong>199 франков</strong>.</p></Card>
-            <Card fill="glass" tone="gold" className="sp"><div style={{ marginBottom: 14 }}><Badge variant="lila">🛍 Продукты</Badge></div><h3>Гайды и курсы в продажу</h3><p>Есть гайд, онлайн-курс или продукт? Размести его отдельно в продажу прямо на платформе.</p></Card>
-            <Card fill="glass" tone="gold" className="sp"><div style={{ marginBottom: 14 }}><Badge variant="gold">📈 Доля</Badge></div><h3>Пакет акций AG платформы SVOI</h3><p>Под платформу запускается AG. Пакет на <strong>2000 акций</strong> — доля в том, что мы строим.</p><p className="sp-more__mini">Получают 5 спикеров с лучшими рейтингами по результатам форума.</p></Card>
-          </div>
-          <p className="spk-note">Хочешь на сцену и в число первых на платформе? <a href="speakers.html">Стань спикером →</a></p>
-        </div>
-      </section>
-
       {/* ВОЗРАЖЕНИЯ */}
       <section id="faq">
         <div className="inner">
@@ -392,8 +426,8 @@ function Landing() {
           <h2>Сомнения, которые<br />у тебя сейчас в голове</h2>
           <div className="grid" style={{ gridTemplateColumns: "1fr", gap: 12 }}>
             <FAQItem q="«Я совсем не разбираюсь в финансах»">В этом и смысл. Мы объясняем простым языком, с нуля. Если корова в шубе разобралась — разберёшься и ты.</FAQItem>
-            <FAQItem q="«Это очередной курс, где будут что-то впаривать»">Нет. Только прикладное «бери и делай». Никаких продаж со сцены — ни курсов, ни марафонов, ни «оставьте контакт».</FAQItem>
-            <FAQItem q="«У меня нет больших денег, мне рано»">Форум про то, как разумно распорядиться тем, что уже есть. Начать можно со 100 франков.</FAQItem>
+            <FAQItem q="«Это очередной курс, где будут что-то впаривать»">Нет. Только прикладное «бери и делай». Никаких продаж со сцены — ни курсов, ни марафонов, ни «оставьте контакт». Зато — мотивация и живые истории реальных людей: честно и открыто.</FAQItem>
+            <FAQItem q="«У меня нет больших денег, мне рано»">Наоборот — именно поэтому очень надо. Форум про то, как разумно распорядиться тем, что уже есть, и начать двигаться в этом направлении. Начать можно со 100 франков.</FAQItem>
             <FAQItem q="«Мне неловко обсуждать личное»">И не надо. Ты просто слушаешь. Никто не спросит про твою ситуацию.</FAQItem>
           </div>
         </div>

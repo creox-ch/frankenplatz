@@ -262,3 +262,46 @@
     else if (tries > 50) clearInterval(iv);
   }, 150);
 })();
+
+/* ── Email-capture: все "#reg" CTA открывают форму, не скроллят ── */
+(function fpRegModal(){
+  function open(){
+    if(document.querySelector('.fp-regm'))return;
+    var saved=localStorage.getItem('fp_reg_email')||'';
+    var w=document.createElement('div');w.className='fp-regm';
+    w.innerHTML='<div class="fp-regm__bg"></div>'+
+      '<div class="fp-regm__card" role="dialog" aria-modal="true">'+
+      '<button class="fp-regm__x" aria-label="Закрыть">✕</button>'+
+      '<p class="fp-regm__kick">Frankenplatz ’26 · 24–25 октября · Baden</p>'+
+      '<h3 class="fp-regm__h">Узнай цены и программу первым</h3>'+
+      '<p class="fp-regm__p">Оставь почту — пришлём программу, цены ранней регистрации и лучшие условия до открытых продаж.</p>'+
+      '<form class="fp-regm__form"><input class="fp-regm__in" type="email" required placeholder="Твой e-mail" value="'+saved.replace(/"/g,'&quot;')+'">'+
+      '<button class="fp-regm__btn" type="submit">Узнать цены и программу</button></form>'+
+      '<p class="fp-regm__micro">Без спама: только форум и полезное о деньгах в Швейцарии.</p>'+
+      '</div>';
+    document.body.appendChild(w);
+    var close=function(){w.remove();document.removeEventListener('keydown',esc);};
+    var esc=function(e){if(e.key==='Escape')close();};
+    document.addEventListener('keydown',esc);
+    w.querySelector('.fp-regm__bg').addEventListener('click',close);
+    w.querySelector('.fp-regm__x').addEventListener('click',close);
+    var input=w.querySelector('.fp-regm__in');
+    setTimeout(function(){input.focus();},60);
+    w.querySelector('form').addEventListener('submit',function(e){
+      e.preventDefault();
+      var em=input.value.trim();if(!em)return;
+      localStorage.setItem('fp_reg_email',em);
+      w.querySelector('.fp-regm__card').innerHTML='<button class="fp-regm__x" aria-label="Закрыть">✕</button>'+
+        '<div class="fp-regm__ok"><b>Готово! Ты в списке.</b>'+
+        '<span>Программа и цены ранней регистрации придут на <b style="color:#fff">'+em.replace(/</g,'&lt;')+'</b>, как только откроем продажи.</span>'+
+        '<span>Вопросы — <a href="mailto:info@frankenplatz.ch" style="color:#E6B450;font-weight:700">info@frankenplatz.ch</a></span></div>';
+      w.querySelector('.fp-regm__x').addEventListener('click',close);
+    });
+  }
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a[href]');
+    if(!a)return;
+    var h=a.getAttribute('href')||'';
+    if(h==='#reg'||h.slice(-4)==='#reg'){e.preventDefault();open();}
+  },true);
+})();
