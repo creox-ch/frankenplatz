@@ -11,7 +11,6 @@ const SP_NAV = [
   { label: "Для участников", href: "index.html" },
   { label: "Что даём", href: "#how" },
   { label: "Два дня", href: "#days" },
-  { label: "Кто уже с нами", href: "#confirmed" },
   { label: "Подать заявку", href: "#apply", cta: true },
 ];
 
@@ -122,7 +121,7 @@ function GiveGrid() {
 const PLATFORM = [
   { badge: "🆓 Размещение", title: "Профиль, бизнес и услуги", body: "Разместись бесплатно — обычно это 199 франков." },
   { badge: "🛍 Продукты", title: "Гайды и курсы в продажу", body: "Есть гайд или курс — размести его в продажу на платформе." },
-  { badge: "📈 Доля", title: "Акции AG платформы SVOI", body: "Пакет на 2000 акций — 5 спикерам с лучшими рейтингами по результатам форума." },
+  { badge: "📈 Доля", title: "Акции AG платформы SVOI", body: "Пакет акций — 5 спикерам с лучшими рейтингами по результатам форума." },
 ];
 
 function PlatformLedger() {
@@ -221,7 +220,7 @@ function Speakers() {
           <h1>Самый большой русскоязычный форум о деньгах в Швейцарии.<br /><span className="hl">И у тебя есть возможность выйти на его сцену.</span></h1>
           <p className="sub">Зал на 300 человек — и два дня с разным контекстом: до 600 участников за форум. Мы уже знакомы online, и твоя тема может стать одной из сильнейших.</p>
           <div style={{ marginTop: 28 }}>
-            <Button variant="gold" href="#apply">Хочу выступить</Button>
+            <Button variant="gold" href="anketa.html">Хочу выступить</Button>
           </div>
         </div>
       </header>
@@ -233,11 +232,11 @@ function Speakers() {
           <h2>В красивой стране<br />— красиво жить</h2>
           <p className="lead">Красиво жить получается, только когда денег достаточно — и когда нет тех самых страхов про них. Поэтому у Frankenplatz большая миссия: прикладное финансовое просвещение для русскоязычных в Швейцарии. Не «успешный успех», а реальные знания.</p>
           <div className="sp-org__card">
-            <div className="sp-org__photo sp-org__photo--real"><img src={(window.__resources && window.__resources.kseniaPhoto) || "site/img/ksenia.jpg"} alt="Ксения — организатор форума" /></div>
+            <div className="sp-org__photo sp-org__photo--real"><img src="site/img/moto-event.jpg" alt="Ксения — организатор форума" /></div>
             <div className="sp-org__body">
               <Eyebrow>Организатор форума</Eyebrow>
               <h3 className="sp-org__name">Ксения Чудина</h3>
-              <p className="lead">Я не первый год собираю людей и события. Один из последних кейсов — <a href="https://motozuerich.ch/" target="_blank" rel="noopener"><strong>MOTO-ZÜRICH</strong></a>: событие, которое мы с мужем сделали вдвоём, условно с нуля за полгода — <strong>22 000 человек</strong> в феврале 2026-го. Frankenplatz собираю с тем же подходом: серьёзно, по делу, до мелочей. Другие проекты — на <a href="https://chudina.me/proekty" target="_blank" rel="noopener">chudina.me</a>.</p>
+              <p className="lead">Я не первый год собираю людей и события. Один из последних кейсов — <a className="grad-link" href="https://motozuerich.ch/" target="_blank" rel="noopener">MOTO-ZÜRICH</a>: событие, которое мы с мужем сделали вдвоём, условно с нуля за полгода — <strong>22 000 человек</strong> в феврале 2026-го. Frankenplatz собираю с тем же подходом: серьёзно, по делу, до мелочей. Другие проекты — на <a className="grad-link" href="https://chudina.me/proekty" target="_blank" rel="noopener">chudina.me</a>.</p>
               <p className="sp-org__why"><span className="sp-org__why-t">Почему это важно тебе:</span> за форумом — человек с опытом крупных мероприятий, а не любительский энтузиазм. Организация, площадка, продакшн, продвижение — всё на уровне. Ты выходишь на подготовленную сцену и к собранной аудитории.</p>
             </div>
           </div>
@@ -252,6 +251,10 @@ function Speakers() {
           <p className="lead">Выбирай день под свой профиль — а если тема ложится в оба, выступи и там, и там.</p>
           <DaysTabs />
           <p className="sp-daysnote">💡 Зал бывает разным: чаще женщины, но случается и ровно 50 на 50. День и тайм-слоты отметишь в анкете.</p>
+          <div style={{ display: "flex", gap: 18, flexWrap: "wrap", alignItems: "center", marginTop: 26 }}>
+            <Button variant="ghost" href="https://youtube.com/shorts/KDvD4gQr9QQ" target="_blank">▶ Посмотреть локацию — видео</Button>
+            <p className="lead" style={{ flex: "1 1 280px", minWidth: 240 }}>Посмотри локацию: <strong>Konnex</strong>, Brown Boveri Str. 7, Baden — сцена, зал и фойе, где всё будет происходить.</p>
+          </div>
           <h2 className="sp-fmt-h">Формат — <span className="hl">польза</span>, а не продажа</h2>
           <FormatCards />
         </div>
@@ -296,7 +299,7 @@ function Speakers() {
                 <div className="sp-more__card">
                   <Badge variant="gold">📈 Доля</Badge>
                   <h3>Пакет акций AG платформы SVOI</h3>
-                  <p>Под платформу я запускаю AG. Пакет на <strong>2000 акций</strong> — доля в том, что мы строим.</p>
+                  <p>Под платформу я запускаю AG. Пакет акций — доля в том, что мы строим.</p>
                   <p className="sp-more__mini">Получают 5 спикеров с лучшими рейтингами по результатам форума.</p>
                 </div>
               </div>
@@ -321,8 +324,8 @@ function Speakers() {
           <ReliefBand variant="final"
             eyebrow={<Eyebrow center>Спикерам · Frankenplatz 2026</Eyebrow>}
             title="Есть тема для нас? Herzlich willkommen!"
-            action={<Button variant="gold" href="#apply">Заполнить анкету спикера</Button>}>
-            <p className="fp-band__body">Расскажи подробнее — да-да, прямо сразу подробно: о себе, теме и удобных тайм-слотах. Форму подключим скоро. Дата: 24–25 октября 2026 · Baden 🇨🇭 · 15 мин от Zürich HB.</p>
+            action={<Button variant="gold" href="anketa.html">Заполнить анкету спикера</Button>}>
+            <p className="fp-band__body">Расскажи подробнее — да-да, прямо сразу подробно: о себе, теме и удобных тайм-слотах. Анкета уже открыта. Дата: 24–25 октября 2026 · Baden 🇨🇭 · 15 мин от Zürich HB.</p>
           </ReliefBand>
         </div>
       </section>

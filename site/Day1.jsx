@@ -10,6 +10,7 @@ const D1_NAV = [
   { label: "Программа", href: "index.html#program" },
   { label: "День №1", href: "day1.html", active: true },
   { label: "День №2", href: "day2.html" },
+  { label: "Другие форумы", href: "trips.html" },
   { label: "Записаться", href: "index.html#reg", cta: true },
 ];
 

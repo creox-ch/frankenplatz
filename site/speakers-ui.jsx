@@ -19,7 +19,29 @@
       </div>
     );
   }
-  function FlipCard({ s }) {
+  function Topics({ topics, front }) {
+  const norm = topics.map((t) => (typeof t === "string" ? { t } : t));
+  const [pop, setPop] = React.useState(null);
+  return (
+    <ul className={front ? "fsc__ftopics" : "fsc__topics"}>
+      {norm.map((tp, i) => (
+        <li key={i} onClick={(e) => { e.stopPropagation(); if (tp.d) setPop(tp); }}>
+          {front ? <>{tp.t}{tp.d ? <span className="fsc__topic-tgl" aria-hidden="true"> +</span> : null}</> :
+          <span className="fsc__topic-t">{tp.t}{tp.d ? <span className="fsc__topic-tgl" aria-hidden="true">+</span> : null}</span>}
+        </li>
+      ))}
+      {pop ? ReactDOM.createPortal(
+        <div className="fsc-pop" onClick={(e) => { e.stopPropagation(); setPop(null); }}>
+          <div className="fsc-pop__card" onClick={(e) => e.stopPropagation()}>
+            <button className="fsc-pop__x" aria-label="Закрыть" onClick={(e) => { e.stopPropagation(); setPop(null); }}>✕</button>
+            <h4 className="fsc-pop__t">{pop.t}</h4>
+            <p className="fsc-pop__d">{pop.d}</p>
+          </div>
+        </div>, document.body) : null}
+    </ul>
+  );
+}
+function FlipCard({ s }) {
     const [on, setOn] = React.useState(false);
     return (
       <div className={"fsc" + (on ? " is-flip" : "")} onClick={() => setOn(!on)} role="button" tabIndex={0} aria-label={s.name + " — досье спикера"}>
@@ -28,8 +50,8 @@
             <div className={"fsc__photo fsc__photo--" + (s.tone || "gold")}>
               {s.img ? <img src={s.img} alt={s.name} /> : <span className="fsc__ini" aria-hidden="true">{s.ini}</span>}
             </div>
-            <span className="fsc__day">День №{s.day}</span>
-            <span className="fsc__flip" aria-hidden="true">⟲</span>
+                        <span className="fsc__flip" aria-hidden="true">⟲</span>
+            {s.topics && s.topics.length ? <Topics topics={s.topics} front /> : null}
             <div className="fsc__scrim">
               <h3 className="fsc__name">{s.name}</h3>
               <p className="fsc__role">{s.role}</p>
@@ -43,7 +65,8 @@
             {s.dossier && s.dossier.length ? (
               <ul className="fsc__facts">{s.dossier.map((f, i) => <li key={i}>{f}</li>)}</ul>
             ) : null}
-            <p className="fsc__about">{s.about}</p>
+            {s.topics && s.topics.length ? <Topics topics={s.topics} /> : null}
+            {s.about ? <p className="fsc__about">{s.about}</p> : null}
             {s.link ? <a className="fsc__more" href={s.link} target="_blank" rel="noopener" onClick={(e) => e.stopPropagation()}>{s.linkLabel || "Узнать больше"} →</a> : null}
           </div>
         </div>
