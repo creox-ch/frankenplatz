@@ -44,6 +44,15 @@
       form: '.gform', form_key: 'trip', role: 'Заявка на поездку · Тони Роббинс',
       name: 'input[type=text]', email: 'input[type=email]', phone: 'input[type=tel]',
       fields: [['select', 'Тип билета'], ['.field.full input', 'Сколько человек едет']]
+    },
+    {
+      // sponsor.html — «Хочу место в фойе»
+      form: '#spForm', form_key: 'sponsor', role: 'Заявка спонсора/маркета',
+      email: '#spEmail',
+      fields: [
+        ['#spProduct', 'Продукт/бренд'], ['#spLinks', 'Ссылки'],
+        ['#spPrice', 'Ценовая категория'], ['#spMore', 'Подробнее']
+      ]
     }
   ];
 
