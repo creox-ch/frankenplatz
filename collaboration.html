@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark only">
+<title>Сотрудничество · Frankenplatz</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-body)}
+a{color:var(--lila-bright)}a:hover{color:var(--gold)}
+.cw-nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px clamp(20px,4vw,48px);background:rgba(20,10,31,.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.cw-brand{font-family:var(--font-display);font-weight:700;font-size:16px;color:#fff;text-decoration:none}
+.cw-brand em{font-style:normal;color:var(--gold)}
+.cw-links{display:flex;gap:22px;flex-wrap:wrap}
+.cw-links a{font-size:14px;font-weight:600;color:var(--muted);text-decoration:none}
+.cw-links a:hover{color:#fff}
+.cw-wrap{max-width:1080px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+.cw-hero{padding:clamp(56px,8vw,100px) 0 clamp(24px,4vw,40px)}
+.cw-eyebrow{font-family:var(--font-display);font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+h1{font-family:var(--font-display);font-weight:800;font-size:clamp(30px,5vw,54px);line-height:1.06;color:#fff;margin:0 0 18px;max-width:18ch}
+h1 .hl{background:linear-gradient(92deg,var(--gold),var(--lila-bright));-webkit-background-clip:text;background-clip:text;color:transparent}
+.cw-lead{font-size:var(--fs-lead);line-height:1.55;color:var(--muted);max-width:56ch;margin:0}
+.cw-lead b{color:#fff;background:rgba(230,180,80,.16);padding:0 4px;border-radius:4px}
+h2{font-family:var(--font-display);font-weight:700;font-size:clamp(22px,3.2vw,32px);line-height:1.12;color:#fff;margin:0 0 12px}
+section{padding:clamp(28px,4.5vw,50px) 0}
+.cw-grid{display:grid;gap:18px;margin-top:22px}
+@media(min-width:820px){.cw-grid{grid-template-columns:1fr 1fr}}
+.cw-card{border:1px solid var(--line);border-radius:18px;background:var(--glass);padding:26px 24px}
+.cw-card h3{font-family:var(--font-display);font-weight:700;font-size:18px;color:#fff;margin:0 0 10px}
+.cw-card p{font-size:14.5px;line-height:1.6;color:var(--muted);margin:0 0 8px}
+.cw-card p b{color:#fff}
+.cw-card ul{margin:10px 0 0;padding:0 0 0 18px;font-size:14px;line-height:1.6;color:var(--muted)}
+.cw-form-wrap{margin:10px 0 70px;padding:30px 28px;border-radius:20px;background:linear-gradient(135deg,rgba(230,180,80,.12),rgba(185,139,255,.10));border:1px solid rgba(230,180,80,.35)}
+.cw-form{display:flex;flex-direction:column;gap:10px;max-width:560px}
+.cw-form input,.cw-form textarea,.cw-form select{padding:13px 15px;border-radius:12px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.06);color:#fff;font-size:15px;font-family:inherit;resize:vertical}
+.cw-form input:focus,.cw-form textarea:focus,.cw-form select:focus{outline:none;border-color:var(--lila-bright)}
+.cw-form select option{background:#1C1029}
+.cw-form button{align-self:flex-start;padding:13px 26px;border:none;border-radius:999px;font-weight:800;font-size:14.5px;font-family:inherit;color:var(--ink-on-gold);background:linear-gradient(100deg,var(--gold),var(--gold-bright) 55%,#D9A9FF 130%);cursor:pointer}
+.cw-ok{font-size:15px;font-weight:700;color:var(--green-text)}
+.cw-dates{display:flex;gap:14px;flex-wrap:wrap;align-items:center;padding:4px 2px}
+.cw-dates__l{font-size:13.5px;font-weight:700;color:var(--muted)}
+.cw-dates label{display:inline-flex;align-items:center;gap:7px;font-size:14px;color:var(--text);cursor:pointer}
+.cw-dates input{accent-color:#E6B450;width:16px;height:16px}
+.cw-note{font-size:13.5px;color:var(--muted-2);margin-top:14px;max-width:58ch}
+</style>
+</head>
+<body>
+<template id="__bundler_thumbnail" data-bg-color="#140A1F">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><rect width="1200" height="800" fill="#140A1F"></rect><text x="600" y="400" font-size="220" text-anchor="middle" dominant-baseline="central">🤝</text></svg>
+</template>
+<nav class="cw-nav">
+  <a class="cw-brand" href="index.html">Franken<em>platz</em></a>
+  <div class="cw-links"><a href="index.html">Форум</a><a href="brand-market.html">Маркет</a><a href="sponsor.html">Спонсорам</a></div>
+</nav>
+<div class="cw-wrap">
+  <header class="cw-hero">
+    <div class="cw-eyebrow">Сотрудничество</div>
+    <h1>Нужны свои люди <span class="hl">в команду</span></h1>
+    <p class="cw-lead">Форум Frankenplatz и бренд-маркет растут — ищем тех, кто сделает их красивыми и управляемыми. Работаем на условиях <b>фикс</b> или <b>фикс + бартер</b> — укажи свои цены сразу в заявке.</p>
+  </header>
+
+  <section>
+    <h2>Кого ищем</h2>
+    <div class="cw-grid">
+      <div class="cw-card">
+        <h3>📷 Фотограф</h3>
+        <p>Репортаж форума и маркета: сцена и спикеры, зал и эмоции, фойе, детали площадки. Нужны живые кадры для соцсетей и отчёта — быстро отобранная «горячая» серия в день события, полная серия после.</p>
+      </div>
+      <div class="cw-card">
+        <h3>🎥 Видеограф</h3>
+        <p>Афтемуви, рилсы и шортсы — контент, который продаёт следующее событие: живая динамика, звук со сцены, вертикальные форматы под соцсети. Съёмка + монтаж.</p>
+      </div>
+      <div class="cw-card">
+        <h3>🛍 Управляющий маркетом</h3>
+        <p>Хозяин процесса на <a href="brand-market.html"><b>бренд-маркете</b></a>: приём вещей, развеска, касса-зона, <b>управление волонтёрами</b> и <b>анализ того, что идёт и что нет</b> — по ходу дня. Опыт ивентов/ритейла — плюс.</p>
+      </div>
+      <div class="cw-card">
+        <h3>💄 Стилист · Визажист + парикмахер</h3>
+        <p>Подготовка спикеров перед сценой.</p>
+        <ul><li>Укажи стоимость подготовки <b>одного спикера</b></li><li>Расчёт: <b>7 спикеров в день</b>, тайминг — <b>не более 30 минут</b> на человека</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="cw-form-wrap">
+    <h2>Подать заявку</h2>
+    <form class="cw-form" id="cwForm">
+      <input type="text" id="cwName" required placeholder="Имя">
+      <input type="email" id="cwEmail" required placeholder="E-mail">
+      <input type="text" id="cwTg" placeholder="Telegram — ссылка или ник">
+      <select id="cwRole" required>
+        <option value="" disabled selected>Кто ты?</option>
+        <option>Фотограф</option><option>Видеограф</option><option>Управляющий маркетом</option><option>Стилист</option><option>Визажист + парикмахер</option><option>Другое</option>
+      </select>
+      <input type="text" id="cwRefs" required placeholder="Ссылки на референсы (портфолио, Instagram)">
+      <select id="cwPriceType" required>
+        <option value="" disabled selected>Формат оплаты</option>
+        <option>Фикс</option><option>Бартер</option><option>Фикс + бартер</option>
+      </select>
+      <input type="text" id="cwPrice" required placeholder="Стоимость (для бьюти — за 1 спикера)">
+      <div class="cw-dates">
+        <span class="cw-dates__l">Даты — когда можешь:</span>
+        <label><input type="checkbox" value="24 октября"> 24 октября</label>
+        <label><input type="checkbox" value="25 октября"> 25 октября</label>
+        <label><input type="checkbox" value="Маркет 27 сентября"> Маркет · 27 сентября</label>
+      </div>
+      <textarea id="cwMore" rows="3" placeholder="Пару слов о себе и опыте"></textarea>
+      <button type="submit">Отправить заявку</button>
+    </form>
+    <p class="cw-note">Ответим лично.</p>
+  </div>
+</div>
+<!-- Заявка на сотрудничество → /api/forms (модуль вне страницы, переживает синк дизайна) -->
+<script src="site/forum-form.js"></script>
+<!-- Согласие на cookies + Google Analytics -->
+<script src="site/cookie-consent.js"></script>
+</body>
+</html>
