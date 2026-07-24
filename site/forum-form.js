@@ -32,8 +32,25 @@
         ['#cwPriceType', 'Формат оплаты'], ['#cwPrice', 'Стоимость'], ['#cwMore', 'О себе']
       ],
       checkboxGroup: { container: '.cw-dates', label: 'Даты' }
+    },
+    {
+      // brand-market.html — «У меня вопрос»; поле #bmName приведено к type=email
+      form: '#bmForm', form_key: 'market', role: 'Вопрос о маркете',
+      email: '#bmName',
+      fields: [['#bmWhat', 'Вопрос']]
+    },
+    {
+      // trips/tony-robbins.html — «Забронировать место в группе»; поля без id → по типу
+      form: '.gform', form_key: 'trip', role: 'Заявка на поездку · Тони Роббинс',
+      name: 'input[type=text]', email: 'input[type=email]', phone: 'input[type=tel]',
+      fields: [['select', 'Тип билета'], ['.field.full input', 'Сколько человек едет']]
     }
   ];
+
+  // Ссылка на страницу с политикой: из подпапки (trips/) уровнем выше.
+  function legalHref() {
+    return (location.pathname.indexOf('/trips/') !== -1 ? '../' : '') + 'legal.html#datenschutz';
+  }
 
   var CSS = [
     '.fp-ff-consent{display:flex;align-items:flex-start;gap:9px;cursor:pointer;font-size:12.5px;',
@@ -76,7 +93,7 @@
     consentLabel.className = 'fp-ff-consent';
     consentLabel.innerHTML =
       '<input type="checkbox"><span>Согласен(на) на обработку данных заявки. ' +
-      'Отписаться можно в любой момент. <a href="legal.html#datenschutz">Политика конфиденциальности</a>.</span>';
+      'Отписаться можно в любой момент. <a href="' + legalHref() + '">Политика конфиденциальности</a>.</span>';
 
     var msg = document.createElement('p');
     msg.className = 'fp-ff-msg';

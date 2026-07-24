@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark only">
+<title>Другие форумы · Frankenplatz — едем вместе</title>
+<link rel="stylesheet" href="styles.css">
+<style>
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-body)}
+a{color:var(--lila-bright)}a:hover{color:var(--gold)}
+.tp-nav{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px clamp(20px,4vw,48px);background:rgba(20,10,31,.85);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.tp-brand{font-family:var(--font-display);font-weight:700;font-size:16px;color:#fff;text-decoration:none}
+.tp-brand em{font-style:normal;color:var(--gold)}
+.tp-links{display:flex;gap:22px;flex-wrap:wrap}
+.tp-links a{font-size:14px;font-weight:600;color:var(--muted);text-decoration:none}
+.tp-links a:hover{color:#fff}
+.tp-wrap{max-width:1120px;margin:0 auto;padding:0 clamp(20px,4vw,48px)}
+.tp-hero{padding:clamp(64px,9vw,120px) 0 clamp(36px,5vw,56px)}
+.tp-eyebrow{font-family:var(--font-display);font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+h1{font-family:var(--font-display);font-weight:800;font-size:clamp(34px,5.6vw,64px);line-height:1.04;letter-spacing:-.01em;color:#fff;margin:0 0 22px;max-width:16ch}
+h1 .hl{background:linear-gradient(92deg,var(--gold),var(--lila-bright));-webkit-background-clip:text;background-clip:text;color:transparent}
+.tp-lead{font-size:var(--fs-lead);line-height:1.55;color:var(--muted);max-width:56ch;margin:0}
+.tp-cards{display:grid;gap:22px;padding:clamp(24px,4vw,44px) 0 clamp(70px,9vw,110px)}
+@media(min-width:860px){.tp-cards{grid-template-columns:1fr 1fr}}
+.tp-card{display:flex;flex-direction:column;gap:0;height:100%;border:1px solid var(--line);border-radius:22px;background:var(--glass);overflow:hidden;text-decoration:none;transition:transform .2s,border-color .2s,background .2s}
+.tp-card:hover{transform:translateY(-4px);border-color:var(--line-strong);background:var(--glass-2)}
+.tp-card__top{padding:26px 28px 0;display:flex;justify-content:space-between;gap:14px;align-items:center}
+.tp-when{font-family:var(--font-display);font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
+.tp-flag{font-size:20px}
+.tp-card h2{font-family:var(--font-display);font-weight:700;font-size:clamp(22px,2.6vw,30px);line-height:1.12;color:#fff;margin:14px 0 0;padding:0 28px}
+.tp-card p{font-size:15.5px;line-height:1.6;color:var(--muted);margin:14px 0 0;padding:0 28px;flex:1 1 auto}
+.tp-tags{display:flex;flex-wrap:wrap;gap:8px;padding:18px 28px 0;margin-top:auto}
+.tp-tag{font-size:12.5px;font-weight:700;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:6px 12px}
+.tp-go{margin:22px 28px 26px;display:inline-flex;align-self:flex-start;align-items:center;gap:10px;padding:12px 22px;border-radius:999px;font-size:14.5px;font-weight:800;color:var(--ink-on-gold);background:linear-gradient(135deg,var(--gold),var(--gold-bright));box-shadow:0 8px 24px rgba(230,180,80,.25)}
+.tp-common{margin-top:6px;border:1px solid rgba(230,180,80,.35);border-radius:22px;background:linear-gradient(135deg,rgba(230,180,80,.10),rgba(185,139,255,.08));padding:28px;margin-bottom:34px}
+.tp-common__h{font-family:var(--font-display);font-weight:700;font-size:clamp(20px,2.6vw,28px);color:#fff;margin:0 0 18px}
+.tp-common__grid{display:grid;gap:12px 26px;font-size:14.5px;line-height:1.55;color:var(--muted)}
+@media(min-width:760px){.tp-common__grid{grid-template-columns:1fr 1fr 1fr}}
+.tp-common__grid b{color:#fff}
+.tp-note{border-top:1px solid var(--line);padding:26px 0 60px;font-size:14px;color:var(--muted-2);max-width:60ch}
+.tp-note a{font-weight:700}
+.tp-card p b{color:#fff;background:rgba(230,180,80,.16);padding:0 4px;border-radius:4px;font-weight:700}
+</style>
+</head>
+<body>
+<template id="__bundler_thumbnail" data-bg-color="#140A1F">
+  <svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><rect width="1200" height="800" fill="#140A1F"></rect><text x="600" y="400" font-size="220" text-anchor="middle" dominant-baseline="central">✈️</text></svg>
+</template>
+<nav class="tp-nav">
+  <a class="tp-brand" href="index.html">Franken<em>platz</em></a>
+  <div class="tp-links"><a href="index.html">Форум в Baden</a><a href="trips/tony-robbins.html">Тони Роббинс · Кёльн</a><a href="trips/megacampus.html">MEGACAMPUS · Дубай</a></div>
+</nav>
+<div class="tp-wrap">
+  <header class="tp-hero">
+    <div class="tp-eyebrow">Другие форумы</div>
+    <h1>Мы ещё и <span class="hl">ездим вместе</span> — в другие страны</h1>
+    <p class="tp-lead">Хочешь развиваться — а в твоём окружении это сейчас <b style="color:#fff;background:rgba(230,180,80,.16);padding:0 4px;border-radius:4px">больше никому не интересно</b>? Знакомо: рост воспринимают как причуду, инсайты некому рассказать, а планы кажутся «слишком». Поэтому Frankenplatz — это не только Baden: своей группой выезжаем на крупнейшие мировые события, где вокруг такие же голодные до роста люди. Присоединяйся к ближайшим поездкам.</p>
+  </header>
+  <div class="tp-common">
+    <h2 class="tp-common__h">Как мы ездим</h2>
+    <div class="tp-common__grid">
+      <div><b>Группой из Швейцарии</b> — или присоединяйся уже на месте.</div>
+      <div><b>Места рядом</b> — билеты бронируем вместе, чтобы сидеть своими.</div>
+      <div><b>Шерим жильё</b> — апартаменты группой: дешевле и веселее отеля.</div>
+      <div><b>Экскурсии, развлечения, фотосессии</b> — программа вокруг события.</div>
+      <div><b>Инсайты вечерами</b> — обсуждаем услышанное за ужином, это половина ценности.</div>
+      <div><b>Нетворкинг с аэропорта</b> — уезжаешь с людьми, с которыми потом строишь бизнес.</div>
+    </div>
+  </div>
+  <div class="tp-cards">
+    <a class="tp-card" href="trips/tony-robbins.html">
+      <div class="tp-card__top"><span class="tp-when">3–6 сентября 2026 · Кёльн</span><span class="tp-flag">🇩🇪</span></div>
+      <h2>Тони Роббинс · Unleash the Power Within</h2>
+      <p>Легендарный UPW: <b>4 дня, которые сжимают годы</b> работы над собой. 12 000 человек в зале, страх → сила, хождение по углям, новая точка отсчёта. <b>Синхронный перевод на русский</b>.</p>
+      <div class="tp-tags"><span class="tp-tag">4 дня вживую</span><span class="tp-tag">LANXESS Arena</span><span class="tp-tag">Синхрон RU</span><span class="tp-tag">Хождение по углям</span></div>
+      <span class="tp-go">Подробнее о поездке →</span>
+    </a>
+    <a class="tp-card" href="trips/megacampus.html">
+      <div class="tp-card__top"><span class="tp-when">18–21 ноября 2026 · Дубай</span><span class="tp-flag">🇦🇪</span></div>
+      <h2>MEGACAMPUS Summit · Coca-Cola Arena</h2>
+      <p><b>Рекорд Гиннесса</b>: крупнейшее интеллектуальное событие мира в зале на 17 000 мест. <b>102 страны</b>, почти половина зала — владельцы компаний, на сцене — <b>Кэмерон, Карлсен, Хабиб</b> и ещё 13 мировых спикеров. <b>Синхронный перевод на русский</b>. Отсюда увозят другой масштаб мышления.</p>
+      <div class="tp-tags"><span class="tp-tag">Мега-спикеры</span><span class="tp-tag">Рекорд Гиннесса</span><span class="tp-tag">Coca-Cola Arena</span><span class="tp-tag">4 дня</span></div>
+      <span class="tp-go">Подробнее о поездке →</span>
+    </a>
+  </div>
+  <p class="tp-note">Поездки собирает <a href="speakers.html">Ксения Чудина</a> — организатор Frankenplatz и <b style="color:#fff">официальный представитель этих мероприятий</b>. Чаты поездок: <a href="https://t.me/+Kb5oxW47ZLAyOWUy" target="_blank" rel="noopener">Кёльн · Telegram</a> · <a href="https://t.me/+iWYDmTHIhsAxYjIy" target="_blank" rel="noopener">Дубай · Telegram</a> · <a href="mailto:info@frankenplatz.ch">info@frankenplatz.ch</a></p>
+</div>
+<script src="site/cookie-consent.js"></script>
+</body>
+</html>
