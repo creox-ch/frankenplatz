@@ -3,6 +3,10 @@
     {
       "source": "/newsletter/confirm",
       "destination": "https://slswiss-tickets.vercel.app/api/forms/confirm"
+    },
+    {
+      "source": "/newsletter/unsubscribe",
+      "destination": "https://slswiss-tickets.vercel.app/api/forms/unsubscribe"
     }
   ]
 }
