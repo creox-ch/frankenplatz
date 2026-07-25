@@ -112,7 +112,10 @@
             if (window.FPConsent) window.FPConsent.track('newsletter_subscribe', { event_slug: EVENT });
             form.style.display = 'none';
             note.style.display = 'none';
-            setMsg('Готово! Подписали ' + email + ' — писем без повода не будет.', 'ok');
+            // double opt-in: подписка активируется только после перехода по
+            // ссылке из письма, поэтому обещать «подписали» ещё рано.
+            setMsg('Почти готово! Мы отправили письмо на ' + email +
+              ' — открой его и подтверди подписку.', 'ok');
           } else {
             setMsg((res.data && res.data.error) || 'Не получилось подписаться. Попробуй ещё раз.', 'err');
             if (btn) { btn.disabled = false; btn.textContent = label; }
