@@ -73,8 +73,14 @@
       msg.className = 'fp-nl-msg' + (kind ? ' ' + kind : '');
     }
 
+    // ВАЖНО: слушаем в CAPTURE-фазе и глушим всплытие. React-компонент футера
+    // из ds.bundle.js вешает СВОЙ onSubmit (e.preventDefault(); setSent(true)),
+    // который показывает фейковое «Спасибо!» без всякого бэкенда (дизайн-заглушка).
+    // React делегирует submit на корне в bubble-фазе — остановив всплытие здесь,
+    // мы не даём фейковому обработчику сработать и шлём заявку по-настоящему.
     form.addEventListener('submit', function (e) {
       e.preventDefault();
+      e.stopImmediatePropagation();
       setMsg('');
 
       var email = String(input.value || '').trim();
@@ -125,7 +131,7 @@
           setMsg('Сеть недоступна. Попробуй ещё раз чуть позже.', 'err');
           if (btn) { btn.disabled = false; btn.textContent = label; }
         });
-    });
+    }, true);
   }
 
   /** Футер рисуется React-ом асинхронно — ждём появления формы. */
