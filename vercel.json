@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/newsletter/confirm",
+      "destination": "https://slswiss-tickets.vercel.app/api/forms/confirm"
+    }
+  ]
+}
