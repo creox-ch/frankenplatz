@@ -11,7 +11,7 @@ const SP_NAV = [
   { label: "Для участников", href: "index.html" },
   { label: "Что даём", href: "#how" },
   { label: "Два дня", href: "#days" },
-  { label: "Подать заявку", href: "#apply", cta: true },
+  { label: "Подать заявку", href: "anketa.html", cta: true },
 ];
 
 const GIVE = [
