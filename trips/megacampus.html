@@ -3,23 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="MEGACAMPUS Summit 2026 в Дубае, 18–21 ноября — крупнейшее лекционное событие в мире. Едем группой: билеты, логистика, продление поездки.">
 <title>MEGACAMPUS Summit 2026 — Дубай, 18–21 ноября</title>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#140A1F;
-  --ink-2:#1C1029;
-  --ink-3:#231634;
-  --ash:#2E2440;
-  --smoke:#9A8BB3;
-  --bone:#F3EEF9;
-  --paper:#F8F4FD;
-  --ember:#B98BFF;
-  --ember-lo:#5B3E85;
-  --flare:#E6B450;
+  --ink:#2A1049;
+  --ink-2:#331457;
+  --ink-3:#3E1A68;
+  --ash:#4B2480;
+  --smoke:#B2A3D2;
+  --bone:#F4F1FC;
+  --paper:#F4F1FC;
+  --ember:#F26A2B;
+  --ember-lo:#5A2E93;
+  --flare:#FF8542;
   --line:rgba(255,255,255,.12);
-  --gut:clamp(20px,5vw,64px);
+  --gut:var(--fp-gutter);
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
@@ -27,7 +28,7 @@ body{
   background:var(--ink);
   color:var(--bone);
   font-family:'Manrope',system-ui,sans-serif;
-  font-size:17px;
+  font-size:18px;
   line-height:1.55;
   -webkit-font-smoothing:antialiased;
   overflow-x:hidden;
@@ -42,223 +43,218 @@ body::before{
 }
 .wrap{position:relative;z-index:1}
 
-/* ── nav: contained, centered, one piece ── */
-nav{
-  position:fixed;top:16px;left:50%;transform:translateX(-50%);
-  z-index:60;display:flex;align-items:center;gap:clamp(12px,2.4vw,30px);
-  padding:9px 10px 9px 22px;
-  background:rgba(28,16,41,.82);
-  backdrop-filter:blur(20px) saturate(140%);
-  -webkit-backdrop-filter:blur(20px) saturate(140%);
-  border:1px solid rgba(255,255,255,.10);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.07), 0 2px 6px rgba(0,0,0,.4);
-  clip-path:polygon(0 0,100% 0,100% calc(100% - 11px),calc(100% - 11px) 100%,0 100%);
-  max-width:calc(100vw - 24px);
-}
-nav a{color:var(--smoke);text-decoration:none;font-size:14px;white-space:nowrap;transition:color .25s}
-nav a:hover{color:var(--bone)}
-.nav-mark{font-family:'Unbounded',sans-serif;font-size:16px;color:var(--bone);letter-spacing:.02em}
-.nav-mark em{font-style:normal;color:var(--ember)}
-.nav-go{
-  color:var(--ink)!important;background:var(--flare);
-  padding:8px 15px;font-size:13.5px;
-  clip-path:polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%);
-  transition:background .25s;
-}
-.nav-go:hover{background:var(--bone)}
-.nav-hide{display:none}
-@media(min-width:820px){.nav-hide{display:inline}}
+/* собственная навигация страницы убрана — используются канонические шапка и футер */
 
 /* ── hero ── */
-header{
+.mc-hero{
   min-height:100svh;display:grid;
   grid-template-rows:1fr auto;
-  padding:112px var(--gut) 0;
+  padding:96px var(--gut) 0;
   position:relative;overflow:hidden;
 }
 /* directional light, single source, top-right — not a symmetric halo */
-header::after{
+/* панорама Дубая — светящейся полосой по низу героя, белая размывка снимков срезана маской */
+.mc-hero::before{
+  content:'';position:absolute;left:50%;bottom:0;width:min(1560px,132%);aspect-ratio:2400/1263;
+  transform:translateX(-50%);z-index:0;pointer-events:none;
+  background:url("img/dubai-skyline.png") center bottom/contain no-repeat;
+  mix-blend-mode:screen;opacity:.5;
+  -webkit-mask-image:radial-gradient(58% 62% at 50% 76%,#000 0%,#000 40%,rgba(0,0,0,.35) 62%,transparent 82%);
+  mask-image:radial-gradient(58% 62% at 50% 76%,#000 0%,#000 40%,rgba(0,0,0,.35) 62%,transparent 82%);
+}
+/* передний слой панорамы — темные силуэты ближе к зрителю */
+.mc-skyline{position:absolute;left:50%;bottom:0;width:min(1720px,142%);aspect-ratio:2160/908;
+  transform:translateX(-50%);z-index:1;pointer-events:none;
+  background:url("img/dubai-front.png") center bottom/contain no-repeat;
+  mix-blend-mode:multiply;opacity:.92;
+  -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 34%,#000 100%);
+  mask-image:linear-gradient(180deg,transparent 0%,#000 34%,#000 100%);
+}
+/* планшет и телефон: панорама крупнее — примерно в полтора раза выше */
+@media(max-width:1023px){
+  .mc-hero::before{opacity:.44;width:200%;height:78%;bottom:0;background-size:cover;background-position:center bottom}
+  .mc-skyline{width:210%;opacity:.88;background-size:cover;background-position:center bottom;aspect-ratio:auto;height:72%}
+}
+@media(max-width:767px){
+  .mc-hero::before{opacity:.42;width:320%;height:84%}
+  .mc-skyline{width:340%;opacity:.85;height:78%}
+}
+.mc-hero::after{
   content:'';position:absolute;top:-30%;right:-14%;width:76%;height:96%;
-  background:radial-gradient(ellipse 52% 60% at 62% 30%,rgba(154,111,212,.30),rgba(123,63,228,.10) 46%,transparent 72%);
+  background:radial-gradient(ellipse 52% 60% at 62% 30%,rgba(150,70,190,.42),rgba(242,106,43,.14) 46%,transparent 72%);
   pointer-events:none;z-index:0;
 }
-.hero-in{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;max-width:1180px;width:100%;margin:0 auto}
+.hero-in{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:flex-start;max-width:var(--fp-col);width:100%;margin:0 auto}
 .datemark{
-  font-size:clamp(12px,1.5vw,14px);color:var(--flare);
+  font-size:18px;color:var(--flare);
   letter-spacing:.16em;margin-bottom:clamp(20px,3vw,30px);
 }
 .datemark span{color:var(--smoke);letter-spacing:.16em}
 h1{
-  font-size:clamp(46px,10.4vw,142px);line-height:.92;
+  font-size:clamp(40px,8.6vw,116px);line-height:.94;
   letter-spacing:-.025em;max-width:15ch;
 }
-h1 em{font-style:italic;color:var(--ember)}
-.hero-foot{
-  display:grid;gap:clamp(22px,3vw,54px);align-items:end;
-  padding:clamp(30px,4.6vw,58px) 0 clamp(26px,4vw,44px);
-  grid-template-columns:1fr;
-}
-@media(min-width:900px){.hero-foot{grid-template-columns:1.05fr .95fr}}
-.lede{color:#C3B7D4;max-width:46ch;font-size:clamp(16px,1.65vw,19px)}
-.lede b,.why-p b,.p-txt b,.org-txt b{color:var(--bone);font-weight:700;background:rgba(230,180,80,.16);padding:0 4px;border-radius:4px}
-.figs{display:flex;flex-wrap:wrap;gap:clamp(24px,4vw,46px)}
-.fig .n{font-family:'Unbounded',sans-serif;font-size:clamp(34px,4.6vw,54px);line-height:1;letter-spacing:.005em}
-.fig .l{font-size:12.5px;color:var(--smoke);margin-top:9px;max-width:15ch;line-height:1.35}
+h1 .acc{color:var(--ember)}
+.hero-foot{display:block;padding:clamp(90px,13vw,180px) 0 0}
+@media(max-width:767px){.mc-hero{min-height:auto;padding-bottom:clamp(30px,6vw,48px)}.hero-foot{padding-top:clamp(190px,58vw,300px)}}
+.lede{color:#D8CDF0;max-width:70ch;font-size:19px;line-height:1.55;text-wrap:pretty}
+.lede b,.why-p b,.p-txt b,.org-txt b{color:#fff;font-weight:700}
+/* цифры героя — панелью со стеклом и разделителями, поверх панорамы читаются */
+.figs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin-top:clamp(32px,4vw,52px);border-top:1px solid rgba(255,255,255,.16)}
+@media(max-width:639px){.figs{grid-template-columns:1fr}}
+.fig{padding:clamp(20px,2.4vw,28px) clamp(20px,2.4vw,30px) clamp(24px,3vw,34px) 0}
+.fig+.fig{border-left:1px solid rgba(255,255,255,.12);padding-left:clamp(20px,2.6vw,34px)}
+@media(max-width:639px){.fig+.fig{border-left:0;border-top:1px solid rgba(255,255,255,.12);padding-left:0}}
+.fig .n{font-family:'Unbounded',sans-serif;font-size:clamp(36px,4.6vw,58px);line-height:1;letter-spacing:-.01em;background:linear-gradient(96deg,#FF8542,#F26A2B);-webkit-background-clip:text;background-clip:text;color:transparent}
+.fig .l{font-size:18px;color:var(--bone);margin-top:10px;max-width:26ch;line-height:1.35;text-wrap:pretty}
 
 /* ── section frame ── */
-section{padding:clamp(78px,11vw,150px) var(--gut);position:relative}
-.inner{max-width:1180px;margin:0 auto}
-.rule{height:1px;background:var(--line);max-width:1180px;margin:0 auto}
-h2{font-size:clamp(30px,5.2vw,62px);line-height:1.02;letter-spacing:-.022em;max-width:18ch}
-h2 em{font-style:italic;color:var(--ember)}
-.sub{color:var(--smoke);max-width:52ch;margin-top:20px;font-size:16.5px}
+section{padding:clamp(70px,9vw,124px) var(--gut);position:relative}
+.inner{max-width:var(--fp-col);margin:0 auto}
+.rule{height:1px;background:var(--line);max-width:var(--fp-col);margin:0 auto}
+h2{font-size:clamp(28px,4.4vw,53px);line-height:1.04;letter-spacing:-.022em;max-width:18ch}
+h2 .acc{color:var(--ember)}
+.sub{color:var(--smoke);max-width:74ch;margin-top:20px;font-size:18px;text-wrap:pretty}
 
 /* ── arena: the signature ── */
 #bowl{background:linear-gradient(178deg,var(--ink) 0%,var(--ink-2) 38%,var(--ink-2) 62%,var(--ink) 100%)}
-.arena-grid{display:grid;gap:clamp(30px,4vw,60px);margin-top:clamp(38px,5vw,64px);grid-template-columns:1fr}
-@media(min-width:960px){.arena-grid{grid-template-columns:1.15fr .85fr;align-items:center}}
-.arena-stage{position:relative}
-.arena-stage{overflow:hidden}
-.arena-stage svg{width:100%;max-width:470px;height:auto;display:block;margin:0 auto}
+.arena-grid{display:grid;gap:clamp(30px,4vw,60px);margin-top:clamp(38px,5vw,64px);grid-template-columns:1fr;border-top:1px solid var(--line);padding-top:clamp(26px,3vw,38px)}
+@media(min-width:1024px){.arena-grid{grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);align-items:start}}
+.arena-stage{position:relative;z-index:1;overflow:visible;padding-top:6px}
+.arena-stage svg{width:100%;max-width:560px;height:auto;display:block;margin:0;overflow:visible}
 .tier-band{cursor:pointer;transition:opacity .3s ease, filter .3s ease}
-.arena-stage.has-sel .tier-band{opacity:.3}
-.arena-stage.has-sel .tier-band.on{opacity:1}
-.tier-lbl{font-family:'Manrope',sans-serif;font-size:12.5px;fill:var(--bone);letter-spacing:.08em;pointer-events:none}
-.tier-lbl.dim{fill:#8B7CA6}
+.arena-stage.has-sel .tier-band{opacity:.34}
+.arena-stage.has-sel .tier-band.on{opacity:1;filter:drop-shadow(0 0 14px rgba(242,106,43,.45))}
+.tier-lbl{font-family:'Manrope',sans-serif;font-size:18px;fill:var(--bone);letter-spacing:.08em;pointer-events:none}
+.tier-lbl.dim{fill:#A493C9}
 
 /* tier readout */
-.readout{border-top:1px solid var(--line);padding-top:26px}
-@media(min-width:960px){.readout{min-height:430px}}
+.readout{padding-top:0}
+@media(min-width:1024px){.readout{min-height:0}}
 .r-top{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.r-name{font-family:'Unbounded',sans-serif;font-size:clamp(28px,3.6vw,42px);line-height:1}
+.r-name{font-family:'Unbounded',sans-serif;font-size:clamp(26px,3.1vw,37px);line-height:1}
 .r-price{font-family:'Unbounded',sans-serif;font-size:clamp(20px,2.4vw,27px);color:var(--flare);white-space:nowrap}
-.r-note{color:var(--smoke);font-size:13.5px;margin-top:12px}
+.r-note{color:var(--smoke);font-size:18px;margin-top:12px}
 .r-list{list-style:none;margin-top:24px;display:grid;gap:11px}
-.r-list li{display:grid;grid-template-columns:15px 1fr;gap:13px;font-size:15.5px;color:#C9BDDA;line-height:1.42}
+.r-list li{display:grid;grid-template-columns:15px 1fr;gap:13px;font-size:18px;color:#D3C7EC;line-height:1.42}
 .r-list li::before{
   content:'';width:9px;height:9px;margin-top:8px;
   background:var(--ember-lo);
   clip-path:polygon(50% 0,100% 50%,50% 100%,0 50%);
 }
 .r-list li.new::before{background:var(--flare)}
-.r-hint{color:#8B7CA6;font-size:13px;margin-top:24px;font-style:italic}
+.r-hint{color:#A493C9;font-size:18px;margin-top:24px;}
 
 /* ── programme: 4 days, horizontal, not a numbered rail ── */
 .days{display:grid;gap:1px;background:var(--line);margin-top:clamp(38px,5vw,60px);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
-@media(min-width:840px){.days{grid-template-columns:repeat(4,1fr)}}
-.day{background:var(--ink);padding:clamp(24px,3vw,34px) clamp(20px,2.4vw,28px);display:flex;flex-direction:column;min-height:236px;transition:background .3s}
-.day:hover{background:var(--ink-2)}
-.d-num{font-family:'Unbounded',sans-serif;font-size:clamp(40px,5vw,60px);line-height:.85;color:var(--ash)}
+@media(min-width:640px){.days{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(min-width:1180px){.days{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.day{background:#1B0B33;padding:clamp(24px,3vw,34px) clamp(20px,2.4vw,28px);display:flex;flex-direction:column;align-items:flex-start;min-height:236px;transition:background .3s}
+.day:hover{background:#251550}
+.d-num{font-family:'Unbounded',sans-serif;font-size:clamp(34px,4.2vw,52px);line-height:.85;color:var(--ash)}
 .day:hover .d-num{color:var(--ember-lo)}
-.d-date{font-size:12.5px;color:var(--flare);margin-top:14px;letter-spacing:.1em}
-.d-body{margin-top:auto;padding-top:20px}
-.d-ttl{font-size:17px;color:var(--bone);line-height:1.3}
-.d-txt{font-size:14.5px;color:var(--smoke);margin-top:9px;line-height:1.45}
-.d-tag{font-size:12px;color:var(--ember);margin-top:11px}
+.d-date{font-size:18px;font-weight:800;color:var(--flare);margin-top:14px;letter-spacing:.1em}
+.d-body{margin-top:26px;padding-top:20px;border-top:1px solid var(--line)}
+.d-ttl{font-family:'Unbounded','Manrope',sans-serif;font-size:22px;color:var(--bone);line-height:1.25;letter-spacing:-.01em}
+.d-txt{font-size:18px;color:var(--smoke);margin-top:9px;line-height:1.45}
+.d-tag{font-size:18px;color:var(--flare);margin-top:11px}
 
 /* ── speakers ── */
-#speakers{background:var(--ink-2)}
-.spk{border-top:1px solid var(--line)}
+#speakers{background:linear-gradient(180deg,#1B0B33 0%,#160828 60%,#1B0B33 100%)}
+.spk{margin-top:clamp(34px,4.4vw,54px);border-top:1px solid var(--line)}
 .spk-row{
   display:grid;grid-template-columns:1fr;gap:6px;
   padding:clamp(22px,2.9vw,32px) 0;border-bottom:1px solid var(--line);
-  transition:padding-left .35s cubic-bezier(.2,.7,.3,1), background .35s;
-  padding-left:0;
+  transition:background .3s;
 }
-@media(min-width:760px){
-  .spk-row{grid-template-columns:minmax(0,1.6fr) minmax(0,2fr) auto;gap:clamp(18px,3vw,44px);align-items:baseline}
-  .spk-row:hover{padding-left:18px;background:rgba(255,255,255,.02)}
+@media(min-width:768px){
+  /* три колонки фиксированной доли: имена, роли и факты стоят по своим линиям */
+  .spk-row{grid-template-columns:minmax(0,1.35fr) minmax(0,1.75fr) minmax(0,1.15fr);gap:clamp(18px,3vw,40px);align-items:start}
+  .spk-row:hover{background:rgba(255,255,255,.03)}
+  /* первые строки всех трёх колонок садятся на одну оптическую линию */
+  .s-role,.s-fact{padding-top:5px}
 }
-.s-name{font-family:'Unbounded',sans-serif;font-size:clamp(23px,3.1vw,37px);line-height:1.05;letter-spacing:-.012em}
-.s-role{color:var(--smoke);font-size:15px;line-height:1.42}
-.s-fact{color:var(--flare);font-size:13.5px;white-space:nowrap}
-.spk-more{margin-top:26px;color:var(--smoke);font-size:14.5px}
+.s-name{font-family:'Unbounded',sans-serif;font-size:clamp(22px,2.7vw,32px);line-height:1.05;letter-spacing:-.012em}
+.s-role{color:var(--smoke);font-size:18px;line-height:1.42}
+.s-fact{color:var(--flare);font-size:18px;line-height:1.42;text-wrap:pretty}
+
+.spk-more{margin-top:26px;color:var(--smoke);font-size:18px}
 
 /* ── logistics ── */
 .log{display:grid;gap:1px;background:var(--line);margin-top:clamp(38px,5vw,58px);border:1px solid var(--line)}
 @media(min-width:640px){.log{grid-template-columns:1fr 1fr}}
-@media(min-width:940px){.log{grid-template-columns:repeat(3,1fr)}}
-.log-c{background:var(--ink);padding:clamp(24px,3vw,34px)}
-.log-h{font-size:13px;color:var(--flare);letter-spacing:.11em;margin-bottom:18px}
-.log-l{display:flex;justify-content:space-between;gap:16px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:15px}
+@media(min-width:1024px){.log{grid-template-columns:repeat(3,1fr)}}
+.log-c{background:#1B0B33;padding:clamp(24px,3vw,34px)}
+.log-h{font-family:'Unbounded','Manrope',sans-serif;font-size:19px;font-weight:700;color:var(--bone);letter-spacing:.06em;text-transform:uppercase;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid var(--flare)}
+.log-l{display:flex;flex-wrap:wrap;justify-content:space-between;gap:4px 16px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:18px;line-height:1.4}
 .log-l:last-child{border-bottom:0}
-.log-l span:first-child{color:#C9BDDA}
-.log-l span:last-child{color:var(--bone);white-space:nowrap}
-.log-note{font-size:13.5px;color:var(--smoke);margin-top:16px;line-height:1.5}
+.log-l span:first-child{color:#D3C7EC}
+.log-l span:last-child{color:var(--bone);white-space:nowrap;font-weight:700}
+.log-note{font-size:18px;color:var(--smoke);margin-top:16px;line-height:1.5}
 
 /* ── why ── */
 .why-cols{display:grid;gap:clamp(20px,3vw,54px);margin-top:clamp(30px,3.6vw,46px);grid-template-columns:1fr}
-@media(min-width:820px){.why-cols{grid-template-columns:1fr 1fr}}
-.why-p{color:#C3B7D4;font-size:clamp(16px,1.6vw,17.5px);line-height:1.62;max-width:46ch}
+@media(min-width:900px){.why-cols{grid-template-columns:1fr 1fr}}
+.why-p{color:#D8CDF0;font-size:clamp(18px,1.6vw,17.5px);line-height:1.62;max-width:46ch}
 
-/* ── extended stay ── */
-.plus-grid{display:grid;gap:clamp(26px,3.4vw,46px);margin-top:clamp(40px,5vw,66px);grid-template-columns:1fr}
-@media(min-width:820px){
-  .plus-grid{grid-template-columns:1fr 1fr;gap:clamp(34px,4vw,64px) clamp(40px,5vw,90px)}
-  .plus-c:nth-child(even){transform:translateY(38px)}
-}
-.plus-c{position:relative;padding-left:clamp(18px,2.2vw,26px)}
-.plus-c::before{
-  content:'';position:absolute;left:0;top:6px;bottom:6px;width:2px;
-  background:linear-gradient(180deg,var(--ember) 0%,rgba(154,111,212,.14) 100%);
-}
-.p-when{font-size:12px;color:var(--flare);letter-spacing:.13em;margin-bottom:14px}
-.p-ttl{font-family:'Unbounded',sans-serif;font-size:clamp(23px,2.9vw,33px);line-height:1.1;letter-spacing:-.012em}
-.p-txt{color:#C3B7D4;font-size:15.5px;margin-top:13px;line-height:1.5;max-width:44ch}
-.p-tag{font-size:13px;color:var(--smoke);margin-top:12px}
-.plus-note{
-  margin-top:clamp(46px,5.4vw,78px);padding-top:24px;
-  border-top:1px solid var(--line);
-  color:var(--smoke);font-size:15px;max-width:56ch;
-}
+/* ── extended stay — строки «когда / что», всё по одной сетке ── */
+.plus-grid{margin-top:clamp(34px,4.4vw,54px);border-top:1px solid var(--line)}
+.plus-c{display:grid;grid-template-columns:minmax(0,250px) minmax(0,1fr);gap:10px clamp(24px,4vw,56px);
+  padding:clamp(24px,3vw,32px) 0;border-bottom:1px solid var(--line);align-items:start}
+@media(max-width:767px){.plus-c{grid-template-columns:1fr;gap:8px}}
+.p-when{grid-column:1;font-family:'Unbounded','Manrope',sans-serif;font-size:18px;font-weight:700;color:var(--flare);letter-spacing:.04em;text-transform:uppercase;margin:0;padding-top:8px;overflow-wrap:anywhere;line-height:1.3}
+@media(min-width:768px){.p-when{grid-row:1 / span 3}}
+.p-ttl{grid-column:2;font-family:'Unbounded',sans-serif;font-size:clamp(21px,2.4vw,28px);line-height:1.12;letter-spacing:-.012em}
+@media(min-width:768px){.p-ttl{grid-row:1}}
+.p-txt{grid-column:2;color:#D8CDF0;font-size:18px;margin-top:6px;line-height:1.55;max-width:72ch}
+@media(min-width:768px){.p-txt{grid-row:2}}
+.p-tag{grid-column:2;font-size:18px;color:var(--smoke);margin-top:8px}
+@media(min-width:768px){.p-tag{grid-row:3}}
+@media(max-width:767px){.p-when,.p-ttl,.p-txt,.p-tag{grid-column:1}}
+.plus-note{margin-top:clamp(30px,3.4vw,44px);color:var(--smoke);font-size:18px;max-width:66ch;line-height:1.55}
 
 /* ── organizer ── */
-#org{background:var(--ink-2)}
+#org{background:linear-gradient(172deg,#1A0A31 0%,#130722 58%,#180A2C 100%)}
 .org-grid{display:grid;gap:clamp(28px,4vw,58px);grid-template-columns:1fr;align-items:center}
-@media(min-width:860px){.org-grid{grid-template-columns:.8fr 1.2fr}}
+@media(min-width:900px){.org-grid{grid-template-columns:.8fr 1.2fr}}
 .org-ph{
   aspect-ratio:4/5;background:linear-gradient(160deg,var(--ink-3),var(--ink));
   border:1px solid var(--line);display:flex;align-items:flex-end;padding:24px;
   clip-path:polygon(0 0,100% 0,100% calc(100% - 26px),calc(100% - 26px) 100%,0 100%);
 }
-.org-ph span{font-size:13px;color:#8B7CA6;line-height:1.5}
-.org-q{font-family:'Unbounded',sans-serif;font-size:clamp(21px,2.8vw,31px);line-height:1.32;letter-spacing:-.01em}
-.org-role{color:var(--flare);font-size:13.5px;letter-spacing:.1em;margin-bottom:20px}
-.org-txt{color:#C3B7D4;margin-top:22px;font-size:16px;max-width:50ch}
+.org-ph span{font-size:18px;color:#A493C9;line-height:1.5}
+.org-q{font-family:'Unbounded',sans-serif;font-size:clamp(20px,2.5vw,28px);line-height:1.32;letter-spacing:-.01em}
+.org-role{color:var(--flare);font-size:18px;letter-spacing:.1em;margin-bottom:20px}
+.org-txt{color:#D8CDF0;margin-top:22px;font-size:18px;max-width:50ch}
 .org-cred{margin-top:24px;display:grid;gap:8px}
-.org-cred div{font-size:14.5px;color:var(--smoke)}
+.org-cred div{font-size:18px;color:var(--smoke)}
 .org-cred b{color:var(--bone);font-weight:600}
 
 /* ── close ── */
-#go{padding-bottom:clamp(40px,6vw,72px)}
-.go-h{font-size:clamp(32px,6.4vw,80px);line-height:.98;letter-spacing:-.025em;max-width:14ch}
-.go-h em{font-style:italic;color:var(--ember)}
+#go{padding-bottom:clamp(40px,6vw,72px);background:linear-gradient(180deg,#2A1049 0%,#1C0B36 62%,#160828 100%)}
+.go-h{font-size:clamp(30px,5.4vw,68px);line-height:1;letter-spacing:-.025em;max-width:14ch}
+.go-h .acc{color:var(--ember)}
 .acts{display:flex;flex-wrap:wrap;gap:14px;margin-top:clamp(30px,4vw,46px)}
+@media(max-width:539px){.acts{display:grid;grid-template-columns:1fr}.act{width:100%}}
 .act{
   display:inline-flex;align-items:center;gap:12px;
-  padding:17px 26px;text-decoration:none;font-size:15.5px;
-  background:var(--flare);color:var(--ink);
-  clip-path:polygon(0 0,100% 0,100% calc(100% - 13px),calc(100% - 13px) 100%,0 100%);
+  min-height:50px;padding:14px 26px;text-decoration:none;font-size:18px;
+  background:#F26A2B;color:#fff;font-weight:700;
+  border-radius:999px;
   transition:background .28s;
 }
-.act:hover{background:var(--bone)}
+.act:hover{background:#FF8542}
 .act svg{transition:transform .32s cubic-bezier(.2,.7,.3,1)}
 .act:hover svg{transform:translate(3px,-3px)}
 .act.two{background:transparent;color:var(--bone);box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}
 .act.two:hover{background:rgba(255,255,255,.07);color:var(--bone)}
-.promo{margin-top:24px;font-size:14.5px;color:var(--smoke)}
-.promo b{color:var(--flare);font-weight:600;letter-spacing:.08em}
+.promo{margin-top:24px;font-size:18px;color:var(--smoke)}
+.promo b{color:var(--bone);font-weight:600;letter-spacing:.08em}
 
 /* ── footer ── */
-footer{padding:clamp(50px,7vw,80px) var(--gut) 0;border-top:1px solid var(--line);overflow:hidden}
-.f-top{max-width:1180px;margin:0 auto;display:grid;gap:26px;grid-template-columns:1fr}
-@media(min-width:740px){.f-top{grid-template-columns:1fr auto;align-items:end}}
-.f-txt{font-size:14px;color:var(--smoke);max-width:44ch;line-height:1.6}
-.f-lk{display:flex;gap:22px;flex-wrap:wrap}
-.f-lk a{color:var(--smoke);font-size:14px;text-decoration:none;transition:color .25s}
-.f-lk a:hover{color:var(--flare)}
+
 .wordmark{
-  max-width:1180px;margin:clamp(36px,5vw,60px) auto -1.2%;
+  max-width:var(--fp-col);margin:clamp(36px,5vw,60px) auto -1.2%;
   display:block;width:100%;height:auto;
 }
 .wordmark text{
@@ -266,31 +262,46 @@ footer{padding:clamp(50px,7vw,80px) var(--gut) 0;border-top:1px solid var(--line
   font-size:150px;letter-spacing:.055em;
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+/* ── ПРАВИЛА ВЕТКИ: акцентная типографика от 18px, кнопки от 50px ── */
+.r-hint,.d-date,.d-tag,.p-when,.sub{font-size:18px}
+.act,.go-b{min-height:50px;display:inline-flex;align-items:center;justify-content:center}
+/* длинные названия поездок не режем на две строки */
+.fp-foot__nav{grid-template-columns:minmax(0,1fr)!important;gap:2px!important}
 </style>
+<link rel="stylesheet" href="../site/chrome.css">
+<link rel="stylesheet" href="../site/layout-rules.css">
+<script src="../site/chrome.js" defer></script>
 </head>
 <body>
 <div class="wrap">
 
-<nav>
-  <a href="../trips.html" style="font-weight:600">← Frankenplatz</a>
-  <span class="nav-mark">FIRE <em>×</em> MEGACAMPUS</span>
-  <a href="#bowl" class="nav-hide">Тарифы</a>
-  <a href="#prog" class="nav-hide">Программа</a>
-  <a href="#speakers" class="nav-hide">Спикеры</a>
-  <a href="#plus" class="nav-hide">Поездка</a>
-  <a href="#go" class="nav-go">Участвовать</a>
-</nav>
+<!-- canonical header — держать синхронно с site/chrome.html -->
+<header class="fp-top">
+  <a class="fp-top__logo" href="../index.html">Frankenplatz.ch</a>
+  <nav class="fp-top__nav">
+    <a class="fp-top__link" href="../index.html">Форум в Baden</a>
+    <a class="fp-top__link" href="tony-robbins.html">Тони Роббинс · Кёльн</a>
+    <a class="fp-top__link fp-top__link--active" href="megacampus.html" aria-current="page">MEGACAMPUS · Дубай</a>
+  </nav>
+  <button class="fp-top__burger" aria-label="Открыть меню" aria-expanded="false">☰</button>
+  <div class="fp-top__menu">
+    <a class="fp-top__link" href="../index.html">Форум в Baden</a>
+    <a class="fp-top__link" href="tony-robbins.html">Тони Роббинс · Кёльн</a>
+    <a class="fp-top__link fp-top__link--active" href="megacampus.html" aria-current="page">MEGACAMPUS · Дубай</a>
+  </div>
+</header>
 
-<header>
+<header class="mc-hero">
+  <div class="mc-skyline"></div>
   <div class="hero-in">
     <div class="datemark">18–21 НОЯБРЯ 2026 &nbsp;<span>/ COCA-COLA ARENA, ДУБАЙ</span></div>
-    <h1>Четыре дня<br>в центре<br><em>мирового</em> зала</h1>
+    <h1>Четыре дня<br>в центре<br><span class="acc">мирового</span> зала</h1>
   </div>
   <div class="hero-in hero-foot">
-    <p class="lede">Крупнейшее в мире интеллектуальное событие для предпринимателей, внесённое в <b>Книгу рекордов Гиннесса</b>. Сюда приезжают не за пошаговой инструкцией, а за <b>другим масштабом мышления</b> — и уезжают с планом, которого до этого не было.</p>
+    <p class="lede">Крупнейшее в мире интеллектуальное событие для предпринимателей, внесённое в <b>Книгу рекордов Гиннесса</b>. Приезжают не за инструкцией, а за <b>другим масштабом мышления</b> — и уезжают с планом, которого не было.</p>
     <div class="figs">
       <div class="fig"><div class="n">102</div><div class="l">страны мира</div></div>
-      <div class="fig"><div class="n">45%</div><div class="l">участников — владельцы компаний</div></div>
+      <div class="fig"><div class="n">45%</div><div class="l">владельцы компаний</div></div>
       <div class="fig"><div class="n">16</div><div class="l">мировых спикеров</div></div>
     </div>
   </div>
@@ -301,7 +312,7 @@ footer{padding:clamp(50px,7vw,80px) var(--gut) 0;border-top:1px solid var(--line
 <!-- ── WHY ── -->
 <section id="why">
   <div class="inner why-in">
-    <h2>Четыре дня, после которых <em>меняется масштаб</em></h2>
+    <h2>Четыре дня, после которых <span class="acc">меняется масштаб</span></h2>
     <div class="why-cols">
       <p class="why-p">В зале на 17 тысяч мест почти половина — владельцы компаний из 102 стран. Разговор в очереди за кофе здесь стоит дороже иного консалтинга: рядом стоят те, кто уже прошёл этап, на котором ты застрял.</p>
       <p class="why-p">Это не формат «бери и делай». Это событие про смыслы, энергию и снятие потолка — про то, как перестать считать свой бизнес маленьким. Одни увозят отсюда план масштабирования, другие — идею, которая до этого даже не приходила в голову.</p>
@@ -314,51 +325,29 @@ footer{padding:clamp(50px,7vw,80px) var(--gut) 0;border-top:1px solid var(--line
 <!-- ── SIGNATURE: the arena bowl ── -->
 <section id="bowl">
   <div class="inner">
-    <h2>Выбираешь не билет,<br>а <em>место в зале</em></h2>
+    <h2>Выбираешь не билет,<br>а <span class="acc">место в зале</span></h2>
     <p class="sub">Членство на год: доступ к платформе, закрытым чатам и записям — плюс сам саммит. Нажми на сектор, чтобы посмотреть, что входит.</p>
 
     <div class="arena-grid">
       <div class="arena-stage" id="stage">
-        <svg viewBox="130 42 260 348" role="img" aria-label="Схема зала Coca-Cola Arena по тарифам">
+        <svg viewBox="0 0 520 372" role="img" aria-label="Схема зала Coca-Cola Arena по тарифам">
           <defs>
-            <linearGradient id="gStage" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#E6B450"/><stop offset="100%" stop-color="#B98BFF"/>
+            <linearGradient id="gStage" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#F26A2B"/><stop offset="100%" stop-color="#FF8542"/>
             </linearGradient>
           </defs>
-
-          <!-- Standard: outermost ring -->
-          <g class="tier-band" data-t="standard">
-            <path d="M146.0 58.0 H374.0 A158.0 158.0 0 0 1 374.0 374.0 H146.0 A158.0 158.0 0 0 1 146.0 58.0 Z M156.0 92.0 H364.0 A124.0 124.0 0 0 1 364.0 340.0 H156.0 A124.0 124.0 0 0 1 156.0 92.0 Z"
-                  fill="#211736" fill-rule="evenodd" stroke="#9A8BB3" stroke-width="1" stroke-opacity=".26"/>
-          </g>
-          <!-- Business -->
-          <g class="tier-band" data-t="business">
-            <path d="M156.0 92.0 H364.0 A124.0 124.0 0 0 1 364.0 340.0 H156.0 A124.0 124.0 0 0 1 156.0 92.0 Z M168.0 124.0 H352.0 A92.0 92.0 0 0 1 352.0 308.0 H168.0 A92.0 92.0 0 0 1 168.0 124.0 Z"
-                  fill="#2A1D42" fill-rule="evenodd" stroke="#9A8BB3" stroke-width="1" stroke-opacity=".34"/>
-          </g>
-          <!-- VIP -->
-          <g class="tier-band" data-t="vip">
-            <path d="M168.0 124.0 H352.0 A92.0 92.0 0 0 1 352.0 308.0 H168.0 A92.0 92.0 0 0 1 168.0 124.0 Z M182.0 154.0 H338.0 A62.0 62.0 0 0 1 338.0 278.0 H182.0 A62.0 62.0 0 0 1 182.0 154.0 Z"
-                  fill="#33254E" fill-rule="evenodd" stroke="#B98BFF" stroke-width="1" stroke-opacity=".5"/>
-          </g>
-          <!-- Platinum: closest to the stage -->
-          <g class="tier-band" data-t="platinum">
-            <path d="M182.0 154.0 H338.0 A62.0 62.0 0 0 1 338.0 278.0 H182.0 A62.0 62.0 0 0 1 182.0 154.0 Z"
-                  fill="#3D2B5E" stroke="#E6B450" stroke-width="1.1" stroke-opacity=".55"/>
-          </g>
-
-          <!-- stage (decorative: must never intercept a click meant for a ring) -->
+          <g class="tier-band" data-t="standard"><path d="M10 114 A104 104 0 0 1 114 10 H406 A104 104 0 0 1 510 114 V246 A104 104 0 0 1 406 350 H114 A104 104 0 0 1 10 246 Z M46 132 A88 88 0 0 1 134 44 H386 A88 88 0 0 1 474 132 V228 A88 88 0 0 1 386 316 H134 A88 88 0 0 1 46 228 Z" fill-rule="evenodd" fill="#2A1049" stroke="#B2A3D2" stroke-width="1" stroke-opacity=".28"/></g>
+          <g class="tier-band" data-t="business"><path d="M46 132 A88 88 0 0 1 134 44 H386 A88 88 0 0 1 474 132 V228 A88 88 0 0 1 386 316 H134 A88 88 0 0 1 46 228 Z M86 150 A72 72 0 0 1 158 78 H362 A72 72 0 0 1 434 150 V210 A72 72 0 0 1 362 282 H158 A72 72 0 0 1 86 210 Z" fill-rule="evenodd" fill="#331457" stroke="#B2A3D2" stroke-width="1" stroke-opacity=".34"/></g>
+          <g class="tier-band" data-t="vip"><path d="M86 150 A72 72 0 0 1 158 78 H362 A72 72 0 0 1 434 150 V210 A72 72 0 0 1 362 282 H158 A72 72 0 0 1 86 210 Z M128 168 A56 56 0 0 1 184 112 H336 A56 56 0 0 1 392 168 V192 A56 56 0 0 1 336 248 H184 A56 56 0 0 1 128 192 Z" fill-rule="evenodd" fill="#3E1A68" stroke="#5A2E93" stroke-width="1" stroke-opacity=".6"/></g>
+          <g class="tier-band" data-t="platinum"><path d="M128 168 A56 56 0 0 1 184 112 H336 A56 56 0 0 1 392 168 V192 A56 56 0 0 1 336 248 H184 A56 56 0 0 1 128 192 Z" fill="#4B2480" stroke="#F26A2B" stroke-width="1.2" stroke-opacity=".6"/></g>
           <g style="pointer-events:none">
-            <rect x="204" y="198" width="112" height="36" rx="2" fill="url(#gStage)"/>
-            <text x="260" y="216" text-anchor="middle" dominant-baseline="central"
-                  font-family="Manrope,sans-serif" font-size="12" letter-spacing="1.6" fill="#2A1A05">СЦЕНА</text>
+            <rect x="212" y="158" width="96" height="34" rx="4" fill="url(#gStage)"/>
+            <text x="260" y="176" text-anchor="middle" dominant-baseline="central" font-family="Manrope,sans-serif" font-weight="700" font-size="18" letter-spacing="1.6" fill="#FFFFFF">СЦЕНА</text>
           </g>
-
-          <!-- labels, centred in the gap between each ring's inner and outer radius -->
-          <text class="tier-lbl" x="260" y="247" text-anchor="middle" dominant-baseline="central">PLATINUM</text>
-          <text class="tier-lbl" x="260" y="293" text-anchor="middle" dominant-baseline="central">VIP</text>
-          <text class="tier-lbl dim" x="260" y="324" text-anchor="middle" dominant-baseline="central">BUSINESS</text>
-          <text class="tier-lbl dim" x="260" y="357" text-anchor="middle" dominant-baseline="central">STANDARD</text>
+          <text class="tier-lbl" x="260" y="222" text-anchor="middle" dominant-baseline="central">PLATINUM</text>
+          <text class="tier-lbl" x="260" y="266" text-anchor="middle" dominant-baseline="central">VIP</text>
+          <text class="tier-lbl dim" x="260" y="300" text-anchor="middle" dominant-baseline="central">BUSINESS</text>
+          <text class="tier-lbl dim" x="260" y="334" text-anchor="middle" dominant-baseline="central">STANDARD</text>
         </svg>
       </div>
 
@@ -372,7 +361,7 @@ footer{padding:clamp(50px,7vw,80px) var(--gut) 0;border-top:1px solid var(--line
 <!-- ── PROGRAMME ── -->
 <section id="prog">
   <div class="inner">
-    <h2>Программа <em>четырёх</em> дней</h2>
+    <h2>Программа <span class="acc">четырёх</span> дней</h2>
     <p class="sub">Порядок выступлений организаторы не раскрывают заранее — расписание появится ближе к саммиту. Старт программы каждый день в 10:00, обеденный перерыв 1,5 часа.</p>
     <div class="days">
       <div class="day">
@@ -415,7 +404,7 @@ footer{padding:clamp(50px,7vw,80px) var(--gut) 0;border-top:1px solid var(--line
 <section id="speakers">
   <div class="inner">
     <h2>Кто на сцене</h2>
-    <p class="sub">Все, кто перечислен, уже подтверждены организаторами. Список будет пополняться вплоть до самого саммита.</p>
+    <p class="sub">Все, кто перечислен, уже подтверждены организаторами.<br>Список будет пополняться вплоть до самого саммита.</p>
     <div class="spk">
       <div class="spk-row">
         <div class="s-name">Джеймс Кэмерон</div>
@@ -458,7 +447,7 @@ footer{padding:clamp(50px,7vw,80px) var(--gut) 0;border-top:1px solid var(--line
         <div class="s-fact">Рекорд Гиннесса 2024</div>
       </div>
     </div>
-    <p class="spk-more">Заявлено 10 мировых спикеров и ещё 6 — имена раскроют ближе к событию. По опыту прошлого года: после анонса первого спикера цены заметно растут.</p>
+    <p class="spk-more">Заявлено 10 мировых спикеров и ещё 6 — имена раскроют ближе к событию.<br>По опыту прошлого года: после анонса первого спикера цены заметно растут.</p>
   </div>
 </section>
 
@@ -467,7 +456,7 @@ footer{padding:clamp(50px,7vw,80px) var(--gut) 0;border-top:1px solid var(--line
 <!-- ── LOGISTICS ── -->
 <section>
   <div class="inner">
-    <h2>Как <em>доехать</em> и где жить</h2>
+    <h2>Как <span class="acc">доехать</span> и где жить</h2>
     <p class="sub">Площадка — Coca-Cola Arena в районе City Walk. Рядом Downtown Dubai, Business Bay, Jumeirah и Al Wasl: пешком или короткое такси.</p>
     <div class="log">
       <div class="log-c">
@@ -499,7 +488,7 @@ footer{padding:clamp(50px,7vw,80px) var(--gut) 0;border-top:1px solid var(--line
 <!-- ── EXTENDED STAY ── -->
 <section id="plus">
   <div class="inner">
-    <h2>Часть группы прилетает <em>на два дня раньше</em></h2>
+    <h2>Часть группы прилетает <span class="acc">на два дня раньше</span></h2>
     <p class="sub">16 и 17 ноября — до того, как начнётся саммит. Дубай в эти дни работает на тебя: искусство, город, съёмка и стол, за которым знакомятся по-настоящему. Присоединиться можно к любому дню.</p>
 
     <div class="plus-grid">
@@ -536,10 +525,10 @@ footer{padding:clamp(50px,7vw,80px) var(--gut) 0;border-top:1px solid var(--line
     <div style="display:flex;flex-direction:column;gap:14px;justify-content:center">
       <a href="https://www.instagram.com/reel/DbGZBpuK1xb/" target="_blank" rel="noopener" style="display:flex;flex-direction:column;gap:10px;justify-content:center;align-items:center;text-align:center;aspect-ratio:4/5;background:linear-gradient(160deg,var(--ink-3),var(--ink));border:1px solid var(--line);text-decoration:none;clip-path:polygon(0 0,100% 0,100% calc(100% - 26px),calc(100% - 26px) 100%,0 100%)">
         <span style="font-size:44px">▶</span>
-        <span style="font-family:'Unbounded',sans-serif;font-size:15px;color:var(--bone);max-width:20ch;line-height:1.4">Как это было на MOTO-ZÜRICH — смотри reel</span>
-        <span style="font-size:12px;color:var(--smoke)">Instagram · 1 мин</span>
+        <span style="font-family:'Unbounded',sans-serif;font-size:18px;color:var(--bone);max-width:20ch;line-height:1.4">Как это было на MOTO-ZÜRICH — смотри reel</span>
+        <span style="font-size:18px;color:var(--smoke)">Instagram · 1 мин</span>
       </a>
-      <a href="https://chudina.me/proekty" target="_blank" rel="noopener" style="display:inline-flex;justify-content:center;align-items:center;gap:10px;padding:15px 22px;font-size:14px;font-weight:600;color:var(--ink);background:var(--flare);text-decoration:none;clip-path:polygon(0 0,100% 0,100% calc(100% - 11px),calc(100% - 11px) 100%,0 100%)">Больше о Ксении и её проектах →</a>
+      <a href="https://chudina.me/proekty" target="_blank" rel="noopener" style="display:inline-flex;justify-content:center;align-items:center;gap:10px;padding:15px 22px;font-size:18px;font-weight:600;color:var(--ink);background:var(--flare);text-decoration:none;clip-path:polygon(0 0,100% 0,100% calc(100% - 11px),calc(100% - 11px) 100%,0 100%)">Больше о Ксении и её проектах →</a>
     </div>
     <div>
       <div class="org-role">ОРГАНИЗАТОР ПО ШВЕЙЦАРИИ И ЕВРОПЕ</div>
@@ -559,7 +548,7 @@ footer{padding:clamp(50px,7vw,80px) var(--gut) 0;border-top:1px solid var(--line
 <!-- ── CLOSE ── -->
 <section id="go">
   <div class="inner">
-    <h2 class="go-h">Место в зале<br>берут <em>заранее</em></h2>
+    <h2 class="go-h">Место в зале<br>берут <span class="acc">заранее</span></h2>
     <div class="acts">
       <a class="act" href="https://summit.megacampus.ru/dubai26/?roistat=partners_FIRE&utm_source=partners&utm_medium=refferal&utm_campaign=FIRE&promo=FIRE&partner=FIRE" target="_blank" rel="noopener">
         Оплата в рублях
@@ -578,19 +567,38 @@ footer{padding:clamp(50px,7vw,80px) var(--gut) 0;border-top:1px solid var(--line
   </div>
 </section>
 
-<footer>
-  <div class="f-top">
-    <p class="f-txt">Страница поездки от <a href="../index.html" style="color:var(--flare)">Frankenplatz</a> — партнёра MEGACAMPUS. Организатор саммита — ООО «Мегакампус». Тарифы оформляются как годовое членство на платформе Megacampus; очное участие входит в выбранную категорию.</p>
-    <div class="f-lk">
-      <a href="#bowl">Тарифы</a>
-      <a href="#prog">Программа</a>
-      <a href="#speakers">Спикеры</a>
-      <a href="https://t.me/+iWYDmTHIhsAxYjIy" target="_blank" rel="noopener">Telegram</a>
+<!-- canonical footer — держать синхронно с site/chrome.html -->
+<footer class="fp-foot">
+  <div class="fp-foot__grid">
+    <div><p class="fp-foot__name"><a href="../index.html">Frankenplatz.ch</a></p></div>
+    <nav>
+      <p class="fp-foot__h">Страницы</p>
+      <div class="fp-foot__nav">
+        <a href="../index.html">Форум в Baden</a>
+        <a href="tony-robbins.html">Тони Роббинс · Кёльн</a>
+        <a href="megacampus.html">MEGACAMPUS · Дубай</a>
+      </div>
+    </nav>
+    <div>
+      <p class="fp-foot__h">Соцсети</p>
+      <div class="fp-foot__soc">
+        <a href="https://www.instagram.com/frankenplatz.ch/" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+    <div>
+      <p class="fp-foot__h">Новости форума</p>
+      <form class="fp-foot__form">
+        <input class="fp-foot__input" type="email" required placeholder="Твой e-mail" aria-label="E-mail">
+        <button class="fp-foot__send" type="submit">Подписаться</button>
+      </form>
+      <p class="fp-foot__note">Никакого спама — только программа и спикеры.</p>
     </div>
   </div>
-  <svg class="wordmark" viewBox="-4 -6 1150 176" preserveAspectRatio="xMidYMax meet" aria-hidden="true">
-    <text x="0" y="132">MEGACAMPUS</text>
-  </svg>
+  <div class="fp-foot__bottom">
+    <span>© 2026 Frankenplatz.ch · Форум о деньгах в Швейцарии · 24–25.10.2026 · Baden <svg class="fp-flag" viewBox="0 0 32 32" role="img" aria-label="Швейцария"><rect width="32" height="32" fill="#FF0000"></rect><rect x="13" y="6" width="6" height="20" fill="#FFFFFF"></rect><rect x="6" y="13" width="20" height="6" fill="#FFFFFF"></rect></svg> · 15 мин от Zürich HB</span>
+    <span class="fp-foot__legal"><a href="../legal.html#impressum">Impressum</a> · <a href="../legal.html#agb">AGB</a> · <a href="../legal.html#datenschutz">Datenschutz</a></span>
+    <span><a href="https://www.instagram.com/frankenplatz.ch/" target="_blank" rel="noopener">@frankenplatz.ch</a></span>
+  </div>
 </footer>
 
 </div>

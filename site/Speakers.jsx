@@ -5,14 +5,17 @@ const {
   TopBar, Footer, Button, Badge, Eyebrow,
   SpeakerCard, ReliefBand,
 } = window.FrankenplatzDesignSystem_144b92;
+
+/* Флаг Швейцарии вместо эмодзи — вектор, одинаковый во всех системах. */
+function SwissFlag() {
+  return (
+    <svg className="fp-flag" viewBox="0 0 32 32" role="img" aria-label="Швейцария"><rect width="32" height="32" fill="#FF0000"></rect><rect x="13" y="6" width="6" height="20" fill="#FFFFFF"></rect><rect x="6" y="13" width="20" height="6" fill="#FFFFFF"></rect></svg>
+  );
+}
+
 const { SpeakerRows } = window.FPSpeakerBits;
 
-const SP_NAV = [
-  { label: "Для участников", href: "index.html" },
-  { label: "Что даём", href: "#how" },
-  { label: "Два дня", href: "#days" },
-  { label: "Подать заявку", href: "anketa.html", cta: true },
-];
+const SP_NAV = window.FP_NAV("speakers");
 
 const GIVE = [
   { badge: "Дорога", icon: "horn", title: "Отель и дорога — за наш счёт", body: "Спикерам из других стран оплачиваем отель и расходы на дорогу. Пока без бизнес-класса — но со всей заботой." },
@@ -232,11 +235,11 @@ function Speakers() {
           <h2>В красивой стране<br />— красиво жить</h2>
           <p className="lead">Красиво жить получается, только когда денег достаточно — и когда нет тех самых страхов про них. Поэтому у Frankenplatz большая миссия: прикладное финансовое просвещение для русскоязычных в Швейцарии. Не «успешный успех», а реальные знания.</p>
           <div className="sp-org__card">
-            <div className="sp-org__photo sp-org__photo--real"><img src="site/img/moto-event.jpg" alt="Ксения — организатор форума" /></div>
+            <div className="sp-org__photo sp-org__photo--real"><img src="site/img/moto-event.jpg" width="1280" height="855" loading="lazy" alt="Ксения — организатор форума" /></div>
             <div className="sp-org__body">
               <Eyebrow>Организатор форума</Eyebrow>
               <h3 className="sp-org__name">Ксения Чудина</h3>
-              <p className="lead">Я не первый год собираю людей и события. Один из последних кейсов — <a className="grad-link" href="https://motozuerich.ch/" target="_blank" rel="noopener">MOTO-ZÜRICH</a>: событие, которое мы с мужем сделали вдвоём, условно с нуля за полгода — <strong>22 000 человек</strong> в феврале 2026-го. Frankenplatz собираю с тем же подходом: серьёзно, по делу, до мелочей. Другие проекты — на <a className="grad-link" href="https://chudina.me/proekty" target="_blank" rel="noopener">chudina.me</a>.</p>
+              <p className="lead">Я не первый год собираю людей и события.<br />Один из последних кейсов — <a className="grad-link" href="https://motozuerich.ch/" target="_blank" rel="noopener">MOTO-ZÜRICH</a>: событие, которое мы с мужем сделали вдвоём, условно с нуля за полгода — <strong>22 000 человек</strong> в феврале 2026-го. Frankenplatz собираю с тем же подходом: серьёзно, по делу, до мелочей.<br />Другие проекты — на <a className="grad-link" href="https://chudina.me/proekty" target="_blank" rel="noopener">chudina.me</a>.</p>
               <p className="sp-org__why"><span className="sp-org__why-t">Почему это важно тебе:</span> за форумом — человек с опытом крупных мероприятий, а не любительский энтузиазм. Организация, площадка, продакшн, продвижение — всё на уровне. Ты выходишь на подготовленную сцену и к собранной аудитории.</p>
             </div>
           </div>
@@ -323,18 +326,14 @@ function Speakers() {
         <div className="inner">
           <ReliefBand variant="final"
             eyebrow={<Eyebrow center>Спикерам · Frankenplatz 2026</Eyebrow>}
-            title="Есть тема для нас? Herzlich willkommen!"
+            title={<>Есть тема для нас?<br />Herzlich willkommen!</>}
             action={<Button variant="gold" href="anketa.html">Заполнить анкету спикера</Button>}>
-            <p className="fp-band__body">Расскажи подробнее — да-да, прямо сразу подробно: о себе, теме и удобных тайм-слотах. Анкета уже открыта. Дата: 24–25 октября 2026 · Baden 🇨🇭 · 15 мин от Zürich HB.</p>
+            <p className="fp-band__body">Расскажи подробнее — да-да, прямо сразу подробно: о себе, теме и удобных тайм-слотах. Анкета уже открыта. Дата: 24–25 октября 2026 · Baden <SwissFlag /> · 15 мин от Zürich HB.</p>
           </ReliefBand>
         </div>
       </section>
 
-      <Footer links={[
-        { label: "Для участников", href: "index.html" },
-        { label: "День №1", href: "day1.html" },
-        { label: "День №2", href: "day2.html" },
-      ]} />
+      <Footer />
     </div>
   );
 }

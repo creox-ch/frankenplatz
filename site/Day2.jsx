@@ -5,14 +5,7 @@ const {
 } = window.FrankenplatzDesignSystem_144b92;
 const { SpeakerRows, FlipCard } = window.FPSpeakerBits;
 
-const D2_NAV = [
-  { label: "На главную", href: "index.html" },
-  { label: "Программа", href: "index.html#program" },
-  { label: "День №1", href: "day1.html" },
-  { label: "День №2", href: "day2.html", active: true },
-  { label: "Другие форумы", href: "trips.html" },
-  { label: "Записаться", href: "index.html#reg", cta: true },
-];
+const D2_NAV = window.FP_NAV("day2");
 
 function Topic({ badge, title, body, example }) {
   return (
@@ -204,11 +197,32 @@ function Day2() {
         </div>
       </header>
 
+      {/* ТЕМЫ ДНЯ */}
+      <section id="topics">
+        <div className="inner">
+          <Eyebrow>Темы дня</Eyebrow>
+          <h2>LvL UP: <span className="hl">следующий уровень</span> —<br />для тех, кто готов расти дальше</h2>
+          <p className="lead">Десять тем Дня №2. Деньги, которые уже есть, начинают работать — портфель, недвижимость, бизнес и личный бренд.</p>
+          <ul className="dprog">
+            <li><span className="dprog__n">01</span>Деньги лежат на счету и тают? Портфельное инвестирование в Швейцарии</li>
+            <li><span className="dprog__n">02</span>Недвижимость: где и какая недвижимость — актив. ROI и сделки</li>
+            <li><span className="dprog__n">03</span>Неочевидные инвестиции</li>
+            <li><span className="dprog__n">04</span>Клиенты не приходят сами: маркетинг, PR и развитие бизнеса</li>
+            <li><span className="dprog__n">05</span>Тебя никто не знает — личный бренд и нетворкинг («витамин B»)</li>
+            <li><span className="dprog__n">06</span>Партнёрства: как не потерять деньги и дружбу</li>
+            <li><span className="dprog__n">07</span>Масштабирование и налоговое планирование</li>
+            <li><span className="dprog__n">08</span>Финансовая стратегия: как из отдельных решений собирается система</li>
+            <li><span className="dprog__n">09</span>Откуда и сколько денег нужно на бизнес в Швейцарии</li>
+            <li><span className="dprog__n">10</span>Бизнес-стратегии и жизнь: как расти, не выгорая</li>
+          </ul>
+        </div>
+      </section>
+
       {/* ЧАСТЬ 1 · ИНВЕСТИЦИИ */}
       <section id="invest">
         <div className="inner">
           <Eyebrow>Часть 1 · Инвестиции</Eyebrow>
-          <h2>Когда база есть — встаёт вопрос «куда расти»</h2>
+          <h2>Когда база есть — встаёт вопрос<br />«куда расти»</h2>
           <p className="lead">Подушка собрана, страхи позади.<br />Четыре инструмента на одной карте: чем выше риск, тем выше потенциальная доходность.</p>
           <RiskReturnMatrix />
           <p className="rrm__cap"><span className="rrm__cap-lead">Инвестиции — это когда работают деньги.</span> А бизнес — когда работаешь ты, работают деньги и работает система. Вторая половина дня — про то, как построить своё дело, а не просто вложить.</p>
@@ -251,13 +265,13 @@ function Day2() {
           <p className="lead">Небольшие карточки: фото, кто это и о чём доклад. Состав пополняется.</p>
           <div className="spk-desk">
             <div className="grid gauto" style={{ marginTop: 26 }}>
-              {window.FP_SPEAKERS.filter((s) => s.day === 2).map((s) => (
-                <FlipCard key={s.id} s={s} />
+              {window.FP_SPEAKERS.filter((s) => window.FP_IN_DAY(s, 2)).map((s) => (
+                <FlipCard key={s.id} s={s} day={2} />
               ))}
             </div>
           </div>
           <div className="spk-mob">
-            <SpeakerRows speakers={window.FP_SPEAKERS.filter((s) => s.day === 2)} />
+            <SpeakerRows speakers={window.FP_SPEAKERS.filter((s) => window.FP_IN_DAY(s, 2))} day={2} showDay />
           </div>
         </div>
       </section>
@@ -279,19 +293,17 @@ function Day2() {
       {/* FINAL */}
       <section id="reg" className="center gridbg">
         <div className="inner">
-          <ReliefBand variant="final"
+          <ReliefBand variant="final" className="band-shot"
             eyebrow={<Eyebrow center>День №2 · Frankenplatz 2026</Eyebrow>}
-            title="Расти дальше — осознанно"
-            action={<Button variant="gold" href="index.html#reg">Забронировать место</Button>}>
+            title={<>Расти дальше<br />— осознанно</>}
+            action={<div className="band-cows band-cows--slot"><image-slot id="day2-final-shot" shape="rounded" radius="18" placeholder="Картинка для Дня №2 — перетащи сюда"></image-slot></div>}>
             <p className="fp-band__body">День 2 для тех, кто готов к следующему уровню. Оставь заявку — первым придёт программа, цены и материалы.</p>
+            <Button variant="gold" href="index.html#reg">Забронировать место</Button>
           </ReliefBand>
         </div>
       </section>
 
-      <Footer links={[
-        { label: "На главную", href: "index.html" },
-        { label: "День №1", href: "day1.html" },
-      ]} />
+      <Footer />
     </div>
   );
 }

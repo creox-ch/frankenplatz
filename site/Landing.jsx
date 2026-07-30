@@ -7,6 +7,30 @@ const {
 } = window.FrankenplatzDesignSystem_144b92;
 const { SpeakerRows, SpeakerDayBlock, SpeakerStrip } = window.FPSpeakerBits;
 
+/* Флаг Швейцарии вместо эмодзи: вектор, поэтому резкий на любом кегле
+   и одинаковый во всех системах (эмодзи каждая ОС рисует по-своему). */
+/* Подменяет маркер-эмодзи в готовой строке на нарисованный флаг —
+   нужно там, где строку разбирает код (tag у DayCard) и её нельзя порвать. */
+function flagify(t) {
+  if (typeof t !== "string" || t.indexOf("🇨🇭") < 0) return t;
+  const out = [];
+  t.split("🇨🇭").forEach((p, i) => {
+    if (i) out.push(<SwissFlag key={"f" + i} />);
+    if (p) out.push(<span key={"t" + i}>{p}</span>);
+  });
+  return out;
+}
+
+function SwissFlag() {
+  return (
+    <svg className="fp-flag" viewBox="0 0 32 32" role="img" aria-label="Швейцария">
+      <rect width="32" height="32" fill="#FF0000"></rect>
+      <rect x="13" y="6" width="6" height="20" fill="#FFFFFF"></rect>
+      <rect x="6" y="13" width="20" height="6" fill="#FFFFFF"></rect>
+    </svg>
+  );
+}
+
 function DayCard({ tag, title, sub, items, href, label, d2 }) {
   return (
     <Card fill="glass" tone={d2 ? "lila" : "gold"} className={"day " + (d2 ? "day--d2" : "day--d1")}>
@@ -161,7 +185,7 @@ function Countdown() {
     <a className="cd-tix" href="#reg" ref={rootRef}>
       <span className="cd-tix__top">
         <span className="cd-tix__brand">Frankenplatz ’26</span>
-        <span className="cd-tix__loc">Baden 🇨🇭</span>
+        <span className="cd-tix__loc">Baden <SwissFlag /></span>
       </span>
       <span className="cd-tix__cap">До форума осталось</span>
       <span className="cd-tiles">
@@ -223,35 +247,26 @@ function Landing() {
       <div className="fp-glow fp-glow--violet"></div>
       <div className="fp-glow fp-glow--amber"></div>
 
-      <TopBar links={[
-        { label: "Программа", href: "#program" },
-        { label: "Спикеры", href: "#lineup" },
-        { label: "День №1", href: "day1.html" },
-        { label: "День №2", href: "day2.html" },
-        { label: "Маркет", href: "brand-market.html" },
-        { label: "Сотрудничество", href: "collaboration.html" },
-        { label: "Другие форумы", href: "trips.html" },
-        { label: "Записаться", href: "#reg", cta: true },
-      ]} />
+      <TopBar links={window.FP_NAV("index")} />
 
       {/* HERO */}
       <header className="hero gridbg">
         <div className="inner hero-split">
           <div>
             <div style={{ display: "flex", justifyContent: "flex-start", marginBottom: 8 }}>
-              <Badge variant="lila" dot>24–25 октября 2026 · Baden 🇨🇭 · 15 мин от Zürich HB</Badge>
+              <Badge variant="lila" dot><span><span className="fp-nb">24–25 октября 2026</span> · <span className="fp-nb">Baden <SwissFlag /></span> · <span className="fp-nb">15 мин от Zürich HB</span></span></Badge>
             </div>
-            <h1>Где деньги<br />в Швейцарии<br />— <span className="hl">как их найти и не потерять</span></h1>
+            <h1>Самый большой<br />русскоязычный форум<br />о деньгах <span className="hl">в Швейцарии</span></h1>
+            <p className="hero-sub2">Где деньги в Швейцарии — как их найти и не потерять</p>
             <p className="sub">Одна из самых богатых стран мира — а ощущения богатства нет? Два дня среди своих, чтобы увидеть всю карту: пенсия, налоги, инвестиции, бизнес, недвижимость, защита семьи.</p>
             <div style={{ marginTop: 28 }}>
               <Button variant="gold" href="#reg">Забронировать место</Button>
             </div>
-            <p className="hero-mini">Самый большой русскоязычный форум о деньгах в Швейцарии</p>
           </div>
         </div>
         <div className="inner">
           <div className="hero-figure">
-            <img className="hero-cows" src="site/img/cows-porsche.jpg" alt="" aria-hidden="true" />
+            <img className="hero-cows" src="site/img/cows-porsche-road.png" width="1672" height="941" alt="" aria-hidden="true" />
             <Countdown />
           </div>
         </div>
@@ -263,14 +278,14 @@ function Landing() {
       <section id="program" className="gridbg">
         <div className="inner">
           <Eyebrow>Программа</Eyebrow>
-          <h2>Два дня — полное погружение в структуру и возможности швейцарских финансов</h2>
+          <h2>Два дня — <span className="hl">полное погружение</span> в структуру и возможности швейцарских финансов</h2>
           <div className="grid g2">
             <DayCard tag="День №1 · база 🇨🇭" title="База 🇨🇭 финансов"
-              sub="С которой стоит начать каждому в Швейцарии." href="day1.html" label="Смотреть темы Дня 1"
-              items={["Работа: что тебе должны по контракту — и о каких пособиях ты не знаешь", "Куда каждый месяц утекают деньги семьи — и как это перекрыть", "Пенсия AHV / BVG / 3a: сколько тебе реально светит (спойлер: меньше)", "Налоги, страховки, ипотека: где ты переплачиваешь прямо сейчас", "Самозанятость и ферайны: как начать и не налететь на штрафы", "Любовь и деньги: что будет с твоим при браке и разводе", "Из точки 0 — в масштаб на всю страну"]} />
+              sub="С которой стоит начать каждому в Швейцарии." href="day1.html" label="Смотреть темы Дня № 1"
+              items={["Работа: поиск, условия и типы контрактов в Швейцарии — и о каких пособиях ты не знаешь", "Семейный бюджет: как он устроен — и как может быть устроен ещё", "Пенсия AHV / BVG / 3a: сколько тебе реально светит (спойлер: меньше)", "Налоги, страховки, ипотека: где ты переплачиваешь прямо сейчас", "Самозанятость и ферайны: как начать и не налететь на штрафы", "Любовь и деньги: что будет с твоим при браке и разводе", "Неочевидные источники дохода и с чего начать свой бизнес"]} />
             <DayCard d2 tag="День №2 · LvL UP" title="LvL UP: следующий уровень"
-              sub="Для тех, кто готов расти дальше." href="day2.html" label="Смотреть темы Дня 2"
-              items={["Деньги лежат на счету и тают? Портфельное инвестирование в Швейцарии", "Недвижимость как актив — а не вечный платёж банку", "Крипто, P2P, REIT: альтернативы без казино", "Клиенты не приходят сами: маркетинг, PR и развитие бизнеса", "Тебя никто не знает — личный бренд и нетворкинг («витамин B»)", "Партнёрства: как не потерять деньги и дружбу", "Масштабирование и налоговое планирование"]} />
+              sub="Для тех, кто готов расти дальше." href="day2.html" label="Смотреть темы Дня № 2"
+              items={["Деньги лежат на счету и тают? Портфельное инвестирование в Швейцарии", "Недвижимость: где и какая недвижимость — актив. ROI и сделки", "Неочевидные инвестиции", "Клиенты не приходят сами: маркетинг, PR и развитие бизнеса", "Тебя никто не знает — личный бренд и нетворкинг («витамин B»)", "Партнёрства: как не потерять деньги и дружбу", "Масштабирование и налоговое планирование", "Финансовая стратегия: как из отдельных решений собирается система", "Откуда и сколько денег нужно на бизнес в Швейцарии", "Бизнес-стратегии и жизнь: как расти, не выгорая"]} />
           </div>
         </div>
       </section>
@@ -289,9 +304,14 @@ function Landing() {
             <Card tone="gold" num="05" title="Нужные контакты"><strong>Реальные имена специалистов</strong>, проверенных другими — к кому идти осознанно.</Card>
             <Card tone="gold" num="06" title="Спокойствие">Понимание, что <strong>используешь то, что положено</strong>, и защищаешь то, что есть.</Card>
           </div>
-          <div className="cta-mid">
-            <p className="cta-mid__note"><b>Ранняя регистрация уже открыта.</b> Цена ниже, а программа, цены и отчёты по калькуляторам придут тебе первыми.</p>
-            <Button variant="gold" href="#reg">Забронировать место</Button>
+          <div style={{ marginTop: 34 }}>
+            <ReliefBand variant="final" className="band-cow band-cow--mid"
+              eyebrow={<Eyebrow center><span><span className="fp-nb">24–25 октября 2026</span> · <span className="fp-nb">Baden <SwissFlag /></span> · <span className="fp-nb">15 мин от Zürich HB</span></span></Eyebrow>}
+              title="Приходи стать богаче"
+              action={<span className="band-cow__slot"><img className="band-cow__img" src="site/img/cow-money-wall-2.png" loading="lazy" alt="" aria-hidden="true" /></span>}>
+              <p className="fp-band__body"><strong>Ранняя регистрация уже открыта.</strong> Цена ниже, а программа, цены и отчёты придут тебе первыми. А ещё мы подготовили <a href="#calc">калькуляторы</a> — можно начать прямо сейчас, не дожидаясь форума.</p>
+              <Button variant="gold" href="#reg">Забронировать место</Button>
+            </ReliefBand>
           </div>
         </div>
       </section>
@@ -324,12 +344,25 @@ function Landing() {
           <h2>Спикеры форума —<br /><span className="hl">люди, у которых получилось</span></h2>
           <p className="lead">Не теоретики со слайдами, а свои люди с результатом: свой портфель, свой бизнес, свой пройденный путь. Каждый выходит на сцену с одной целью — <strong>чтобы получилось и у тебя</strong>.</p>
           <SpeakerStrip />
-          <p className="spk-note">Состав пополняется каждую неделю. Темы по дням: <a href="day1.html">День 1</a> · <a href="day2.html">День 2</a>.</p>
+          <p className="spk-note">Состав пополняется каждую неделю.<br />Темы по дням: <a href="day1.html">День №1</a> · <a href="day2.html">День №2</a>.</p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 22 }}>
             <Button variant="gold" href="#reg">Получить полную программу</Button>
             <Button variant="ghost" href="#reg">Забронировать место</Button>
+            <Button variant="ghost" href="anketa.html">Предложить спикера</Button>
             <SpeakBox />
             <SponsorBox />
+          </div>
+        </div>
+      </section>
+
+      {/* КОРОВЫ */}
+      <section id="cows">
+        <div className="inner">
+          <Eyebrow>Символ</Eyebrow>
+          <h2>Лучшая жизнь в Швейцарии —<br /><span className="hl">у коровы</span>. Поэтому наш символ именно она</h2>
+          <p className="lead">Зонт от солнца, музыка в коровнике, массажная щётка. И доплата от государства за то, чтобы она жила дольше.</p>
+          <div style={{ marginTop: 28 }}>
+            <Button variant="gold" href="cows.html">Знать почему →</Button>
           </div>
         </div>
       </section>
@@ -356,21 +389,11 @@ function Landing() {
       <section id="calc">
         <div className="inner">
           <Eyebrow>Можно начать прямо сейчас</Eyebrow>
-          <h2>5 калькуляторов — уже бесплатны и доступны</h2>
-          <p className="lead">Не жди форума, чтобы понять, где ты сейчас. <strong>Персональный отчёт откроется после регистрации.</strong></p>
-          <div className="grid g3">
-            {CALCS.map((c, i) => (
-              <Card key={i} fill="lila" tone="lila" icon={c.icon} title={c.title} className="calc-card"
-                free={<Badge variant="green">Бесплатно</Badge>}>
-                {c.body}
-                <div style={{ marginTop: 18 }}>
-                  <Button variant="ghost" size="sm" href={c.href}>Сделать расчёт →</Button>
-                </div>
-                <CalcDeco kind={c.kind} />
-              </Card>
-            ))}
+          <h2>Швейцарию нельзя<br />посчитать <span className="hl">на глаз</span></h2>
+          <p className="lead">Одиннадцать калькуляторов про деньги здесь: налоги по коммунам, ипотека, пенсия, бюджет, GmbH. <strong>Пять уже открыты</strong> и считают твой случай, а не среднее по стране.</p>
+          <div style={{ margin: "22px 0 6px" }}>
+            <Button variant="gold" href="calculators/index.html">Открыть калькуляторы →</Button>
           </div>
-          <div className="calcnote">🔓 Калькуляторы готовы и доступны уже сейчас. Это подарок организаторов ТЕБЕ.</div>
         </div>
       </section>
 
@@ -386,34 +409,6 @@ function Landing() {
               <div className="svoi-fact"><h3 className="svoi-fact__t">язык</h3><p className="svoi-fact__d">По-русски и по-человечески, без перевода швейцарских терминов в голове.</p></div>
               <div className="svoi-fact"><h3 className="svoi-fact__t">путь</h3><p className="svoi-fact__d">Все прошли одну дорогу эмигранта — понимают с полуслова.</p></div>
               <div className="svoi-fact"><h3 className="svoi-fact__t">ценности</h3><p className="svoi-fact__d">Здесь делятся опытом, а не продают курсы. И общаются после форума.</p></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ЛОКАЦИЯ */}
-      <section id="location" className="gridbg">
-        <div className="inner">
-          <Eyebrow>Локация</Eyebrow>
-          <h2>Konnex, Baden —<br /><span className="hl">15 минут от Zürich HB</span></h2>
-          <div className="loc">
-            <div className="loc__venue">
-              <span className="loc__k">Площадка</span>
-              <h3>Konnex</h3>
-              <p className="loc__addr">Brown Boveri Str. 7<br />5401 Baden, Schweiz</p>
-              <div className="loc__links">
-                <Button variant="ghost" size="sm" href="https://www.google.com/maps/place/Konnex,+Brown+Boveri+Str.+7,+5401+Baden/@47.4800649,8.3018096,17z" target="_blank" rel="noopener">Открыть в Google Maps →</Button>
-                <Button variant="ghost" size="sm" href="https://konnex-baden.ch/" target="_blank" rel="noopener">Сайт площадки →</Button>
-                <Button variant="ghost" size="sm" href="https://maps.app.goo.gl/UW1a2ksJDnnUB54Q8" target="_blank" rel="noopener">Парковка на карте →</Button>
-              </div>
-            </div>
-            <div className="loc__times">
-              <div className="loc__row"><span className="loc__place">Вокзал Baden</span><span className="loc__chips"><span className="loc__chip">пешком 5’</span></span></div>
-              <div className="loc__row"><span className="loc__place">Парковка</span><span className="loc__chips"><span className="loc__chip">пешком 10’</span></span></div>
-              <div className="loc__row"><span className="loc__place">Zürich HB</span><span className="loc__chips"><span className="loc__chip">поезд 15’</span><span className="loc__chip">авто 30’</span></span></div>
-              <div className="loc__row"><span className="loc__place">Аэропорт Цюриха</span><span className="loc__chips"><span className="loc__chip">поезд 35’</span><span className="loc__chip">авто 20’</span></span></div>
-              <div className="loc__row"><span className="loc__place">Zug</span><span className="loc__chips"><span className="loc__chip">поезд 50’</span><span className="loc__chip">авто 40’</span></span></div>
-              <div className="loc__row"><span className="loc__place">Basel</span><span className="loc__chips"><span className="loc__chip">поезд 55’</span><span className="loc__chip">авто 55’</span></span></div>
             </div>
           </div>
         </div>
@@ -436,20 +431,46 @@ function Landing() {
       {/* ОФФЕР */}
       <section id="reg" className="center gridbg">
         <div className="inner">
-          <ReliefBand variant="final"
-            eyebrow={<Eyebrow center>24–25 октября 2026 · Baden 🇨🇭 · 15 мин от Zürich HB</Eyebrow>}
+          <ReliefBand variant="final" className="band-cow" style={{height:500}}
+            eyebrow={<Eyebrow center><span><span className="fp-nb">24–25 октября 2026</span> · <span className="fp-nb">Baden <SwissFlag /></span> · <span className="fp-nb">15 мин от Zürich HB</span></span></Eyebrow>}
             title="Приходи стать богаче"
-            action={<Button variant="gold" href="#reg">Забронировать место</Button>}>
+            action={<span className="band-cow__slot"><img className="band-cow__img" src="site/img/cow-money-wall-2.png" loading="lazy" alt="" aria-hidden="true" /></span>}>
             <p className="fp-band__body">Знать направление — уже половина успеха. Зайди в раннюю регистрацию — программа, цены и отчёты придут первыми.</p>
+            <Button variant="gold" href="#reg">Забронировать место</Button>
           </ReliefBand>
         </div>
       </section>
 
-      <Footer links={[
-        { label: "День №1", href: "day1.html" },
-        { label: "День №2", href: "day2.html" },
-        { label: "Калькуляторы", href: "calculators/index.html" },
-      ]} />
+      {/* ЛОКАЦИЯ */}
+      <section id="location" className="gridbg">
+        <div className="inner">
+          <Eyebrow>Локация</Eyebrow>
+          <h2>Konnex, Baden —<br /><span className="hl">15 минут от Zürich HB</span></h2>
+          <div className="loc">
+            <div className="loc__venue">
+              <span className="loc__k">Площадка</span>
+              <h3>Konnex</h3>
+              <p className="loc__addr">Brown Boveri Str. 7<br />5400 Baden, Schweiz</p>
+              <div className="loc__links">
+                <Button variant="ghost" size="sm" href="https://www.google.com/maps/search/?api=1&query=Konnex%2C+Brown+Boveri+Strasse+7%2C+5400+Baden" target="_blank" rel="noopener">Открыть в Google Maps →</Button>
+                <Button variant="ghost" size="sm" href="https://konnex-baden.ch/" target="_blank" rel="noopener">Сайт площадки →</Button>
+                <Button variant="ghost" size="sm" href="https://www.google.com/maps/search/?api=1&query=Parkhaus+Trafo+Baden" target="_blank" rel="noopener">Парковка Trafo на карте →</Button>
+              </div>
+              <iframe className="loc__map" title="Konnex, Brown Boveri Strasse 7, Baden — карта" loading="lazy" referrerPolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Konnex%2C%20Brown%20Boveri%20Strasse%207%2C%205400%20Baden%2C%20Schweiz&z=16&hl=ru&output=embed"></iframe>
+            </div>
+          </div>
+          <div className="loc__times">
+              <div className="loc__row"><span className="loc__place">Вокзал Baden</span><span className="loc__chips"><span className="loc__chip">пешком 5’</span></span></div>
+              <div className="loc__row"><span className="loc__place">Парковка</span><span className="loc__chips"><span className="loc__chip">пешком 10’</span></span></div>
+              <div className="loc__row"><span className="loc__place">Zürich HB</span><span className="loc__chips"><span className="loc__chip">поезд 15’</span><span className="loc__chip">авто 30’</span></span></div>
+              <div className="loc__row"><span className="loc__place">Аэропорт Цюриха</span><span className="loc__chips"><span className="loc__chip">поезд 35’</span><span className="loc__chip">авто 20’</span></span></div>
+              <div className="loc__row"><span className="loc__place">Zug</span><span className="loc__chips"><span className="loc__chip">поезд 50’</span><span className="loc__chip">авто 40’</span></span></div>
+              <div className="loc__row"><span className="loc__place">Basel</span><span className="loc__chips"><span className="loc__chip">поезд 55’</span><span className="loc__chip">авто 55’</span></span></div>
+            </div>
+        </div>
+      </section>
+
+      <Footer />
 
       <CalcModal calc={calc} onClose={() => setCalc(null)} />
     </div>

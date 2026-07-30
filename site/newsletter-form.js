@@ -19,7 +19,7 @@
   var STYLE_ID = 'fp-nl-style';
 
   var CSS = [
-    '.fp-nl-note{font-size:11.5px;line-height:1.45;color:var(--muted-2,#9A8BB3);margin-top:8px;max-width:420px}',
+    '.fp-nl-note{font-size:11.5px;line-height:1.45;color:var(--muted-2,#9A8BB3);margin-top:16px;max-width:420px}',
     '.fp-nl-note a{color:var(--lila-bright,#B98BFF)}',
     '.fp-nl-msg{font-size:12.5px;line-height:1.45;margin-top:8px}',
     '.fp-nl-msg.ok{color:var(--green,#8BE59B)}',
@@ -59,7 +59,7 @@
     var note = document.createElement('p');
     note.className = 'fp-nl-note';
     note.innerHTML = 'Нажимая «Подписаться», ты соглашаешься на обработку e-mail для писем форума. ' +
-      'Отписаться можно в любой момент. <a href="legal.html#datenschutz">Политика конфиденциальности</a>.';
+      'Отписаться можно в любой момент.<br><a href="legal.html#datenschutz">Политика конфиденциальности</a>.';
     form.parentNode.insertBefore(note, form.nextSibling);
 
     var msg = document.createElement('p');

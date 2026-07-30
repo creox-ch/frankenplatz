@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Калькулятор налогов в Швейцарии по кантонам — сколько остаётся после вычетов.">
 <title>Frankenplatz · Steuervergleich Schweiz</title>
 <style>
   @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap");
@@ -42,8 +43,9 @@
   select option{background:#1C1029; color:var(--ink);}
   select{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' stroke='%23C3B7D4' stroke-width='1.6' fill='none'/></svg>"); background-repeat:no-repeat; background-position:right 12px center;}
   input[type=range]{width:100%; accent-color:var(--amber);}
+  img,video,iframe{max-width:100%;height:auto}
   .seg{display:flex; gap:8px; flex-wrap:wrap;}
-  .seg button{flex:1; min-width:90px; padding:10px 8px; border:1px solid var(--line); background:rgba(255,255,255,.05); border-radius:11px; font-size:13px; font-weight:700; color:var(--ink); cursor:pointer; font-family:inherit;}
+  .seg button{flex:1; min-width:90px; min-height:44px; padding:10px 8px; border:1px solid var(--line); background:rgba(255,255,255,.05); border-radius:11px; font-size:13px; font-weight:700; color:var(--ink); cursor:pointer; font-family:inherit;}
   .seg button.on{background:rgba(230,180,80,.16); border-color:var(--gold); color:var(--gold-bright);}
   .addrow{display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap;}
   .addrow > div{flex:1; min-width:150px;}
@@ -110,10 +112,21 @@
     .cta h3{font-size:22px}
     .cta p{font-size:15.5px}
   }
+/* узкие экраны: плашки навигации не наезжают */
+@media(max-width:430px){
+  a[href="index.html"][style*="position:fixed"],a[href="../index.html"][style*="position:fixed"]{font-size:13px!important;padding:0 10px!important;gap:5px!important}
+  a[href="index.html"][style*="position:fixed"]{left:12px!important}
+  a[href="../index.html"][style*="position:fixed"]{right:12px!important}
+}
+@media(max-width:360px){
+  a[href="../index.html"][style*="position:fixed"]{font-size:0!important;padding:0 12px!important;min-width:44px!important;justify-content:center!important}
+  a[href="../index.html"][style*="position:fixed"]::after{content:"→";font-size:17px}
+}
 </style>
 </head>
 <body>
 <a href="index.html" style="position:fixed;top:18px;left:22px;z-index:50;display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:#C3B7D4;text-decoration:none;background:rgba(20,10,31,.55);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:8px 16px;backdrop-filter:blur(8px);white-space:nowrap" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#C3B7D4'">← Все калькуляторы</a>
+<a href="../index.html" style="position:fixed;top:18px;right:22px;z-index:50;display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 14px;font-size:15px;font-weight:700;color:#C3B7D4;text-decoration:none;background:rgba(20,10,31,.72);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-radius:999px;white-space:nowrap">Frankenplatz.ch →</a>
 <div class="backdrop"></div>
 <div class="pattern"></div>
 <div class="orb v"></div>

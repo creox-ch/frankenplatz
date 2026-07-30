@@ -3,19 +3,21 @@
    и кнопка «Подробнее», раскрывающая полное название доклада и описание.
    Экспорт: window.FPSpeakerBits.SpeakerRows. Данные: site/speakers-data.js. */
 (() => {
-  function Row({ s, showDay }) {
+  function Row({ s, showDay, day }) {
+    const theDay = day || (s.days && s.days[0]) || s.day;
+    const dayTopic = (s.dayTopics && s.dayTopics[theDay]) || s.short || s.topic;
     return (
       <div className="spk-row" role="listitem">
         <span className={"spk-row__ph spk-row__ph--" + (s.tone || "gold")} aria-hidden="true">
-          {s.img ? <img src={s.img} alt="" /> : s.ini}
+          {s.img ? <img src={s.img} loading="lazy" alt="" /> : s.ini}
         </span>
         <span className="spk-row__who">
           <span className="spk-row__name">{s.name}</span>
           <span className="spk-row__role">{s.role}</span>
-          {showDay ? <span className="spk-row__day">День {s.day} · {s.theme}</span> : null}
-          <span className="spk-row__topic">{s.short || s.topic}</span>
+          {showDay ? <span className="spk-row__day">День {theDay} · {s.theme}</span> : null}
+          <span className="spk-row__topic">{dayTopic}</span>
         </span>
-        <p className="spk-row__about">{s.about}{s.link ? <a href={s.link} target="_blank" rel="noopener" style={{ marginLeft: 6 }}>{s.linkLabel || "Ссылка"}</a> : null}</p>
+        <p className="spk-row__about">{s.about}{s.topics && s.topics.length ? <a href={"speaker.html?id=" + encodeURIComponent(s.id)} style={{ marginLeft: 6 }}>Подробнее о спикере →</a> : (s.link ? <a href={s.link} target="_blank" rel="noopener" style={{ marginLeft: 6 }}>{s.linkLabel || "Ссылка"}</a> : null)}</p>
       </div>
     );
   }
@@ -41,23 +43,35 @@
     </ul>
   );
 }
-function FlipCard({ s }) {
+function FlipCard({ s, day }) {
+    const theDay = day || (s.days && s.days[0]) || s.day;
+    const dayTopic = (s.dayTopics && s.dayTopics[theDay]) || s.short;
     const [on, setOn] = React.useState(false);
+    const hasDetail = !!(s.topics && s.topics.length);
     return (
-      <div className={"fsc" + (on ? " is-flip" : "")} onClick={() => setOn(!on)} role="button" tabIndex={0} aria-label={s.name + " — досье спикера"}>
+      <div className={"fsc" + (hasDetail ? "" : " fsc--tba") + (on && hasDetail ? " is-flip" : "")}
+        onClick={hasDetail ? () => setOn(!on) : undefined}
+        role={hasDetail ? "button" : undefined}
+        tabIndex={hasDetail ? 0 : undefined}
+        aria-label={hasDetail ? s.name + " — досье спикера" : undefined}>
         <div className="fsc__in">
           <div className="fsc__face fsc__front">
+            {dayTopic ? (
+              <div className="fsc__toplab">
+                <span className="fsc__toplab__day">День {theDay}</span>
+                <span className="fsc__toplab__t">{dayTopic}</span>
+              </div>
+            ) : null}
             <div className={"fsc__photo fsc__photo--" + (s.tone || "gold")}>
-              {s.img ? <img src={s.img} alt={s.name} /> : <span className="fsc__ini" aria-hidden="true">{s.ini}</span>}
+              {s.img ? <img src={s.img} loading="lazy" alt={s.name} /> : <span className="fsc__ini" aria-hidden="true">{s.ini}</span>}
             </div>
-                        <span className="fsc__flip" aria-hidden="true">⟲</span>
-            {s.topics && s.topics.length ? <Topics topics={s.topics} front /> : null}
             <div className="fsc__scrim">
               <h3 className="fsc__name">{s.name}</h3>
               <p className="fsc__role">{s.role}</p>
-              <span className="fsc__hint">Досье спикера</span>
+              <span className="fsc__hint">{hasDetail ? "Наведи — досье спикера" : "Имя объявим скоро"}</span>
             </div>
           </div>
+          {hasDetail ? (
           <div className="fsc__face fsc__back">
             <span className="fsc__eyebrow">Досье спикера</span>
             <h3 className="fsc__name">{s.name}</h3>
@@ -65,19 +79,18 @@ function FlipCard({ s }) {
             {s.dossier && s.dossier.length ? (
               <ul className="fsc__facts">{s.dossier.map((f, i) => <li key={i}>{f}</li>)}</ul>
             ) : null}
-            {s.topics && s.topics.length ? <Topics topics={s.topics} /> : null}
-            {s.about ? <p className="fsc__about">{s.about}</p> : null}
-            {s.link ? <a className="fsc__more" href={s.link} target="_blank" rel="noopener" onClick={(e) => e.stopPropagation()}>{s.linkLabel || "Узнать больше"} →</a> : null}
+            <a className="fsc__more" href={"speaker.html?id=" + encodeURIComponent(s.id)} onClick={(e) => e.stopPropagation()}>Подробнее о спикере →</a>
           </div>
+          ) : null}
         </div>
       </div>
     );
   }
-  function SpeakerRows({ speakers, showDay }) {
+  function SpeakerRows({ speakers, showDay, day }) {
     const list = speakers || window.FP_SPEAKERS || [];
     return (
       <div className="spk-rows" role="list">
-        {list.map((s) => <Row s={s} showDay={showDay} key={s.id} />)}
+        {list.map((s) => <Row s={s} showDay={showDay} day={day} key={s.id} />)}
       </div>
     );
   }
@@ -97,13 +110,13 @@ function FlipCard({ s }) {
         <div className="spk-daysw__panel">
         <div className="spk-desk">
           <div className="grid gauto" style={{ marginTop: 8 }}>
-            {(window.FP_SPEAKERS || []).filter((s) => s.day === day).map((s) => (
-              <FlipCard key={s.id} s={s} />
+            {(window.FP_SPEAKERS || []).filter((s) => window.FP_IN_DAY(s, day)).map((s) => (
+              <FlipCard key={s.id} s={s} day={day} />
             ))}
           </div>
         </div>
         <div className="spk-mob">
-          <SpeakerRows speakers={(window.FP_SPEAKERS || []).filter((s) => s.day === day)} />
+          <SpeakerRows speakers={(window.FP_SPEAKERS || []).filter((s) => window.FP_IN_DAY(s, day))} day={day} showDay />
         </div>
         </div>
       </div>

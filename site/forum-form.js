@@ -64,7 +64,7 @@
   var CSS = [
     '.fp-ff-consent{display:flex;align-items:flex-start;gap:9px;cursor:pointer;font-size:12.5px;',
     'color:var(--muted-2,#9A8BB3);line-height:1.45;margin:4px 0 2px}',
-    '.fp-ff-consent input{accent-color:var(--gold,#E6B450);width:16px;height:16px;margin-top:1px;cursor:pointer;flex:none}',
+    '.fp-ff-consent input{accent-color:var(--gold,#E6B450);width:16px;height:16px;min-height:0;padding:0;margin-top:1px;cursor:pointer;flex:none}',
     '.fp-ff-consent a{color:var(--lila-bright,#B98BFF)}',
     '.fp-ff-msg{font-size:13.5px;line-height:1.5;margin:6px 0 0}',
     '.fp-ff-msg.ok{color:var(--green-text,#8BE59B);font-weight:700}',
@@ -101,7 +101,7 @@
     var consentLabel = document.createElement('label');
     consentLabel.className = 'fp-ff-consent';
     consentLabel.innerHTML =
-      '<input type="checkbox"><span>Согласен(на) на обработку данных заявки. ' +
+      '<input type="checkbox"><span>Согласен(на) на обработку данных заявки.<br>' +
       'Отписаться можно в любой момент. <a href="' + legalHref() + '">Политика конфиденциальности</a>.</span>';
 
     var msg = document.createElement('p');

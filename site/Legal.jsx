@@ -2,12 +2,15 @@
 (() => {
 const { TopBar, Footer, Eyebrow } = window.FrankenplatzDesignSystem_144b92;
 
-const LEGAL_NAV = [
-  { label: "На главную", href: "index.html" },
-  { label: "День №1", href: "day1.html" },
-  { label: "День №2", href: "day2.html" },
-  { label: "Записаться", href: "index.html#reg", cta: true },
-];
+/* Флаг Швейцарии вместо эмодзи — вектор, одинаковый во всех системах. */
+function SwissFlag() {
+  return (
+    <svg className="fp-flag" viewBox="0 0 32 32" role="img" aria-label="Швейцария"><rect width="32" height="32" fill="#FF0000"></rect><rect x="13" y="6" width="6" height="20" fill="#FFFFFF"></rect><rect x="6" y="13" width="20" height="6" fill="#FFFFFF"></rect></svg>
+  );
+}
+
+
+const LEGAL_NAV = window.FP_NAV(null);
 
 function Block({ id, eyebrow, title, children }) {
   return (
@@ -45,7 +48,7 @@ function Legal() {
 
       <Block id="impressum" eyebrow="Impressum" title="Impressum">
         <p className="legal-note" style={{ color: "var(--muted-2)" }}>Angaben gemäss schweizerischem Recht</p>
-        <p><strong>Kseniia Chudina Art + Event</strong><br />Inhaberin: Kseniia Chudina<br />Bäderstrasse 28<br />5400 Baden<br />Schweiz 🇨🇭</p>
+        <p><strong>Kseniia Chudina Art + Event</strong><br />Inhaberin: Kseniia Chudina<br />Bäderstrasse 28<br />5400 Baden<br />Schweiz <SwissFlag /></p>
         <p><strong>Kontakt</strong><br />Website: frankenplatz.ch<br />E-Mail: info@frankenplatz.ch</p>
         <p><strong>Handelsregister</strong><br />Unternehmens-Identifikationsnummer (UID): CHE-202.191.691</p>
       </Block>
@@ -158,11 +161,7 @@ function Legal() {
         </P>
       </Block>
 
-      <Footer links={[
-        { label: "На главную", href: "index.html" },
-        { label: "День №1", href: "day1.html" },
-        { label: "День №2", href: "day2.html" },
-      ]} />
+      <Footer />
     </div>
   );
 }

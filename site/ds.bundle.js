@@ -1158,32 +1158,36 @@ function useFpStyle(id, css) {
 }
 const CSS = `
 .fp-foot{background:#191026;border-top:1px solid var(--line);padding:64px clamp(24px,7vw,80px) 34px;font-size:14px;color:var(--muted-2);text-align:left}
-.fp-foot__grid{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1.1fr .8fr .8fr 1.3fr;gap:44px;align-items:start}
+.fp-foot__grid{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr) minmax(0,.6fr) minmax(0,1.35fr);gap:40px;align-items:start}
 .fp-foot__logo{width:200px;height:88px;border-radius:14px;border:1px dashed var(--line-strong);display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.03);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--muted-2);text-align:center;line-height:1.3}
 .fp-foot__name{font-family:var(--font-display);font-weight:700;font-size:20px;color:#fff;margin:16px 0 8px}
+.fp-foot__name a{min-height:44px;display:inline-flex;align-items:center}
 .fp-foot__tag{font-size:14px;color:var(--muted);line-height:1.6;margin:0;max-width:300px}
 .fp-foot__h{font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--gold);margin:0 0 16px}
-.fp-foot__nav{display:flex;flex-direction:column;gap:11px}
-.fp-foot__nav a{color:var(--muted);text-decoration:none;font-size:15px;width:fit-content}
+.fp-foot__nav{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 44px}
+.fp-foot__nav a{color:var(--muted);text-decoration:none;font-size:15px;width:fit-content;min-height:44px;display:inline-flex;align-items:center}
 .fp-foot__nav a:hover{color:#fff}
-.fp-foot__form{display:flex;gap:8px}
-.fp-foot__input{flex:1;min-width:0;background:rgba(255,255,255,.05);border:1px solid var(--line-strong);border-radius:999px;padding:11px 18px;color:#fff;font-size:14px;font-family:inherit;outline:none}
+@media(hover:hover) and (pointer:fine){.fp-foot__nav a{min-height:26px}}
+.fp-foot__form{display:flex;gap:8px;max-width:440px}
+.fp-foot__input{flex:1;min-width:0;background:rgba(255,255,255,.05);border:1px solid var(--line-strong);border-radius:999px;padding:12px 16px;min-height:44px;color:#fff;font-size:16px;font-family:inherit;outline:none}
 .fp-foot__input::placeholder{color:var(--muted-2)}
 .fp-foot__input:focus{border-color:var(--gold)}
-.fp-foot__send{border:none;border-radius:999px;padding:11px 20px;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;background:var(--grad-gold,linear-gradient(135deg,#f0c268,#d99a3e));color:#1a0f28;white-space:nowrap}
+.fp-foot__send{border:none;border-radius:999px;padding:12px 18px;min-height:44px;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;background:var(--grad-gold,linear-gradient(135deg,#f0c268,#d99a3e));color:#1a0f28;white-space:nowrap}
 .fp-foot__send:hover{filter:brightness(1.08)}
 .fp-foot__done{font-size:14.5px;color:var(--gold);margin:0;line-height:1.5}
 .fp-foot__note{font-size:12.5px;color:var(--muted-2);margin:10px 0 0}
-.fp-foot__soc{display:flex;flex-direction:column;gap:13px}
-.fp-foot__soc a,.fp-foot__soc span{display:inline-flex;align-items:center;gap:10px;color:var(--muted);text-decoration:none;font-size:15px;width:fit-content}
+.fp-foot__soc{display:flex;flex-direction:column;gap:2px}
+.fp-foot__soc a,.fp-foot__soc span{display:inline-flex;align-items:center;min-height:44px;gap:10px;color:var(--muted);text-decoration:none;font-size:15px;width:fit-content}
 .fp-foot__soc a:hover{color:#fff}
+@media(hover:hover) and (pointer:fine){.fp-foot__soc a,.fp-foot__soc span{min-height:26px}}
 .fp-foot__soc svg{flex:0 0 auto;color:var(--gold)}
 .fp-foot__soc .soon{color:var(--muted-2)}
 .fp-foot__soc .soon svg{color:var(--muted-2)}
 .fp-foot__bottom{max-width:1240px;margin:48px auto 0;padding-top:20px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted-2)}
 .fp-foot__bottom a{color:var(--gold);text-decoration:none}
+@media(hover:none) and (pointer:coarse){.fp-foot__bottom a{display:inline-block;padding:7px 0;min-height:34px}}
 .fp-foot__bottom a:hover{text-decoration:underline}
-@media(max-width:860px){.fp-foot__grid{grid-template-columns:1fr;gap:38px}}
+@media(max-width:1000px){.fp-foot__grid{grid-template-columns:minmax(0,1fr);gap:38px}}
 `;
 
 /**
@@ -1191,6 +1195,21 @@ const CSS = `
  * `links`: Array<{ label, href }> — колонка «Страницы» (fallback: полный список).
  * `instagram`: URL или null.
  */
+function __fpSwissFlag() {
+  return React.createElement("svg", { className: "fp-flag", viewBox: "0 0 32 32", role: "img", "aria-label": "Швейцария" },
+    React.createElement("rect", { width: 32, height: 32, fill: "#FF0000" }),
+    React.createElement("rect", { x: 13, y: 6, width: 6, height: 20, fill: "#FFFFFF" }),
+    React.createElement("rect", { x: 6, y: 13, width: 20, height: 6, fill: "#FFFFFF" }));
+}
+function __fpFlagify(t) {
+  if (typeof t !== "string" || t.indexOf("🇨🇭") < 0) return t;
+  const out = [];
+  t.split("🇨🇭").forEach((p, i) => {
+    if (i) out.push(React.createElement(__fpSwissFlag, { key: "f" + i }));
+    if (p) out.push(React.createElement("span", { key: "t" + i }, p));
+  });
+  return out;
+}
 function Footer({
   brandLine = "Форум о деньгах в Швейцарии · 24–25.10.2026 · Baden 🇨🇭 · 15 мин от Zürich HB",
   links = [],
@@ -1204,16 +1223,25 @@ function Footer({
   useFpStyle("fp-foot-css", CSS);
   const [sent, setSent] = React.useState(false);
   const h = React.createElement;
-  const nav = links.length ? links : [
-    { label: "Главная", href: "index.html" },
-    { label: "День №1", href: "day1.html" },
-    { label: "День №2", href: "day2.html" },
-    { label: "Спикерам", href: "speakers.html" },
-  ];
+  /* Футер = ровно то же, что в верхнем меню (site/nav.js), без золотой кнопки.
+     Единственное исключение: на главной добавляется «Калькуляторы». */
+  const onIndex = typeof location !== "undefined" && /(^\/?$|index\.html$)/.test(location.pathname);
+  const fromNav = typeof window !== "undefined" && window.FP_NAV
+    ? window.FP_NAV(null).filter((l) => !l.cta).map((l) => ({ label: l.label, href: l.href }))
+    : [
+        { label: "Программа", href: "index.html#program" },
+        { label: "День №1", href: "day1.html" },
+        { label: "День №2", href: "day2.html" },
+        { label: "Спикерам", href: "speakers.html" },
+        { label: "Маркет", href: "brand-market.html" },
+        { label: "Сотрудничество", href: "collaboration.html" },
+        { label: "Другие форумы", href: "trips.html" },
+      ];
+  const nav = links.length ? links : (onIndex ? fromNav.concat([{ label: "Калькуляторы", href: "calculators/index.html" }]) : fromNav);
   return h("footer", _extends({ className: ["fp-foot", className].filter(Boolean).join(" ") }, rest),
     h("div", { className: "fp-foot__grid" },
       h("div", null,
-                h("p", { className: "fp-foot__name" }, h("a", { href: "speakers.html", style: { color: "inherit", textDecoration: "none" } }, "Frankenplatz.ch"))),
+                h("p", { className: "fp-foot__name" }, h("a", { href: "index.html", style: { color: "inherit", textDecoration: "none" } }, "Frankenplatz.ch"))),
       h("nav", null,
         h("p", { className: "fp-foot__h" }, "Страницы"),
         h("div", { className: "fp-foot__nav" }, nav.map((l, i) => h("a", { key: i, href: l.href }, l.label)))),
@@ -1232,7 +1260,7 @@ function Footer({
               h("button", { className: "fp-foot__send", type: "submit" }, "Подписаться")),
         !sent && h("p", { className: "fp-foot__note" }, "Никакого спама — только программа и спикеры."))),
     h("div", { className: "fp-foot__bottom" },
-      h("span", null, "© 2026 Frankenplatz.ch · ", brandLine), h("span", { className: "fp-foot__legal" }, h("a", { href: "legal.html#impressum" }, "Impressum"), " · ", h("a", { href: "legal.html#agb" }, "AGB"), " · ", h("a", { href: "legal.html#datenschutz" }, "Datenschutz")),
+      h("span", null, "© 2026 Frankenplatz.ch · ", __fpFlagify(brandLine)), h("span", { className: "fp-foot__legal" }, h("a", { href: "legal.html#impressum" }, "Impressum"), " · ", h("a", { href: "legal.html#agb" }, "AGB"), " · ", h("a", { href: "legal.html#datenschutz" }, "Datenschutz")),
       h("span", null, h("a", { href: instagram || "#", target: "_blank", rel: "noopener" }, "@frankenplatz.ch"))));
 }
 
@@ -1252,12 +1280,19 @@ function useFpStyle(id, css) {
 }
 const CSS = `
 .fp-top{position:sticky;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;
-  justify-content:space-between;padding:16px 26px;background:rgba(20,10,31,.6);
+  justify-content:space-between;gap:16px;padding:16px 26px;background:rgba(20,10,31,.6);
   backdrop-filter:blur(var(--blur-nav));border-bottom:1px solid var(--line)}
 .fp-top__logo{font-family:var(--font-display);font-weight:800;font-size:18px;letter-spacing:.01em;color:#fff;
-  display:flex;align-items:center;gap:9px;text-decoration:none}
-.fp-top__nav{display:flex;gap:4px;align-items:center}
-.fp-top__link{font-size:14px;color:var(--muted);text-decoration:none;padding:8px 13px;
+  display:flex;align-items:center;gap:9px;min-height:44px;text-decoration:none}
+.fp-top__nav{display:flex;gap:10px;align-items:center}
+/* логотип: при наведении по надписи пробегает золото-лиловый градиент */
+.fp-top__logo{background-image:none;background-size:220% 100%;background-position:220% 0;-webkit-background-clip:border-box;background-clip:border-box}
+.fp-top__logo:hover,.fp-top__logo:focus-visible{background-image:linear-gradient(100deg,#fff 0%,var(--gold,#E6B450) 28%,var(--lila-bright,#B98BFF) 52%,#fff 78%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
+  animation:fp-logo-sweep 2.8s ease-in-out infinite alternate}
+@keyframes fp-logo-sweep{from{background-position:220% 0}to{background-position:-20% 0}}
+@media(prefers-reduced-motion:reduce){.fp-top__logo:hover,.fp-top__logo:focus-visible{animation:none;background-position:60% 0}}
+.fp-top__link{font-size:16px;color:var(--muted);text-decoration:none;padding:8px 13px;white-space:nowrap;
   border-radius:var(--r-sm);transition:color var(--dur-fast),background var(--dur-fast)}
 .fp-top__link:hover{color:var(--gold-bright)}
 .fp-top__link--active{color:var(--gold);font-weight:var(--fw-bold)}
@@ -1266,7 +1301,7 @@ const CSS = `
 .fp-top__link--cta:hover{transform:translateY(-1px);box-shadow:var(--shadow-gold-sm);color:var(--ink-on-gold)}
 /* mobile menu */
 .fp-top__burger{display:none;background:none;border:none;color:#fff;font-size:22px;line-height:1;
-  cursor:pointer;padding:6px 8px;border-radius:var(--r-sm)}
+  cursor:pointer;padding:6px 8px;min-width:44px;min-height:44px;border-radius:var(--r-sm)}
 .fp-top__burger:hover{background:rgba(255,255,255,.06)}
 .fp-top__menu{position:absolute;top:100%;left:0;right:0;display:none;flex-direction:column;gap:2px;
   padding:8px 16px 16px;background:rgba(20,10,31,.96);backdrop-filter:blur(var(--blur-nav));
@@ -1274,7 +1309,18 @@ const CSS = `
 .fp-top__menu.is-open{display:flex}
 .fp-top__menu .fp-top__link{font-size:16px;padding:13px 12px}
 .fp-top__menu .fp-top__link--cta{text-align:center;margin-top:6px}
-@media (max-width:720px){
+/* мобильное меню — панель справа на всех «бургерных» ширинах */
+.fp-top__menu{left:auto;right:12px;width:min(86vw,340px);margin-top:8px;border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:14px 16px 18px;box-shadow:0 24px 60px rgba(0,0,0,.5)}
+/* выезжает справа, а не появляется рывком */
+.fp-top__menu{display:flex;visibility:hidden;pointer-events:none;opacity:0;transform:translateX(22px);transition:transform .34s cubic-bezier(.2,.75,.2,1),opacity .22s ease,visibility .34s}
+.fp-top__menu.is-open{visibility:visible;pointer-events:auto;opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.fp-top__menu{transition:none}}
+.fp-top__menu-foot{display:flex;flex-direction:column;gap:14px;margin-top:14px;padding-top:16px;border-top:1px solid rgba(255,255,255,.10)}
+.fp-top__menu-ig{align-self:flex-start;width:46px;height:46px;display:grid;place-items:center;border:1px solid rgba(230,180,80,.34);border-radius:50%}
+.fp-top__menu-ig svg{width:22px;height:22px;fill:#E6B450}
+.fp-top__menu-cta{display:flex;align-items:center;justify-content:center;min-height:50px;padding:0 18px;border-radius:999px;background:linear-gradient(135deg,#E6B450,#F5C969);color:#241703;font-weight:800;font-size:16px;text-decoration:none}
+.fp-top__menu-legal{margin:0;font-size:15px;line-height:1.5;color:#9C90AE}
+@media (max-width:1279px){
   .fp-top__nav{display:none}
   .fp-top__burger{display:block}
 }
@@ -1295,6 +1341,7 @@ function TopBar({
 }) {
   useFpStyle("fp-top-css", CSS);
   const [open, setOpen] = React.useState(false);
+  const menuCtaHref = /\/(trips|calculators)\//.test(typeof location === "undefined" ? "" : location.pathname) ? "../index.html#reg" : "index.html#reg";
   const linkEls = links.map((l, i) => /*#__PURE__*/React.createElement("a", {
     key: i,
     className: ["fp-top__link", l.cta ? "fp-top__link--cta" : "", l.active ? "fp-top__link--active" : ""].filter(Boolean).join(" "),
@@ -1318,7 +1365,25 @@ function TopBar({
     onClick: () => setOpen(v => !v)
   }, open ? "✕" : "☰"), /*#__PURE__*/React.createElement("div", {
     className: ["fp-top__menu", open ? "is-open" : ""].filter(Boolean).join(" ")
-  }, linkEls));
+  }, linkEls, /*#__PURE__*/React.createElement("div", {
+    className: "fp-top__menu-foot"
+  }, /*#__PURE__*/React.createElement("a", {
+    className: "fp-top__menu-ig",
+    href: "https://www.instagram.com/frankenplatz.ch/",
+    target: "_blank",
+    rel: "noopener",
+    "aria-label": "Instagram Frankenplatz"
+  }, /*#__PURE__*/React.createElement("svg", {
+    viewBox: "0 0 24 24",
+    "aria-hidden": "true"
+  }, /*#__PURE__*/React.createElement("path", {
+    d: "M12 2.2c3.2 0 3.6 0 4.9.07 1.2.05 1.8.25 2.2.42.6.23 1 .5 1.5.95.45.45.72.9.95 1.5.17.4.37 1 .42 2.2.06 1.3.07 1.7.07 4.9s0 3.6-.07 4.9c-.05 1.2-.25 1.8-.42 2.2-.23.6-.5 1-.95 1.5-.45.45-.9.72-1.5.95-.4.17-1 .37-2.2.42-1.3.06-1.7.07-4.9.07s-3.6 0-4.9-.07c-1.2-.05-1.8-.25-2.2-.42-.6-.23-1-.5-1.5-.95-.45-.45-.72-.9-.95-1.5-.17-.4-.37-1-.42-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.07-4.9c.05-1.2.25-1.8.42-2.2.23-.6.5-1 .95-1.5.45-.45.9-.72 1.5-.95.4-.17 1-.37 2.2-.42C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.1 0-3.5 0-4.8.07-1 .04-1.5.2-1.9.35-.4.15-.7.34-1 .64-.3.3-.5.6-.64 1-.15.4-.3.9-.35 1.9C3.24 9.3 3.2 9.7 3.2 12s0 2.7.07 4c.04 1 .2 1.5.35 1.9.15.4.34.7.64 1 .3.3.6.5 1 .64.4.15.9.3 1.9.35 1.3.06 1.7.07 4.8.07s3.5 0 4.8-.07c1-.04 1.5-.2 1.9-.35.4-.15.7-.34 1-.64.3-.3.5-.6.64-1 .15-.4.3-.9.35-1.9.06-1.3.07-1.7.07-4s0-2.7-.07-4c-.04-1-.2-1.5-.35-1.9a2.7 2.7 0 0 0-.64-1 2.7 2.7 0 0 0-1-.64c-.4-.15-.9-.3-1.9-.35-1.3-.06-1.7-.07-4.8-.07zm0 3.06a4.94 4.94 0 1 1 0 9.88 4.94 4.94 0 0 1 0-9.88zm0 1.8a3.14 3.14 0 1 0 0 6.28 3.14 3.14 0 0 0 0-6.28zm5.1-2.2a1.15 1.15 0 1 1 0 2.3 1.15 1.15 0 0 1 0-2.3z"
+  }))), links.some(l => l.cta) ? null : /*#__PURE__*/React.createElement("a", {
+    className: "fp-top__menu-cta",
+    href: menuCtaHref
+  }, "\u0417\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u0442\u044C\u0441\u044F \u043D\u0430 \u0444\u043E\u0440\u0443\u043C"), /*#__PURE__*/React.createElement("p", {
+    className: "fp-top__menu-legal"
+  }, "Frankenplatz \u00B7 24\u201325.10.2026 \u00B7 Baden", /*#__PURE__*/React.createElement("br", null), "\u00A9 2026 Frankenplatz.ch \u2014 \u0432\u0441\u0435 \u043F\u0440\u0430\u0432\u0430 \u0437\u0430\u0449\u0438\u0449\u0435\u043D\u044B"))));
 }
 Object.assign(__ds_scope, { TopBar });
 })(); } catch (e) { __ds_ns.__errors.push({ path: "components/chrome/TopBar.jsx", error: String((e && e.message) || e) }); }
@@ -1734,11 +1799,11 @@ function Day1Test() {
     className: "fifty__half fifty__half--l"
   }, /*#__PURE__*/React.createElement("b", null, "\xAB\u0424\u044E\u043D\u0444\u0446\u0438\u0433-\u0444\u044E\u043D\u0444\u0446\u0438\u0433\xBB"), /*#__PURE__*/React.createElement("p", null, "\u0420\u0430\u0437\u0434\u0435\u043B\u044C\u043D\u044B\u0435 \u0441\u0447\u0435\u0442\u0430, \u0432\u0441\u0451 \u043F\u043E\u043F\u043E\u043B\u0430\u043C, \u0447\u0451\u0442\u043A\u0438\u0439 \u0443\u0447\u0451\u0442. \u0410 \u0438\u043D\u043E\u0433\u0434\u0430 \u0442\u044B \u0438 \u0441\u0430\u043C\u0430 \u0445\u043E\u0447\u0435\u0448\u044C \u0431\u044B\u0442\u044C \u0444\u0438\u043D\u0430\u043D\u0441\u043E\u0432\u043E \u043D\u0435\u0437\u0430\u0432\u0438\u0441\u0438\u043C\u043E\u0439 \u2014 \u043D\u043E \u043D\u0435 \u0437\u043D\u0430\u0435\u0448\u044C, \u0441 \u0447\u0435\u0433\u043E \u043D\u0430\u0447\u0430\u0442\u044C.")), /*#__PURE__*/React.createElement("svg", {
     className: "fifty__cut",
-    viewBox: "0 0 24 200",
+    viewBox: "0 0 24 176",
     preserveAspectRatio: "none",
     "aria-hidden": "true"
   }, /*#__PURE__*/React.createElement("polyline", {
-    points: "12,0 6,28 18,52 8,84 17,116 6,148 16,176 12,200",
+    points: "12,0 6,28 18,52 8,84 17,116 6,148 12,176",
     pathLength: "300"
   })), /*#__PURE__*/React.createElement("div", {
     className: "fifty__half fifty__half--r"
@@ -3585,69 +3650,7 @@ try { (() => {
   };
 })();
 
-/* ── Переключатель «Участникам | Спикерам» в шапке ──────────────────────
-   Подменяет ссылку «Спикерам» (на страницах участников) или
-   «Для участников» (на странице спикеров) на сегментный переключатель. */
-(function () {
-  var reduceSeg = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  function findTarget(scope) {
-    var sp = null,
-      part = null;
-    scope.querySelectorAll(".fp-top__link").forEach(function (a) {
-      if (a.classList.contains("fp-top__link--cta")) return;
-      var href = a.getAttribute("href") || "";
-      if (/speakers\.html$/.test(href)) sp = a;else if (a.textContent.trim() === "Для участников") part = a;
-    });
-    return {
-      target: sp || part,
-      onSpeakers: !sp
-    };
-  }
-  function makeSeg(onSpeakers) {
-    var seg = document.createElement("div");
-    seg.className = "fp-seg";
-    seg.setAttribute("data-on", onSpeakers ? "1" : "0");
-    function opt(label, href, idx) {
-      var a = document.createElement("a");
-      a.className = "fp-seg__opt";
-      a.href = href;
-      a.textContent = label;
-      a.addEventListener("click", function (e) {
-        if (reduceSeg || seg.getAttribute("data-on") === String(idx)) return;
-        e.preventDefault();
-        seg.setAttribute("data-on", String(idx));
-        setTimeout(function () {
-          /* B1 fix: no hard reload */ void 0;
-        }, 240);
-      });
-      return a;
-    }
-    seg.appendChild(opt("Участникам", "index.html", 0));
-    seg.appendChild(opt("Спикерам", "speakers.html", 1));
-    return seg;
-  }
-  function run() {
-    // десктоп: убрать ссылку из навигации, посадить переключатель перед кнопкой «Записаться»
-    document.querySelectorAll(".fp-top__nav").forEach(function (nav) {
-      if (nav.querySelector(".fp-seg")) return;
-      var f = findTarget(nav);
-      if (!f.target) return;
-      var seg = makeSeg(f.onSpeakers);
-      var cta = nav.querySelector(".fp-top__link--cta");
-      f.target.remove();
-      if (cta) nav.insertBefore(seg, cta);else nav.appendChild(seg);
-    });
-    // мобильное меню: переключатель на месте бывшей ссылки
-    document.querySelectorAll(".fp-top__menu").forEach(function (menu) {
-      if (menu.querySelector(".fp-seg")) return;
-      var f = findTarget(menu);
-      if (f.target) f.target.replaceWith(makeSeg(f.onSpeakers));
-    });
-  }
-  /* роутер пересобирает шапку при навигации — держим живой интервал */
-  setInterval(run, 400);
-  run();
-})();
+/* переключатель «Участникам | Спикерам» убран — в меню обычная ссылка «Спикерам» */
 
 /* ── 50/50 (день 1): скролл «разрезает» карточку ломаной линией ───────── */
 (function () {
@@ -3798,11 +3801,15 @@ try { (() => {
     requestAnimationFrame(step);
   }
   function armCount() {
-    var nums = document.querySelectorAll(".fp-stat__big");
+    /* Тот же счётчик живёт в site/effects.js. Оба скрипта грузятся на странице,
+       поэтому отметка data-counted обязательна: без неё второй проход читает
+       число в середине анимации (напр. «1») и фиксирует его как финальное. */
+    var nums = document.querySelectorAll(".fp-stat__big:not([data-counted])");
     if (!nums.length) return false;
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
         if (en.isIntersecting) {
+          en.target.setAttribute("data-counted", "1");
           countUp(en.target);
           io.unobserve(en.target);
         }
@@ -3811,7 +3818,10 @@ try { (() => {
       threshold: 0.6
     });
     Array.prototype.forEach.call(nums, function (n) {
-      if (n.getBoundingClientRect().top < (window.innerHeight || 800) * 0.85) countUp(n);else io.observe(n);
+      if (n.getBoundingClientRect().top < (window.innerHeight || 800) * 0.85) {
+        n.setAttribute("data-counted", "1");
+        countUp(n);
+      } else io.observe(n);
     });
     return true;
   }
@@ -3863,72 +3873,7 @@ try { (() => {
 
 /* ── 5 · Подсветка активного пункта меню при скролле — убрана по просьбе. ── */
 
-/* ── Переключатель «Участникам | Спикерам» в шапке ──────────────────────
-   Подменяет ссылку «Спикерам» (на страницах участников) или
-   «Для участников» (на странице спикеров) на сегментный переключатель. */
-(function () {
-  var reduceSeg = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  function findTarget(scope) {
-    var sp = null,
-      part = null;
-    scope.querySelectorAll(".fp-top__link").forEach(function (a) {
-      if (a.classList.contains("fp-top__link--cta")) return;
-      var href = a.getAttribute("href") || "";
-      if (/speakers\.html$/.test(href)) sp = a;else if (a.textContent.trim() === "Для участников") part = a;
-    });
-    return {
-      target: sp || part,
-      onSpeakers: !sp
-    };
-  }
-  function makeSeg(onSpeakers) {
-    var seg = document.createElement("div");
-    seg.className = "fp-seg";
-    seg.setAttribute("data-on", onSpeakers ? "1" : "0");
-    function opt(label, href, idx) {
-      var a = document.createElement("a");
-      a.className = "fp-seg__opt";
-      a.href = href;
-      a.textContent = label;
-      a.addEventListener("click", function (e) {
-        if (reduceSeg || seg.getAttribute("data-on") === String(idx)) return;
-        e.preventDefault();
-        seg.setAttribute("data-on", String(idx));
-        setTimeout(function () {
-          /* B1 fix: no hard reload */ void 0;
-        }, 240);
-      });
-      return a;
-    }
-    seg.appendChild(opt("Участникам", "index.html", 0));
-    seg.appendChild(opt("Спикерам", "speakers.html", 1));
-    return seg;
-  }
-  function run() {
-    // десктоп: убрать ссылку из навигации, посадить переключатель перед кнопкой «Записаться»
-    document.querySelectorAll(".fp-top__nav").forEach(function (nav) {
-      if (nav.querySelector(".fp-seg")) return;
-      var f = findTarget(nav);
-      if (!f.target) return;
-      var seg = makeSeg(f.onSpeakers);
-      var cta = nav.querySelector(".fp-top__link--cta");
-      f.target.remove();
-      if (cta) nav.insertBefore(seg, cta);else nav.appendChild(seg);
-    });
-    // мобильное меню: переключатель на месте бывшей ссылки
-    document.querySelectorAll(".fp-top__menu").forEach(function (menu) {
-      if (menu.querySelector(".fp-seg")) return;
-      var f = findTarget(menu);
-      if (f.target) f.target.replaceWith(makeSeg(f.onSpeakers));
-    });
-  }
-  var tries = 0;
-  var iv = setInterval(function () {
-    tries++;
-    run();
-    if (tries > 50) clearInterval(iv);
-  }, 150);
-})();
+/* переключатель «Участникам | Спикерам» убран — в меню обычная ссылка «Спикерам» */
 
 /* ── 50/50 (день 1): скролл «разрезает» карточку ломаной линией ───────── */
 (function () {

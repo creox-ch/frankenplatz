@@ -178,61 +178,19 @@
   };
 })();
 
-/* ── Переключатель «Участникам | Спикерам» в шапке ──────────────────────
-   Подменяет ссылку «Спикерам» (на страницах участников) или
-   «Для участников» (на странице спикеров) на сегментный переключатель. */
+/* Переключатель «Участникам | Спикерам» убран 29.07.2026 — в меню обычная
+   ссылка «Спикерам» (site/nav.js). Чистим остатки, если старая сборка их создала. */
 (function () {
-  var reduceSeg = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  function findTarget(scope) {
-    var sp = null, part = null;
-    scope.querySelectorAll(".fp-top__link").forEach(function (a) {
-      if (a.classList.contains("fp-top__link--cta")) return;
-      var href = a.getAttribute("href") || "";
-      if (/speakers\.html$/.test(href)) sp = a;
-      else if (a.textContent.trim() === "Для участников") part = a;
-    });
-    return { target: sp || part, onSpeakers: !sp };
-  }
-  function makeSeg(onSpeakers) {
-    var seg = document.createElement("div");
-    seg.className = "fp-seg";
-    seg.setAttribute("data-on", onSpeakers ? "1" : "0");
-    function opt(label, href, idx) {
+  function clean() {
+    document.querySelectorAll(".fp-seg").forEach(function (s) {
       var a = document.createElement("a");
-      a.className = "fp-seg__opt";
-      a.href = href; a.textContent = label;
-      a.addEventListener("click", function (e) {
-        if (reduceSeg || seg.getAttribute("data-on") === String(idx)) return;
-        e.preventDefault();
-        seg.setAttribute("data-on", String(idx));
-        setTimeout(function () { /* B1 fix: no hard reload */ void 0; }, 240);
-      });
-      return a;
-    }
-    seg.appendChild(opt("Участникам", "index.html", 0));
-    seg.appendChild(opt("Спикерам", "speakers.html", 1));
-    return seg;
-  }
-  function run() {
-    // десктоп: убрать ссылку из навигации, посадить переключатель перед кнопкой «Записаться»
-    document.querySelectorAll(".fp-top__nav").forEach(function (nav) {
-      if (nav.querySelector(".fp-seg")) return;
-      var f = findTarget(nav);
-      if (!f.target) return;
-      var seg = makeSeg(f.onSpeakers);
-      var cta = nav.querySelector(".fp-top__link--cta");
-      f.target.remove();
-      if (cta) nav.insertBefore(seg, cta); else nav.appendChild(seg);
-    });
-    // мобильное меню: переключатель на месте бывшей ссылки
-    document.querySelectorAll(".fp-top__menu").forEach(function (menu) {
-      if (menu.querySelector(".fp-seg")) return;
-      var f = findTarget(menu);
-      if (f.target) f.target.replaceWith(makeSeg(f.onSpeakers));
+      a.className = "fp-top__link";
+      a.href = "speakers.html";
+      a.textContent = "Спикерам";
+      s.replaceWith(a);
     });
   }
-  /* роутер пересобирает шапку при навигации — держим живой интервал */
-  setInterval(run, 400); run();
+  setInterval(clean, 600); clean();
 })();
 
 /* ── 50/50 (день 1): скролл «разрезает» карточку ломаной линией ───────── */

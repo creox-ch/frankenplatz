@@ -45,6 +45,10 @@ body {
   background: var(--grad-backdrop);
 }
 
+/* Медиа: не вылезать за родителя и не дёргать вёрстку при загрузке */
+img, video { max-width: 100%; height: auto; }
+iframe { max-width: 100%; }
+
 /* Ambient blurred glow orbs */
 .fp-glow {
   position: fixed;
@@ -60,3 +64,10 @@ body {
 @media (prefers-reduced-motion: reduce) {
   * { scroll-behavior: auto !important; }
 }
+
+/* Флаг Швейцарии вместо эмодзи: вектор, поэтому резкий на любом кегле и
+   одинаковый во всех системах. Размер — по кеглю строки, как у символа. */
+.fp-flag{display:inline-block;width:1.05em;height:1.05em;vertical-align:-.16em;flex:none}
+
+/* Неразрывный фрагмент строки: переносим только по разделителям, не внутри */
+.fp-nb{white-space:nowrap}

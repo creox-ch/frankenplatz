@@ -19,10 +19,13 @@ html,body{overflow-x:clip}
 @keyframes fp-drift-b{
   0%{transform:translate(0,0) scale(1)}
   50%{transform:translate(-45vw,-35vh) scale(1.2)}
+/* телефон: пятна не плавают — большой блюр + fixed заметно тормозят прокрутку */
+@media (max-width:767px){.fp-glow--violet,.fp-glow--amber{animation:none!important}.fp-glow{filter:blur(60px)}}
+
   100%{transform:translate(-10vw,-65vh) scale(.9)}
 }
 .kit .inner{max-width:1240px;margin:0 auto;padding:0 26px}
-.kit section{padding:96px 0;position:relative}
+.kit section{padding:64px 0;position:relative}
 .kit h2{font-family:var(--font-display);font-weight:700;font-size:clamp(30px,4.4vw,48px);color:#fff;
   margin:0 0 16px;line-height:1.08;letter-spacing:-.02em}
 .kit .lead{font-size:19px;color:var(--muted);max-width:none;margin:0 0 8px;line-height:1.55}
@@ -45,14 +48,17 @@ html,body{overflow-x:clip}
 .hero h1{font-family:var(--font-display);font-weight:700;font-size:clamp(42px,7.2vw,80px);color:#fff;
   margin:22px 0;letter-spacing:-.03em;line-height:1.04;
   overflow-wrap:normal;word-break:normal;hyphens:none;-webkit-hyphens:none}
-.hero-split h1{font-size:clamp(38px,6.2vw,76px)}
+/* Заголовок главного блока — одна шкала на всех страницах форума и маркета.
+   Раньше сплит-герой главной был на 4px мельче остальных страниц. */
 /* Деление длинного слова по слогам (мягкий перенос) разрешаем ТОЛЬКО ниже 480px.
    Шире 480 — слово переносится целиком (без деления), чтобы не выглядело странно. */
 @media (max-width:480px){
   .hero h1{hyphens:manual;-webkit-hyphens:manual}
 }
 .hero .hl{background:var(--grad-gold-lila);-webkit-background-clip:text;background-clip:text;color:transparent}
-.hero .sub{font-size:20px;color:var(--muted);max-width:800px;margin:0 auto 18px;line-height:1.4}
+/* лид главного блока: мера строки и цвет — как у .tp-lead / .sp-lead / .cw-lead,
+   кегль на ступень крупнее токена (герой держит первый экран) */
+.hero .sub{font-size:22px;color:var(--muted);max-width:56ch;margin:0 auto 18px;line-height:1.55}
 .hero .tagline{margin-top:28px;font-family:var(--font-display);font-weight:700;line-height:1.18;
   font-size:clamp(22px,3.4vw,30px);background:var(--grad-gold-lila);-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero .micro{margin-top:22px;font-size:13.5px;color:var(--muted-2);max-width:620px;margin-left:auto;margin-right:auto}
@@ -141,7 +147,7 @@ html,body{overflow-x:clip}
   .hero{padding:100px 0 48px}
   .hero:has(.cow){padding-top:60px}
   .hero h1{margin:16px 0}
-  .kit section{padding:44px 0}
+  .kit section{padding:34px 0}
   .kit .inner{padding:0 20px}
   .kit h2{font-size:clamp(26px,7vw,34px)}
   .kit .lead{font-size:17px}
@@ -280,23 +286,8 @@ html,body{overflow-x:clip}
 
 /* — бургер-меню: крупнее + адаптивное положение (тестовая версия) — */
 .kit .fp-top__burger{font-size:26px;padding:8px 10px}
-.kit .fp-top__menu{gap:4px;padding:12px 18px 20px}
-.kit .fp-top__menu .fp-top__link{font-size:18px;padding:16px 14px;border-radius:12px}
-.kit .fp-top__menu .fp-top__link--cta{font-size:17px;padding:16px 20px;margin-top:10px}
 
-/* планшет: выпадает сверху во всю ширину (по умолчанию) */
-@media(min-width:601px) and (max-width:1000px){
-  .kit .fp-top__menu{left:0;right:0}
-}
-
-/* телефон: выезжает справа отдельной панелью */
-@media(max-width:600px){
-  .kit .fp-top__menu{
-    left:auto;right:12px;width:min(80vw,320px);margin-top:8px;
-    border:1px solid var(--line);border-radius:18px;
-    box-shadow:0 26px 64px -22px rgba(0,0,0,.65);
-  }
-}
+/* геометрия мобильного меню — одна на весь сайт, из компонента шапки */
 
 /* — пункты меню: крупнее — */
 .kit .fp-top__nav .fp-top__link{font-size:16px}

@@ -4,12 +4,7 @@ const { TopBar, Footer, Button, Eyebrow } = window.FrankenplatzDesignSystem_144b
 const STEPS = window.FP_ANKETA.steps;
 const LS = "fp_anketa_v1";
 
-const NAV = [
-  { label: "На главную", href: "index.html" },
-  { label: "День №1", href: "day1.html" },
-  { label: "День №2", href: "day2.html" },
-  { label: "Спикерам", href: "speakers.html" },
-];
+const NAV = window.FP_NAV("anketa");
 
 function load() { try { return JSON.parse(localStorage.getItem(LS)) || {}; } catch (e) { return {}; } }
 function gateOk(a) {
@@ -144,11 +139,7 @@ function Anketa() {
           )}
         </div>
       </section>
-      <Footer links={[
-        { label: "На главную", href: "index.html" },
-        { label: "День №1", href: "day1.html" },
-        { label: "День №2", href: "day2.html" },
-      ]} />
+      <Footer />
     </div>
   );
 }
