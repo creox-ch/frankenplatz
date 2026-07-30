@@ -13,6 +13,7 @@ window.FP_NAV = function (active) {
     { key: "market", label: "Маркет", href: "brand-market.html" },
     { key: "collab", label: "Сотрудничество", href: "collaboration.html" },
     { key: "trips", label: "Другие форумы", href: "trips.html" },
+    { key: "tickets", label: "Билеты", href: "tickets.html" },
   ];
   var cta = active === "speakers"
     ? { label: "Подать заявку", href: "anketa.html", cta: true }
