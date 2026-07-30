@@ -750,51 +750,10 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
   </footer>
 </div>
 
-<script>
-/* бургером управляет общий site/chrome.js — своей обработки тут быть не должно */
-
-/* попап подписки (один раз) */
-(function(){
-  if(localStorage.getItem('fp_bm_popup'))return;
-  setTimeout(function(){
-    var w=document.createElement('div');w.className='bm-pop';
-    w.innerHTML='<div class="bm-pop__card">'+
-      '<button class="bm-pop__x" aria-label="Закрыть">✕</button>'+
-      '<h3>Не пропусти маркет<br>и розыгрыши</h3>'+
-      '<p>Подпишись на новости — программа, каталог и напоминания. И загляни в Instagram: там розыгрыши и много пользы.</p>'+
-      '<form><input type="email" required placeholder="Твой e-mail"><button type="submit">Подписаться</button></form>'+
-      '<a class="ig" href="https://www.instagram.com/frankenplatz.ch" target="_blank" rel="noopener">Instagram @frankenplatz.ch →</a></div>';
-    document.body.appendChild(w);
-    var close=function(){w.remove();localStorage.setItem('fp_bm_popup','1');};
-    w.addEventListener('click',function(e){if(e.target===w)close();});
-    w.querySelector('.bm-pop__x').addEventListener('click',close);
-    w.querySelector('form').addEventListener('submit',function(e){
-      e.preventDefault();var em=this.querySelector('input').value.trim();if(!em)return;
-      localStorage.setItem('fp_news_email',em);
-      this.outerHTML='<p style="color:#9DEFAD;font-weight:700;font-size:var(--fs-sm);margin:0 0 12px">Готово! Новости придут на '+em.replace(/</g,'&lt;')+'.</p>';
-      localStorage.setItem('fp_bm_popup','1');
-    });
-  },6000);
-})();
-
-/* вопрос */
-document.getElementById('bmForm').addEventListener('submit',function(e){
-  e.preventDefault();
-  var em=document.getElementById('bmName').value.trim();if(!em)return;
-  localStorage.setItem('fp_brandmarket_email',em);
-  this.outerHTML='<p class="bm-ok">Вопрос улетел! Ответим лично — '+em.replace(/</g,'&lt;')+'.</p>';
-});
-
-/* футер-подписка */
-document.getElementById('bmFoot').addEventListener('submit',function(e){
-  e.preventDefault();
-  var em=this.querySelector('input').value.trim();if(!em)return;
-  localStorage.setItem('fp_news_email',em);
-  this.outerHTML='<p class="fp-foot__done">Спасибо! Напишем, когда будут новости о маркете.</p>';
-});
-</script>
+<!-- инлайн-заглушка (авто-попап + фейк-сабмит) удалена; #bmForm пишет в базу через forum-form.js -->
 <script src="site/chrome.js" defer></script>
 <script src="site/newsletter-form.js"></script>
+<script src="site/forum-form.js"></script>
 <script src="site/cookie-consent.js"></script>
 </body>
 </html>
