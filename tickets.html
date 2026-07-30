@@ -77,6 +77,39 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
 .kit .tk-fine{margin-top:26px;font-size:var(--fs-sm);line-height:var(--lh-body);color:var(--muted-2);max-width:70ch}
 .kit .tk-fine b{color:var(--muted)}
 
+/* ——— кнопка покупки + модалка ——— */
+.kit .tk-buy-row{margin-top:18px}
+.kit .tk-buy{width:100%;border:0;border-radius:999px;padding:13px 22px;cursor:pointer;font:800 15px var(--font-body);color:var(--ink-on-gold);background:var(--grad-gold)}
+.kit .tk-card--pack .tk-buy{box-shadow:0 8px 24px rgba(230,180,80,.22)}
+.tk-modal{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;padding:18px;background:rgba(10,5,18,.74);backdrop-filter:blur(6px);overflow-y:auto}
+.tk-modal__card{position:relative;margin:auto;width:100%;max-width:460px;background:#1A0E28;border:1px solid var(--line-strong,rgba(255,255,255,.16));border-radius:20px;padding:26px 24px}
+.tk-modal__x{position:absolute;top:12px;right:14px;width:34px;height:34px;border-radius:50%;border:1px solid var(--line-strong,rgba(255,255,255,.16));background:rgba(255,255,255,.05);color:var(--muted,#C3B7D4);font-size:19px;line-height:1;cursor:pointer}
+.tk-modal h3{font-family:var(--font-display);font-weight:800;font-size:22px;color:#fff;margin:0 0 4px}
+.tk-modal__sub{font-size:13px;color:var(--muted,#C3B7D4);margin:0 0 16px}
+.tk-opt{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line,rgba(255,255,255,.10));border-radius:12px;margin-bottom:8px;cursor:pointer}
+.tk-opt.is-on{border-color:var(--gold,#E6B450);background:rgba(230,180,80,.08)}
+.tk-opt input{accent-color:var(--gold,#E6B450);width:18px;height:18px;flex:none}
+.tk-opt__cat{font-family:var(--font-display);font-weight:700;color:#fff;flex:1}
+.tk-opt__cat span{display:block;font-family:var(--font-body);font-weight:600;font-size:11.5px;color:var(--muted-2,#9A8BB3)}
+.tk-opt__price{font-family:var(--font-display);font-weight:800;color:var(--gold,#E6B450)}
+.tk-opt__price s{display:block;font-size:11px;font-weight:600;color:var(--muted-2,#9A8BB3)}
+.tk-lunch-opt{display:flex;align-items:flex-start;gap:10px;margin:14px 0 4px;font-size:13.5px;color:var(--muted,#C3B7D4);cursor:pointer}
+.tk-lunch-opt input{accent-color:var(--gold,#E6B450);width:17px;height:17px;margin-top:1px;flex:none}
+.tk-field{width:100%;background:rgba(0,0,0,.20);border:1px solid var(--line-strong,rgba(255,255,255,.16));border-radius:12px;padding:12px 14px;color:var(--ink,#F3EEF9);font:inherit;font-size:15px;margin-top:8px;box-sizing:border-box}
+.tk-field:focus{outline:none;border-color:var(--gold,#E6B450)}
+.tk-consent{display:flex;gap:9px;align-items:flex-start;font-size:12px;color:var(--muted-2,#9A8BB3);margin-top:12px;line-height:1.45;cursor:pointer}
+.tk-consent input{accent-color:var(--gold,#E6B450);width:16px;height:16px;margin-top:1px;flex:none}
+.tk-consent a{color:var(--lila-bright,#B98BFF)}
+.tk-total{display:flex;justify-content:space-between;align-items:baseline;margin:16px 0 2px;font-family:var(--font-display);color:#fff}
+.tk-total b{font-size:24px;font-weight:800}
+.tk-pay{width:100%;border:0;border-radius:999px;padding:15px 22px;margin-top:12px;cursor:pointer;font:800 16px var(--font-body);color:var(--ink-on-gold);background:var(--grad-gold)}
+.tk-pay:disabled{opacity:.55;cursor:default}
+.tk-msg{font-size:13px;line-height:1.5;margin-top:10px}
+.tk-msg.err{color:#FF7A8A}
+.kit .tk-banner{margin-top:26px;padding:16px 22px;border-radius:16px;border:1px solid;font-size:14.5px;line-height:1.5}
+.kit .tk-banner--ok{border-color:rgba(139,229,155,.4);background:rgba(139,229,155,.08);color:#B7F0C4}
+.kit .tk-banner--warn{border-color:rgba(255,122,138,.4);background:rgba(255,122,138,.08);color:#FFB3BC}
+
 /* ——— финальная плашка ——— */
 .kit .tk-final{border:1px solid rgba(230,180,80,.35);border-radius:24px;background:linear-gradient(135deg,rgba(230,180,80,.12),rgba(185,139,255,.10));padding:clamp(28px,4vw,44px)}
 .kit .tk-final h2{margin-top:0}
@@ -161,35 +194,39 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
       <div class="tk-grid">
         <!-- День 1 -->
         <article class="tk-card">
-          <div class="tk-card__top"><h3>День №1</h3><span class="tk-card__seg">B2C · личные финансы</span></div>
+          <div class="tk-card__top"><h3>День №1</h3><span class="tk-card__seg">База</span></div>
           <p class="tk-card__date">24 октября 2026</p>
           <ul class="tk-rows">
             <li class="tk-row"><span class="tk-row__cat">VIP<span>ряды 1–2</span></span><span class="tk-price"><span class="tk-price__eb">209</span><span class="tk-price__cur">CHF</span><span class="tk-price__was">279 CHF</span></span></li>
             <li class="tk-row"><span class="tk-row__cat">Premium<span>ряды 3–5</span></span><span class="tk-price"><span class="tk-price__eb">149</span><span class="tk-price__cur">CHF</span><span class="tk-price__was">199 CHF</span></span></li>
             <li class="tk-row"><span class="tk-row__cat">Standard<span>ряды 6–20</span></span><span class="tk-price"><span class="tk-price__eb">112</span><span class="tk-price__cur">CHF</span><span class="tk-price__was">149 CHF</span></span></li>
           </ul>
+          <div class="tk-buy-row"><button type="button" class="tk-buy" data-product="day1">Купить билет →</button></div>
         </article>
 
         <!-- День 2 -->
         <article class="tk-card">
-          <div class="tk-card__top"><h3>День №2</h3><span class="tk-card__seg">B2B · бизнес</span></div>
+          <div class="tk-card__top"><h3>День №2</h3><span class="tk-card__seg">Следующий уровень</span></div>
           <p class="tk-card__date">25 октября 2026</p>
           <ul class="tk-rows">
             <li class="tk-row"><span class="tk-row__cat">VIP<span>ряды 1–2</span></span><span class="tk-price"><span class="tk-price__eb">277</span><span class="tk-price__cur">CHF</span><span class="tk-price__was">369 CHF</span></span></li>
             <li class="tk-row"><span class="tk-row__cat">Premium<span>ряды 3–5</span></span><span class="tk-price"><span class="tk-price__eb">217</span><span class="tk-price__cur">CHF</span><span class="tk-price__was">289 CHF</span></span></li>
             <li class="tk-row"><span class="tk-row__cat">Standard<span>ряды 6–20</span></span><span class="tk-price"><span class="tk-price__eb">164</span><span class="tk-price__cur">CHF</span><span class="tk-price__was">219 CHF</span></span></li>
           </ul>
+          <div class="tk-buy-row"><button type="button" class="tk-buy" data-product="day2">Купить билет →</button></div>
         </article>
 
         <!-- Пакет 2 дня -->
         <article class="tk-card tk-card--pack">
-          <div class="tk-card__top"><h3>Оба дня</h3><span class="tk-card__seg">пакет · Standard</span></div>
+          <div class="tk-card__top"><h3>Оба дня</h3><span class="tk-card__seg">пакет · выгодно</span></div>
           <p class="tk-card__date">24 + 25 октября</p>
           <ul class="tk-rows">
-            <li class="tk-row"><span class="tk-row__cat">Standard<span>оба дня</span></span><span class="tk-price"><span class="tk-price__eb">239</span><span class="tk-price__cur">CHF</span><span class="tk-price__was">319 CHF</span></span></li>
+            <li class="tk-row"><span class="tk-row__cat">VIP<span>оба дня · −99 CHF</span></span><span class="tk-price"><span class="tk-price__eb">412</span><span class="tk-price__cur">CHF</span><span class="tk-price__was">549 CHF</span></span></li>
+            <li class="tk-row"><span class="tk-row__cat">Premium<span>оба дня · −69 CHF</span></span><span class="tk-price"><span class="tk-price__eb">314</span><span class="tk-price__cur">CHF</span><span class="tk-price__was">419 CHF</span></span></li>
+            <li class="tk-row"><span class="tk-row__cat">Standard<span>оба дня · −49 CHF</span></span><span class="tk-price"><span class="tk-price__eb">239</span><span class="tk-price__cur">CHF</span><span class="tk-price__was">319 CHF</span></span></li>
           </ul>
-          <p class="tk-pack-note">Дешевле, чем два дня по отдельности. <span class="tk-save">Экономия 49 CHF</span></p>
-          <p class="tk-pack-note" style="color:var(--muted-2)">VIP и Premium на оба дня — пакеты добавим скоро; пока можно взять два дневных билета.</p>
+          <p class="tk-pack-note">Дешевле, чем два дня по отдельности. <span class="tk-save">Экономия до 99 CHF</span></p>
+          <div class="tk-buy-row"><button type="button" class="tk-buy" data-product="both">Купить пакет →</button></div>
         </article>
       </div>
 
@@ -255,6 +292,8 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
 
 <script src="site/chrome.js" defer></script>
 <script src="site/newsletter-form.js"></script>
+<!-- Покупка билета → slswiss-tickets /api/forum/create → Payrexx -->
+<script src="site/tickets-buy.js"></script>
 <script src="site/cookie-consent.js"></script>
 </body>
 </html>
