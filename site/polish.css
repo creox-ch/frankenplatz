@@ -26,8 +26,20 @@ html{scroll-behavior:smooth}
   .hero .hl, .kit .hl, .casecard .qz .hl, .fp-grad-text{animation:none}
 }
 
-/* ---- дата в hero: чуть крупнее ---- */
+/* ---- дата в hero: пилюля как была; на ≤640px — стиль fp-eyebrow (золото, капс, чёрточка) ---- */
 .hero .fp-badge{font-size:15px}
+@media(max-width:640px){
+.hero .fp-badge{background:none;border:none;padding:0;border-radius:0;color:var(--gold);font-size:13px;font-weight:var(--fw-bold);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;gap:10px;line-height:1.6}
+.hero .fp-badge::before{content:"";width:26px;height:1.5px;background:var(--gold);flex:none;display:inline-block}
+.hero .fp-badge .fp-badge__dot{display:none}
+}
+/* ≤640px: дата в hero — две строчки (дата / Baden · 15 мин), чёрточка по центру между ними */
+@media(max-width:640px){
+  .hero .fp-badge:has(.bdg-stack){margin-bottom:14px}
+  .hero .bdg-stack{display:flex;flex-direction:column;gap:6px}
+  .hero .bdg-stack > .bdg-sep{display:none}
+  .hero .bdg-stack .bdg-row{white-space:nowrap}
+}
 
 /* ---- счётчик до мероприятия: «билет» с живым таймером ---- */
 .hero-split{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:48px;align-items:center}
@@ -74,7 +86,7 @@ html, body{overflow-x:clip}
   /* заголовки: не рвать слова посередине, размер — чтобы влезало самое длинное слово */
   .hero h1, .kit:has(.sp-about) .hero h1{font-size:clamp(24px,8.4vw,44px)!important;word-break:normal!important;hyphens:manual!important;overflow-wrap:normal}
   /* бейдж-пилюля в hero: разрешаем перенос, центрируем, не даём вылезать за экран */
-  .fp-badge{white-space:normal!important;flex-wrap:wrap;justify-content:center;text-align:center;line-height:1.4!important;max-width:calc(100vw - 44px)}
+  .fp-badge{white-space:normal!important;flex-wrap:wrap;justify-content:flex-start;text-align:left;line-height:1.5!important;max-width:calc(100vw - 44px)}
   /* h2: чуть меньше, чтобы длинные слова с приклеенными предлогами/тире всегда влезали */
   .kit h2{font-size:clamp(21px,6.8vw,44px)!important}
   /* стикер «50/50»: не вылезает за экран */
@@ -186,10 +198,11 @@ html, body{overflow-x:clip}
 .fsc__in{position:relative;width:100%;height:100%;min-height:510px;transition:transform .6s cubic-bezier(.2,.7,.2,1);transform-style:preserve-3d}
 @media(hover:hover){.fsc:hover .fsc__in{transform:rotateY(180deg)}}
 .fsc.is-flip .fsc__in{transform:rotateY(180deg)}
-.fsc:hover .fsc__front,.fsc.is-flip .fsc__front{pointer-events:none}
+.fsc.is-flip .fsc__front{pointer-events:none;visibility:hidden}
+@media(hover:hover){.fsc:hover .fsc__front{pointer-events:none;visibility:hidden}}
 .fsc__back{pointer-events:auto}
 .fsc__face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid var(--line-strong);border-radius:20px;background:rgba(255,255,255,.03);overflow:hidden;display:flex;flex-direction:column}
-.fsc__front{padding:0}
+.fsc__front{padding:0;transform:rotateY(0deg) translateZ(1px);visibility:visible;transition:visibility 0s .28s}
 .fsc__photo{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.05)}
 .fsc__photo--lila{background:rgba(185,139,255,.1)}
 .fsc__photo img{width:100%;height:100%;object-fit:cover}
@@ -200,7 +213,7 @@ html, body{overflow-x:clip}
 .fsc__name{font-family:var(--font-display);font-weight:700;font-size:21px;line-height:1.2;color:#fff;margin:0 0 4px}
 .fsc__role{font-size:13px;line-height:1.45;color:var(--muted);margin:0}
 .fsc__hint{display:inline-block;margin-top:10px;font-size:11px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:var(--gold)}
-.fsc__back{transform:rotateY(180deg);background:linear-gradient(180deg,#221338,#1a0f2b);padding:16px 20px 20px;overflow-y:auto}
+.fsc__back{transform:rotateY(180deg) translateZ(1px);background:linear-gradient(180deg,#221338,#1a0f2b);padding:16px 20px 20px;overflow-y:auto}
 .fsc__eyebrow{font-size:11px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--gold);margin:0 0 10px}
 .fsc__back .fsc__role{color:var(--muted-2);margin:0 0 12px}
 .fsc__facts{list-style:none;margin:0 0 12px;padding:0;width:100%}
@@ -342,7 +355,8 @@ html, body{overflow-x:clip}
 .band-cow{position:relative;display:block}
 .band-cow > div{min-width:0;max-width:calc(100% - clamp(260px,40%,470px))}
 .band-cow__slot{position:absolute;right:0;bottom:0;transform:translateY(33.3%);width:clamp(300px,46%,560px);line-height:0;pointer-events:none;z-index:1}
-.band-cow__img{display:block;width:100%;height:auto;max-width:none}
+.band-cow__img{display:block;width:100%;height:auto;max-width:none;aspect-ratio:647/1007}
+.band-cow--mid .band-cow__img{aspect-ratio:1024/1536}
 @media(max-width:900px) and (min-width:620px){
   /* планшет: корова остаётся справа, текст сужаем */
   .band-cow > div{max-width:calc(100% - clamp(230px,34%,330px))}
@@ -406,7 +420,7 @@ html, body{overflow-x:clip}
 /* Плашка «Приходи стать богаче» в середине страницы: корова поднята выше,
    деньги перекрывают текст — блок не в самом низу, свисать некуда. */
 .band-cow--mid{min-height:440px}
-.band-cow--mid .band-cow__slot{transform:translateY(28%);width:clamp(300px,44%,520px)}
+.band-cow--mid .band-cow__slot{transform:translateY(38%);width:clamp(300px,44%,520px)}
 @media(max-width:619px){.band-cow--mid{min-height:0}.band-cow--mid .band-cow__slot{transform:none;margin:16px calc(-1 * var(--cowA-right,22px)) calc(-1 * var(--cowA-bottom,40px)) auto}}
 
 /* подзаголовок героя главной — вторая строка смысла под H1 */
@@ -416,7 +430,7 @@ html, body{overflow-x:clip}
    На обороте (досье) тем нет — там только факты. */
 .fsc__toplab{position:absolute;top:0;left:0;right:0;z-index:2;display:flex;flex-direction:column;gap:5px;padding:16px 18px;background:linear-gradient(180deg,rgba(20,10,31,.94),rgba(20,10,31,0))}
 .fsc__toplab__day{font-family:var(--font-body);font-weight:900;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold)}
-.fsc__toplab__t{font-family:var(--font-display);font-weight:700;font-size:18px;line-height:1.22;color:#fff;text-wrap:pretty}
+.fsc__toplab__t{font-family:var(--font-display);font-weight:700;font-size:16px;line-height:1.22;color:#fff;text-wrap:pretty}
 
 /* Темы дня (перенесены с главной): нумерованный список без карточек —
    номер держит ряд, тема читается одной строкой. */
@@ -424,3 +438,187 @@ html, body{overflow-x:clip}
 @media(min-width:900px){.kit .dprog{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:34px}}
 .kit .dprog li{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:baseline;padding:18px 0;border-bottom:1px solid var(--line);font-size:var(--fs-body);line-height:var(--lh-body);color:var(--text)}
 .kit .dprog__n{font-family:var(--font-display);font-weight:800;font-variant-numeric:tabular-nums;font-size:var(--fs-sm);color:var(--gold)}
+
+/* Коровы: значения зафиксированы по настройкам в cow-tuner.html на 360 / 390 / 430 /
+   768 / 900 / 1280 / 1440 / 1920 и ЛИНЕЙНО интерполированы между ними через calc(px + vw),
+   поэтому промежуточные ширины не «прыгают». Смещение задано только transform,
+   поэтому у обеих плашек одна механика на всех ширинах. */
+@media(max-width:430px),(min-width:619.98px) and (max-width:900px){
+  .band-cow .band-cow__slot{position:absolute;left:auto;right:0;bottom:0;margin:0}
+}
+@media(max-width:900px){
+  .band-cow:not(.band-cow--mid),.band-cow--mid{height:auto!important}
+}
+/* обе плашки «Приходи стать богаче» */
+@media(max-width:360px){
+  .band-cow .band-cow__slot{width:374.7px;transform:translate(6px,1px);height:330px;overflow:hidden}
+  .band-cow .band-cow__slot img{margin-top:9px}
+  /* уже 360px текст выше — плашка растёт следом, корова не наезжает */
+  .band-cow:not(.band-cow--mid){min-height:calc(1447px + -200vw)}
+  .band-cow--mid{min-height:calc(1585px + -200vw)}
+}
+@media(min-width:360.02px) and (max-width:390px){
+  .band-cow .band-cow__slot{width:calc(121.5px + 70.33vw);transform:translate(calc(-6px + 3.33vw),calc(-95px + 26.67vw));height:calc(-270px + 166.67vw);overflow:hidden}
+  .band-cow .band-cow__slot img{margin-top:9px}
+  .band-cow:not(.band-cow--mid){min-height:calc(511px + 60vw)}
+  .band-cow--mid{min-height:calc(1129px + -73.33vw)}
+}
+@media(min-width:390.02px) and (max-width:430px){
+  .band-cow .band-cow__slot{width:calc(159.85px + 60.5vw);transform:translate(7px,calc(-722.25px + 187.5vw));height:calc(-185.5px + 145vw);overflow:hidden}
+  .band-cow .band-cow__slot img{margin-top:9px}
+  .band-cow:not(.band-cow--mid){min-height:calc(1320.25px + -147.5vw)}
+  .band-cow--mid{min-height:calc(1252.5px + -105vw)}
+}
+@media(min-width:430.02px) and (max-width:619.96px){
+  /* мобильная раскладка: текст на всю ширину, корова в потоке под ним */
+  .band-cow .band-cow__slot{position:relative;right:auto;bottom:auto;display:block;transform:none;margin:16px -22px -40px auto;width:calc(591.36px + -39.85vw);height:calc(430.37px + 1.78vw);overflow:hidden}
+  .band-cow .band-cow__slot img{margin-top:calc(20.45px + -2.66vw)}
+}
+@media(min-width:619.98px) and (max-width:768px){
+  /* текст уступает корове место: ширина коровы минус прозрачный край */
+  .band-cow > div{max-width:calc(100% - 531.36px + 39.85vw)}
+  .band-cow--mid > div{max-width:calc(100% - 472.5px + 26.45vw)}
+  .band-cow .band-cow__slot{width:calc(591.36px + -39.85vw);transform:translate(calc(13.36px + -1.48vw),calc(183.23px + -23.08vw));height:calc(430.37px + 1.78vw);overflow:hidden}
+  .band-cow .band-cow__slot img{margin-top:calc(20.45px + -2.66vw)}
+}
+@media(min-width:768.02px) and (max-width:900px){
+  .band-cow .band-cow__slot{width:285.3px;transform:translate(2px,6px);height:444px;overflow:hidden}
+}
+
+/* верхняя плашка: своя корова-кокетка */
+@media(max-width:360px){
+  .band-cow--mid .band-cow__slot{width:373.4px;transform:translate(1px,20px);height:392px;overflow:hidden}
+  .band-cow--mid .band-cow__slot img{margin-top:9px}
+}
+@media(min-width:360.02px) and (max-width:390px){
+  .band-cow--mid .band-cow__slot{width:calc(6.2px + 102vw);transform:translate(calc(-11px + 3.33vw),calc(-76px + 26.67vw));height:392px;overflow:hidden}
+  .band-cow--mid .band-cow__slot img{margin-top:9px}
+}
+@media(min-width:390.02px) and (max-width:430px){
+  .band-cow--mid .band-cow__slot{width:calc(259.7px + 37vw);transform:translate(2px,calc(-391.25px + 107.5vw));height:calc(-56.5px + 115vw);overflow:hidden}
+  .band-cow--mid .band-cow__slot img{margin-top:9px}
+}
+@media(min-width:430.02px) and (max-width:619.96px){
+  .band-cow--mid .band-cow__slot{position:relative;right:auto;bottom:auto;display:block;transform:none;margin:16px -22px -40px auto;width:calc(532.5px + -26.45vw);height:calc(366.76px + 16.57vw);overflow:hidden}
+  .band-cow--mid .band-cow__slot img{margin-top:calc(20.45px + -2.66vw)}
+}
+@media(min-width:619.98px) and (max-width:768px){
+  .band-cow--mid .band-cow__slot{width:calc(532.5px + -26.45vw);transform:translate(calc(-1.82px + 0.89vw),calc(160.05px + -20.71vw));height:calc(366.76px + 16.57vw);overflow:hidden}
+  .band-cow--mid .band-cow__slot img{margin-top:calc(20.45px + -2.66vw)}
+}
+@media(min-width:768.02px) and (max-width:900px){
+  .band-cow--mid .band-cow__slot{width:329.4px;transform:translate(5px,1px);height:494px;overflow:hidden}
+}
+
+/* 901–1200: значения твоей настройки на 900 */
+@media(min-width:901px) and (max-width:1200px){
+  /* от анкера 900 к состоянию 1201 (фикс. высота плашки) — голова коровы не режется */
+  .band-cow .band-cow__slot{width:calc(-325.66px + 71.3vw);transform:translate(calc(-8.97px + 1vw),calc(-764.27px + 91.03vw))}
+  .band-cow--mid .band-cow__slot{width:calc(-341.44px + 78.77vw);transform:translate(calc(-2.99px + 0.33vw),calc(-1128.14px + 128.9vw))}
+}
+/* с 1200px у плашек фиксированная высота 500px — там своя настройка */
+@media(min-width:1201px){
+  .band-cow--mid{height:500px!important;min-height:0}
+}
+@media(min-width:1201px) and (max-width:1280px){
+  .band-cow .band-cow__slot{width:50.2%;transform:translate(3px,329px)}
+  .band-cow--mid .band-cow__slot{width:57.2%;transform:translate(1px,420px)}
+}
+@media(min-width:1280.02px) and (max-width:1440px){
+  .band-cow .band-cow__slot{width:calc(603.7px + -3vw);transform:translate(calc(11px + -0.63vw),calc(377px + -3.75vw))}
+  .band-cow--mid .band-cow__slot{width:calc(700.1px + -4.38vw);transform:translate(calc(9px + -0.63vw),calc(452px + -2.5vw))}
+}
+@media(min-width:1440.02px){
+  .band-cow .band-cow__slot{width:45.2%;transform:translate(6px,326px)}
+}
+@media(min-width:1440.02px) and (max-width:1920px){
+  .band-cow--mid .band-cow__slot{width:calc(602.5px + 2.4vw);transform:translate(1px,calc(350px + 4.58vw))}
+}
+@media(min-width:1920.02px){
+  .band-cow--mid .band-cow__slot{width:52.3%;transform:translate(1px,438px)}
+}
+
+/* День 1: коровы на стульях */
+@media(max-width:900px){
+  .band-shot:has(.band-cows:not(.band-cows--slot):not(.band-cows--work)){height:auto!important}
+}
+@media(max-width:360px){
+  .band-cows:not(.band-cows--slot):not(.band-cows--work){width:403.5px;transform:translate(-52px,3px);height:416px;overflow:hidden}
+  .band-cows:not(.band-cows--slot):not(.band-cows--work) img{margin-top:0px}
+  .band-shot:has(.band-cows:not(.band-cows--slot):not(.band-cows--work)){min-height:1073px}
+}
+@media(min-width:360.02px) and (max-width:390px){
+  .band-cows:not(.band-cows--slot):not(.band-cows--work){width:calc(6.3px + 110.33vw);transform:translate(calc(-88px + 10vw),calc(15px + -3.33vw));height:calc(92px + 90vw);overflow:hidden}
+  .band-cows:not(.band-cows--slot):not(.band-cows--work) img{margin-top:0px}
+  .band-shot:has(.band-cows:not(.band-cows--slot):not(.band-cows--work)){min-height:calc(1805px + -203.33vw)}
+}
+@media(min-width:390.02px) and (max-width:430px){
+  .band-cows:not(.band-cows--slot):not(.band-cows--work){width:calc(860.72px + -108.75vw);transform:translate(calc(-370.75px + 82.5vw),calc(128.75px + -32.5vw));height:calc(852.5px + -105vw);overflow:hidden}
+  .band-cows:not(.band-cows--slot):not(.band-cows--work) img{margin-top:0px}
+  .band-shot:has(.band-cows:not(.band-cows--slot):not(.band-cows--work)){min-height:calc(1821.25px + -207.5vw)}
+}
+@media(min-width:430.02px) and (max-width:768px){
+  .band-cows:not(.band-cows--slot):not(.band-cows--work){width:calc(180.77px + 49.38vw);transform:translate(calc(-49.08px + 7.69vw),calc(36.07px + -10.95vw));height:calc(154.2px + 57.4vw);overflow:hidden}
+  .band-cows:not(.band-cows--slot):not(.band-cows--work) img{margin-top:0px}
+  .band-shot:has(.band-cows:not(.band-cows--slot):not(.band-cows--work)){min-height:calc(870.48px + 13.61vw)}
+}
+@media(min-width:768.02px) and (max-width:900px){
+  .band-cows:not(.band-cows--slot):not(.band-cows--work){width:calc(1386.18px + -107.58vw);transform:translate(calc(-77.27px + 11.36vw),calc(-525.09px + 62.12vw));height:calc(810.27px + -28.03vw);overflow:hidden}
+  .band-cows:not(.band-cows--slot):not(.band-cows--work) img{margin-top:0px}
+}
+@media(min-width:901px) and (max-width:1200px){
+  .band-cows:not(.band-cows--slot):not(.band-cows--work){width:calc(144.41px + 30.4vw);transform:translate(calc(114.7px + -9.97vw),calc(-354.7px + 43.19vw))}
+}
+@media(min-width:1201px) and (max-width:1280px){
+  .band-cows:not(.band-cows--slot):not(.band-cows--work){width:48.2%;transform:translate(-5px,164px)}
+}
+@media(min-width:1280.02px) and (max-width:1440px){
+  .band-cows:not(.band-cows--slot):not(.band-cows--work){width:calc(321.1px + 17.31vw);transform:translate(calc(-37px + 2.5vw),calc(-28px + 15vw))}
+}
+@media(min-width:1440.02px) and (max-width:1920px){
+  .band-cows:not(.band-cows--slot):not(.band-cows--work){width:calc(775px + -14.21vw);transform:translate(0px,calc(485px + -20.63vw))}
+}
+@media(min-width:1920.02px){
+  .band-cows:not(.band-cows--slot):not(.band-cows--work){width:40.5%;transform:translate(0px,89px)}
+}
+
+/* День 2: корова за столом в финальной плашке — по cow-tuner.html
+   (360/390/430/768/900/1280/1440/1920), между анкерами интерполяция calc(px + vw). */
+@media(max-width:900px){
+  .band-shot:has(.band-cows--work){height:auto!important}
+}
+@media(max-width:360px){
+  .band-cows--work{width:403.5px;max-width:none;transform:translate(-33.3px,-51.6px);height:385px;overflow:hidden}
+  .band-shot:has(.band-cows--work){min-height:788px}
+}
+@media(min-width:360.02px) and (max-width:390px){
+  .band-cows--work{width:calc(6.3px + 110.33vw);max-width:none;transform:translate(calc(98.7px + -36.67vw),calc(-19.2px + -9vw));height:calc(-47px + 120vw);overflow:hidden}
+  .band-shot:has(.band-cows--work){min-height:calc(1292px + -140vw)}
+}
+@media(min-width:390.02px) and (max-width:430px){
+  .band-cows--work{width:calc(2.72px + 111.25vw);max-width:none;transform:translate(calc(-23.83px + -5.25vw),calc(-105px + 13vw));height:calc(-398px + 210vw);overflow:hidden}
+  .band-shot:has(.band-cows--work){min-height:calc(14.75px + 187.5vw)}
+}
+@media(min-width:430.02px) and (max-width:768px){
+  .band-cows--work{width:calc(380.34px + 23.43vw);max-width:none;transform:translate(calc(-149.07px + 23.88vw),calc(84.86px + -31.15vw));height:calc(344.07px + 37.43vw);overflow:hidden}
+  .band-shot:has(.band-cows--work){min-height:calc(896.06px + -17.46vw)}
+}
+@media(min-width:768.02px) and (max-width:860px){
+  .band-cows--work{width:calc(1056.6px + -64.62vw);max-width:none;transform:translate(calc(-308.97px + 44.7vw),calc(-1114.4px + 125vw));height:calc(678.25px + -6.09vw);overflow:hidden}
+  .band-shot:has(.band-cows--work){min-height:762px}
+}
+@media(min-width:860.02px) and (max-width:899.98px){
+  .band-cows--work{width:calc(1056.6px + -64.62vw);max-width:none;transform:translate(calc(-308.97px + 44.7vw),calc(-1114.4px + 125vw))}
+}
+@media(min-width:900px) and (max-width:1280px){
+  .band-cows--work{width:calc(374.58px + 11.16vw);transform:translate(calc(300.07px + -22.97vw),calc(-313.64px + 36.03vw))}
+}
+@media(min-width:1280.02px) and (max-width:1440px){
+  .band-cows--work{width:calc(97.4px + 32.81vw);transform:translate(calc(43.6px + -2.94vw),calc(-254.9px + 31.44vw))}
+}
+@media(min-width:1440.02px) and (max-width:1920px){
+  .band-cows--work{width:calc(743.3px + -12.04vw);transform:translate(calc(-25.1px + 1.83vw),calc(364.3px + -11.56vw))}
+}
+@media(min-width:1920.02px){
+  .band-cows--work{width:512.1px;transform:translate(10.1px,142.3px)}
+}

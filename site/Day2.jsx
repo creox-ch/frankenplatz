@@ -192,7 +192,7 @@ function Day2() {
           <p className="sub">Для тех, у кого база уже есть: не «с чего начать», а «куда расти». Инвестиции и направления всерьёз — и своё дело: ремесло, бизнес, риски и возможности.</p>
           <div className="d2-marq"><Marquee items={["Инвестиции", "Своё дело", "Новый уровень", "Инвестиции", "Своё дело", "Новый уровень", "Инвестиции", "Своё дело", "Новый уровень"]} /></div>
           <div style={{ marginTop: 44 }}>
-            <Button variant="gold" href="index.html#reg">Забронировать место</Button>
+            <Button variant="gold" href="tickets.html">Купить билет</Button>
           </div>
         </div>
       </header>
@@ -251,8 +251,8 @@ function Day2() {
           </div>
 
           <div className="cta-mid">
-            <p className="cta-mid__note"><b>Ранняя регистрация открыта.</b> Забронируй место, пока действует лучшая цена — программа Дня 2 придёт тебе первой.</p>
-            <Button variant="gold" href="index.html#reg">Забронировать место</Button>
+            <p className="cta-mid__note"><b>Билеты уже в продаже.</b> Early Bird −25% — пока не объявлены все спикеры.</p>
+            <Button variant="gold" href="tickets.html">Купить билет</Button>
           </div>
         </div>
       </section>
@@ -296,9 +296,9 @@ function Day2() {
           <ReliefBand variant="final" className="band-shot"
             eyebrow={<Eyebrow center>День №2 · Frankenplatz 2026</Eyebrow>}
             title={<>Расти дальше<br />— осознанно</>}
-            action={<div className="band-cows band-cows--slot"><image-slot id="day2-final-shot" shape="rounded" radius="18" placeholder="Картинка для Дня №2 — перетащи сюда"></image-slot></div>}>
-            <p className="fp-band__body">День 2 для тех, кто готов к следующему уровню. Оставь заявку — первым придёт программа, цены и материалы.</p>
-            <Button variant="gold" href="index.html#reg">Забронировать место</Button>
+            action={<div className="band-cows band-cows--work"><img src="site/img/cow-work.png" width="1122" height="1402" alt="" aria-hidden="true" /></div>}>
+            <p className="fp-band__body">День 2 для тех, кто готов к следующему уровню. Билеты уже в продаже — Early Bird −25%, пока не объявлены все спикеры.</p>
+            <Button variant="gold" href="tickets.html">Купить билет</Button>
           </ReliefBand>
         </div>
       </section>

@@ -17,7 +17,7 @@ window.FP_NAV = function (active) {
   ];
   var cta = active === "speakers"
     ? { label: "Подать заявку", href: "anketa.html", cta: true }
-    : { label: "Записаться", href: (home ? "" : "index.html") + "#reg", cta: true };
+    : { label: "Купить билет", href: "tickets.html", cta: true };
   return links.map(function (l) {
     return { label: l.label, href: l.href, active: (l.key === active || (active === "speakers-soft" && l.key === "speakers")) || undefined };
   }).concat([cta]);
