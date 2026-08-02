@@ -509,10 +509,10 @@
 @media(hover:hover){ .kit .gcard:hover .gflip{transform:rotateY(180deg)} }
 .kit .gface{position:absolute;inset:0;display:flex;flex-direction:column;padding:20px 22px;border-radius:18px;
     border:1px solid var(--line);background:var(--panel);backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden}
-.kit .gfront{align-items:flex-start;background:linear-gradient(160deg,rgba(230,180,80,.09),rgba(230,180,80,.02) 45%,transparent 70%),var(--panel)}
+.kit .gfront{transform:translateZ(1px);align-items:flex-start;background:linear-gradient(160deg,rgba(230,180,80,.09),rgba(230,180,80,.02) 45%,transparent 70%),var(--panel)}
 .kit .gcard:nth-child(even) .gfront{background:linear-gradient(160deg,rgba(185,139,255,.11),rgba(185,139,255,.03) 45%,transparent 70%),var(--panel)}
 .kit .gfront h3{flex:1}
-.kit .gback{transform:rotateY(180deg);justify-content:center;border-color:rgba(230,180,80,.38);
+.kit .gback{transform:rotateY(180deg) translateZ(1px);justify-content:center;border-color:rgba(230,180,80,.38);
     background:
       repeating-linear-gradient(0deg,rgba(230,180,80,.03) 0 1px,transparent 1px 20px),
       repeating-linear-gradient(90deg,rgba(230,180,80,.03) 0 1px,transparent 1px 20px),
@@ -728,7 +728,7 @@
 .spk-fcard.is-flipped .spk-fcard__in{transform:rotateY(180deg)}
 @media(hover:hover){.spk-fcard:hover .spk-fcard__in{transform:rotateY(180deg)}}
 .spk-fface{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:16px;border:1px solid var(--line);background:var(--glass);padding:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:7px}
-.spk-fback{transform:rotateY(180deg);background:linear-gradient(160deg,rgba(155,111,212,.16),rgba(20,16,30,.55));align-items:flex-start;text-align:left;justify-content:center;gap:8px}
+.spk-fback{transform:rotateY(180deg) translateZ(1px);background:linear-gradient(160deg,rgba(155,111,212,.16),rgba(20,16,30,.55));align-items:flex-start;text-align:left;justify-content:center;gap:8px}
 .spk-fback .spk-acc__topic{font-size:13.5px}
 .spk-fback__about{font-size:12.5px;color:var(--muted);line-height:1.5;margin:0;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
 

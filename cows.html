@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Коровы Frankenplatz: Frau Stutz и Räppi. Две коровы, два способа думать о деньгах в Швейцарии.">
+<meta name="description" content="Коровы Frankenplatz: Frau Stutz и Räppli. Две коровы, два способа думать о деньгах в Швейцарии.">
 <meta name="color-scheme" content="dark only">
-<title>Коровы · Frau Stutz и Räppi · Frankenplatz</title>
+<title>Коровы · Frau Stutz и Räppli · Frankenplatz</title>
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="site/kit.css?v=3">
-<link rel="stylesheet" href="site/experiments.css?v=3">
-<link rel="stylesheet" href="site/polish.css?v=3">
+<link rel="stylesheet" href="site/experiments.css?v=4">
+<link rel="stylesheet" href="site/polish.css?v=5">
 <link rel="stylesheet" href="site/align-left.css">
 <link rel="stylesheet" href="site/chrome.css">
 <script src="./image-slot.js"></script>
@@ -110,7 +110,15 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
 .kit .ch-final h2{margin-top:0}
 .kit .ch-final p{font-size:var(--fs-body);line-height:var(--lh-body);color:var(--muted);max-width:600px}
 .kit .ch-final b{color:#fff}
+/* болтающие коровы справа в финальной плашке; точное положение настраивается в cow-tuner.html */
+.kit .ch-final{position:relative;overflow:hidden}
+.kit .ch-final__body{position:relative;z-index:2}
+@media(min-width:900px){.kit .ch-final__body{max-width:calc(100% - clamp(280px,38%,460px))}}
+.kit .ch-final__cows{position:absolute;right:0;bottom:0;z-index:1;width:clamp(280px,38%,460px);line-height:0;pointer-events:none;transform:translateY(12%)}
+.kit .ch-final__cows img{display:block;width:100%;height:auto;max-width:none}
+@media(max-width:899px){.kit .ch-final__cows{position:relative;right:auto;bottom:auto;transform:none;width:min(400px,80vw);margin:20px auto calc(-1 * clamp(28px,4vw,44px))}}
 </style>
+<link rel="stylesheet" href="site/cows-fluid.css?v=3">
 </head>
 <body>
 <template id="__bundler_thumbnail" data-bg-color="#140A1F">
@@ -147,7 +155,7 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
         <span class="fp-badge fp-badge--lila"><span class="fp-badge__dot"></span>Frankenplatz · персонажи</span>
         <h1 style="margin:20px 0 0">Лучшая жизнь<br>в Швейцарии<br><span class="hl">— у коровы</span></h1>
         <p class="sub" style="margin-top:18px">Зонт от солнца, музыка в коровнике, массажная щётка. И доплата от государства за то, чтобы она жила дольше.</p>
-        <span class="ch-tag">Знакомься: Frau Stutz и Räppi.</span>
+        <span class="ch-tag">Знакомься: Frau Stutz и Räppli.</span>
         <div class="ch-cta-row">
           <a class="fp-btn fp-btn--gold" href="#cows">Две коровы</a>
           <a class="fp-btn fp-btn--ghost" href="#concept">Два способа думать о деньгах</a>
@@ -224,9 +232,9 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
           </div>
         </article>
         <article class="ch-card ch-card--rappi">
-          <div class="ch-card__media"><img src="site/img/cow-rappi-portrait.png" width="1254" height="1254" alt="Räppi — корова в красном пальто, синем шарфе и с колокольчиком"></div>
+          <div class="ch-card__media"><img src="site/img/cow-rappi-portrait.png" width="1254" height="1254" alt="Räppli — корова в красном пальто, синем шарфе и с колокольчиком"></div>
           <div class="ch-card__body">
-            <h3>Räppi</h3>
+            <h3>Räppli</h3>
             <p class="ch-card__etym"><b>Rappen</b> — сантим. Сто раппенов — один франк.</p>
             <ul class="ch-specs">
               <li><span class="k">Status</span><span class="v">B · недавно</span></li>
@@ -267,7 +275,7 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
           </ul>
         </div>
         <div class="ch-hab__col ch-hab--x">
-          <div class="ch-hab__h">Räppi · первый год</div>
+          <div class="ch-hab__h">Räppli · первый год</div>
           <ul>
             <li>Купила не тот мешок для мусора и получила записку от соседки</li>
             <li>Постирала в воскресенье. Тоже получила записку</li>
@@ -293,34 +301,37 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
       <div class="ch-cmp">
         <div class="ch-row">
           <div class="ch-row__k">Горизонт</div>
-          <div class="ch-row__c ch-row__c--rappi"><b>Räppi</b>Думает про <strong>этот месяц</strong>.</div>
+          <div class="ch-row__c ch-row__c--rappi"><b>Räppli</b>Думает про <strong>этот месяц</strong>.</div>
           <div class="ch-row__c ch-row__c--stutz"><b>Frau Stutz</b>Думает про <strong>2031 год</strong>.</div>
         </div>
         <div class="ch-row">
           <div class="ch-row__k">Вопрос</div>
-          <div class="ch-row__c ch-row__c--rappi"><b>Räppi</b>«Сколько это стоит?» Про Säulen думает, что их нет — или что они гипотетические.</div>
+          <div class="ch-row__c ch-row__c--rappi"><b>Räppli</b>«Сколько это стоит?» Про Säulen думает, что их нет — или что они гипотетические.</div>
           <div class="ch-row__c ch-row__c--stutz"><b>Frau Stutz</b>«Сколько это стоит <strong>в год</strong> и что будет через …дцать лет?»</div>
         </div>
         <div class="ch-row">
           <div class="ch-row__k">Страх</div>
-          <div class="ch-row__c ch-row__c--rappi"><b>Räppi</b>Боится задавать вопросы, чтобы разобраться.</div>
-          <div class="ch-row__c ch-row__c--stutz"><b>Frau Stutz</b>…дцать лет назад <strong>была Räppi</strong>.</div>
+          <div class="ch-row__c ch-row__c--rappi"><b>Räppli</b>Боится задавать вопросы, чтобы разобраться.</div>
+          <div class="ch-row__c ch-row__c--stutz"><b>Frau Stutz</b>…дцать лет назад <strong>была Räppli</strong>.</div>
         </div>
       </div>
-      <p class="ch-punch">Мы не смеёмся над Räppi.<br><span>Мы хотим помочь в пути, который каждый из нас уже прошёл. Каждый спикер когда-то тоже был Räppi.</span></p>
+      <p class="ch-punch">Мы не смеёмся над Räppli.<br><span>Мы хотим помочь в пути, который каждый из нас уже прошёл. Каждый спикер когда-то тоже был Räppli.</span></p>
     </div>
   </section>
 
   <section data-screen-label="Финал">
     <div class="inner">
       <div class="ch-final">
+        <div class="ch-final__body">
         <div class="fp-eyebrow">24–25 октября 2026</div>
         <h2>Форум о деньгах<br>в Швейцарии</h2>
-        <p>Два дня, девятнадцать выступлений, ноль инфобизнеса. <b>Räppi придёт слушать. Frau Stutz придёт тоже — потому что нельзя знать всё, да и витамин B — самый лучший витамин.</b></p>
+        <p>Два дня, девятнадцать выступлений, ноль инфобизнеса. <b>Räppli придёт слушать. Frau Stutz придёт тоже — потому что нельзя знать всё, да и витамин B — самый лучший витамин.</b></p>
         <div class="ch-cta-row">
           <a class="fp-btn fp-btn--gold" href="tickets.html">Хочу на форум →</a>
           <a class="fp-btn fp-btn--ghost" href="day1.html">Программа</a>
         </div>
+        </div>
+        <div class="ch-final__cows"><img src="site/img/cows-talk.png" width="1122" height="1402" alt="" aria-hidden="true"></div>
       </div>
     </div>
   </section>

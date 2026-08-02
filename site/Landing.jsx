@@ -68,7 +68,7 @@ function CalcModal({ calc, onClose }) {
         <p style={{ color: "var(--muted)", fontSize: 15, margin: "0 0 4px" }}>{calc.result}</p>
         <div className="barwrap"><div className="bar" style={{ width: calc.pct }}></div></div>
         <p style={{ color: "var(--muted-2)", fontSize: 13, margin: "0 0 20px" }}>Базовый результат — бесплатно. Полный отчёт откроется после регистрации.</p>
-        <Button variant="gold" block onClick={onClose}>Забронировать место и открыть отчёт</Button>
+        <Button variant="gold" block onClick={onClose}>Купить билет и открыть отчёт</Button>
       </div>
     </div>
   );
@@ -182,7 +182,7 @@ function Countdown() {
   }, []);
   const SEGS = cdParts();
   return (
-    <a className="cd-tix" href="#reg" ref={rootRef}>
+    <a className="cd-tix" href="tickets.html" ref={rootRef}>
       <span className="cd-tix__top">
         <span className="cd-tix__brand">Frankenplatz ’26</span>
         <span className="cd-tix__loc">Baden <SwissFlag /></span>
@@ -196,7 +196,7 @@ function Countdown() {
       <span className="cd-tix__cut" aria-hidden="true"></span>
       <span className="cd-tix__stub">
         <span className="cd-tix__date">24–25 октября 2026</span>
-        <span className="cd-tix__go">Забронировать <span aria-hidden="true">→</span></span>
+        <span className="cd-tix__go">Купить билет <span aria-hidden="true">→</span></span>
       </span>
     </a>
   );
@@ -254,13 +254,13 @@ function Landing() {
         <div className="inner hero-split">
           <div>
             <div style={{ display: "flex", justifyContent: "flex-start", marginBottom: 8 }}>
-              <Badge variant="lila" dot><span><span className="fp-nb">24–25 октября 2026</span> · <span className="fp-nb">Baden <SwissFlag /></span> · <span className="fp-nb">15 мин от Zürich HB</span></span></Badge>
+              <Badge variant="lila" dot><span className="bdg-stack"><span className="fp-nb">24–25 октября 2026</span><span className="bdg-sep"> · </span><span className="bdg-row"><span className="fp-nb">Baden <SwissFlag /></span> · <span className="fp-nb">15 мин от Zürich HB</span></span></span></Badge>
             </div>
             <h1>Самый большой<br />русскоязычный форум<br />о деньгах <span className="hl">в Швейцарии</span></h1>
             <p className="hero-sub2">Где деньги в Швейцарии — как их найти и не потерять</p>
             <p className="sub">Одна из самых богатых стран мира — а ощущения богатства нет? Два дня среди своих, чтобы увидеть всю карту: пенсия, налоги, инвестиции, бизнес, недвижимость, защита семьи.</p>
             <div style={{ marginTop: 28 }}>
-              <Button variant="gold" href="#reg">Забронировать место</Button>
+              <Button variant="gold" href="tickets.html">Купить билет</Button>
             </div>
           </div>
         </div>
@@ -308,9 +308,9 @@ function Landing() {
             <ReliefBand variant="final" className="band-cow band-cow--mid"
               eyebrow={<Eyebrow center><span><span className="fp-nb">24–25 октября 2026</span> · <span className="fp-nb">Baden <SwissFlag /></span> · <span className="fp-nb">15 мин от Zürich HB</span></span></Eyebrow>}
               title="Приходи стать богаче"
-              action={<span className="band-cow__slot"><img className="band-cow__img" src="site/img/cow-money-wall-2.png" loading="lazy" alt="" aria-hidden="true" /></span>}>
-              <p className="fp-band__body"><strong>Ранняя регистрация уже открыта.</strong> Цена ниже, а программа, цены и отчёты придут тебе первыми. А ещё мы подготовили <a href="#calc">калькуляторы</a> — можно начать прямо сейчас, не дожидаясь форума.</p>
-              <Button variant="gold" href="#reg">Забронировать место</Button>
+              action={<span className="band-cow__slot"><img className="band-cow__img" src="site/img/cow-coquette.png" width="1024" height="1536" alt="" aria-hidden="true" /></span>}>
+              <p className="fp-band__body">Билеты уже в продаже — Early Bird −25%, пока не объявлены все спикеры. А ещё мы подготовили <a href="#calc">калькуляторы</a> — можно начать прямо сейчас, не дожидаясь форума.</p>
+              <Button variant="gold" href="tickets.html">Купить билет</Button>
             </ReliefBand>
           </div>
         </div>
@@ -347,9 +347,8 @@ function Landing() {
           <p className="spk-note">Состав пополняется каждую неделю.<br />Темы по дням: <a href="day1.html">День №1</a> · <a href="day2.html">День №2</a>.</p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 22 }}>
             <Button variant="gold" href="#reg">Получить полную программу</Button>
-            <Button variant="ghost" href="#reg">Забронировать место</Button>
+            <Button variant="ghost" href="tickets.html">Купить билет</Button>
             <Button variant="ghost" href="anketa.html">Предложить спикера</Button>
-            <SpeakBox />
             <SponsorBox />
           </div>
         </div>
@@ -434,9 +433,9 @@ function Landing() {
           <ReliefBand variant="final" className="band-cow" style={{height:500}}
             eyebrow={<Eyebrow center><span><span className="fp-nb">24–25 октября 2026</span> · <span className="fp-nb">Baden <SwissFlag /></span> · <span className="fp-nb">15 мин от Zürich HB</span></span></Eyebrow>}
             title="Приходи стать богаче"
-            action={<span className="band-cow__slot"><img className="band-cow__img" src="site/img/cow-money-wall-2.png" loading="lazy" alt="" aria-hidden="true" /></span>}>
-            <p className="fp-band__body">Знать направление — уже половина успеха. Зайди в раннюю регистрацию — программа, цены и отчёты придут первыми.</p>
-            <Button variant="gold" href="#reg">Забронировать место</Button>
+            action={<span className="band-cow__slot"><img className="band-cow__img" src="site/img/cow-money-wall-2.png" width="647" height="1007" alt="" aria-hidden="true" /></span>}>
+            <p className="fp-band__body">Знать направление — уже половина успеха. Билеты уже в продаже — Early Bird −25%, пока не объявлены все спикеры.</p>
+            <Button variant="gold" href="tickets.html">Купить билет</Button>
           </ReliefBand>
         </div>
       </section>

@@ -8,8 +8,8 @@
 <title>Билеты · Frankenplatz 2026</title>
 <link rel="stylesheet" href="styles.css">
 <link rel="stylesheet" href="site/kit.css?v=3">
-<link rel="stylesheet" href="site/experiments.css?v=3">
-<link rel="stylesheet" href="site/polish.css?v=3">
+<link rel="stylesheet" href="site/experiments.css?v=4">
+<link rel="stylesheet" href="site/polish.css?v=5">
 <link rel="stylesheet" href="site/align-left.css">
 <link rel="stylesheet" href="site/chrome.css">
 <style>
@@ -48,9 +48,9 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
 @media(min-width:900px){.kit .tk-grid{grid-template-columns:repeat(3,minmax(0,1fr));align-items:start}}
 .kit .tk-card{position:relative;border:1px solid var(--line);border-radius:22px;background:var(--glass);padding:26px clamp(20px,2.6vw,28px) 24px;overflow:hidden}
 .kit .tk-card--pack{border-color:rgba(230,180,80,.42);background:linear-gradient(160deg,rgba(230,180,80,.12),rgba(185,139,255,.08))}
-.kit .tk-card__top{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:6px}
+.kit .tk-card__top{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:4px 12px;margin-bottom:14px}
 .kit .tk-card h3{font-family:var(--font-display);font-weight:800;font-size:clamp(22px,2.6vw,27px);color:#fff;margin:0;letter-spacing:-.01em}
-.kit .tk-card__seg{font-family:var(--font-body);font-weight:700;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);flex:none}
+.kit .tk-card__seg{font-family:var(--font-body);font-weight:700;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2)}
 .kit .tk-card__date{margin:0 0 18px;font-size:var(--fs-sm);color:var(--muted-2)}
 .kit .tk-rows{list-style:none;margin:0;padding:0}
 .kit .tk-row{display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding:13px 0;border-top:1px solid var(--line)}
@@ -110,6 +110,24 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
 .kit .tk-banner--ok{border-color:rgba(139,229,155,.4);background:rgba(139,229,155,.08);color:#B7F0C4}
 .kit .tk-banner--warn{border-color:rgba(255,122,138,.4);background:rgba(255,122,138,.08);color:#FFB3BC}
 
+/* ——— включено во все билеты / состав / лотерея ——— */
+.kit .tk-inc{margin-top:30px;border:1px solid var(--line);border-radius:20px;background:var(--glass);padding:22px 26px}
+.kit .tk-inc__h{margin:0;font-family:var(--font-display);font-weight:800;font-size:17px;color:#fff}
+.kit .tk-inc ul{list-style:none;display:grid;gap:9px 24px;margin:14px 0 0;padding:0}
+@media(min-width:720px){.kit .tk-inc ul{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kit .tk-inc li,.kit .tk-feat li{position:relative;padding-left:22px;font-size:var(--fs-sm);line-height:var(--lh-body);color:var(--muted)}
+.kit .tk-inc li::before,.kit .tk-feat li::before{content:"✓";position:absolute;left:0;color:var(--gold);font-weight:700}
+.kit .tk-feat{list-style:none;margin:0 0 16px;padding:0;display:grid;gap:9px}
+.kit .tk-price__old{font-size:13.5px;color:var(--muted-2);margin-right:8px}
+.kit .tk-note{margin:16px 0 0;padding:12px 14px;border-radius:12px;border:1px dashed rgba(230,180,80,.45);background:rgba(230,180,80,.07);font-size:13px;line-height:1.5;color:var(--muted)}
+.kit .tk-note b{color:var(--gold)}
+.kit .tk-buy-row3{display:grid;gap:14px;margin-top:26px}
+@media(min-width:900px){.kit .tk-buy-row3{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.kit .tk-lotto{margin-top:24px;border:1px solid var(--line);border-radius:20px;background:var(--glass);padding:22px 26px;display:flex;flex-wrap:wrap;gap:8px 26px;align-items:baseline}
+.kit .tk-lotto__big{font-family:var(--font-display);font-weight:800;font-size:clamp(19px,2.4vw,25px);color:#fff}
+.kit .tk-lotto__big span{color:var(--gold)}
+.kit .tk-lotto__d{margin:0;font-size:var(--fs-sm);color:var(--muted)}
+
 /* ——— финальная плашка ——— */
 .kit .tk-final{border:1px solid rgba(230,180,80,.35);border-radius:24px;background:linear-gradient(135deg,rgba(230,180,80,.12),rgba(185,139,255,.10));padding:clamp(28px,4vw,44px)}
 .kit .tk-final h2{margin-top:0}
@@ -136,7 +154,7 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
       <a class="fp-top__link" href="brand-market.html">Маркет</a>
       <a class="fp-top__link" href="trips.html">Другие форумы</a>
       <a class="fp-top__link fp-top__link--active" aria-current="page" href="tickets.html">Билеты</a>
-      <a class="fp-top__link fp-top__link--cta" href="index.html#reg">Записаться</a>
+      <a class="fp-top__link fp-top__link--cta" href="#buy">Купить билет</a>
     </nav>
     <button class="fp-top__burger" aria-label="Меню" aria-expanded="false">☰</button>
     <div class="fp-top__menu">
@@ -147,87 +165,94 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
       <a class="fp-top__link" href="collaboration.html">Сотрудничество</a>
       <a class="fp-top__link" href="trips.html">Другие форумы</a>
       <a class="fp-top__link fp-top__link--active" aria-current="page" href="tickets.html">Билеты</a>
-      <a class="fp-top__link fp-top__link--cta" href="index.html#reg">Записаться</a>
+      <a class="fp-top__link fp-top__link--cta" href="#buy">Купить билет</a>
     </div>
   </header>
 
   <header class="hero gridbg" data-screen-label="Hero">
     <div class="inner">
-      <span class="fp-badge fp-badge--lila"><span class="fp-badge__dot"></span>Frankenplatz · 24–25 октября 2026 · Baden</span>
+      <span class="fp-badge fp-badge--lila"><span class="fp-badge__dot"></span>Frankenplatz · 24–25 октября 2026 · зал 300 мест</span>
       <h1 style="margin:20px 0 0">Билеты<br><span class="hl">на форум</span></h1>
       <p class="sub" style="margin-top:18px">Два дня о деньгах в Швейцарии: пенсия, налоги, инвестиции, бизнес. Выбери день и ряд — и будь среди своих. 15 минут от Zürich HB.</p>
       <div class="tk-eb">
         <span class="tk-eb__pill">Early Bird −25%</span>
-        <p class="tk-eb__txt"><b>Действует до объявления всех спикеров.</b> Дальше — обычная цена. Скидка на билеты, ланч всегда по полной.</p>
+        <p class="tk-eb__txt"><b>На все билеты — до объявления всех спикеров.</b> Дальше — обычная цена; на ланч скидка не действует.</p>
       </div>
     </div>
   </header>
 
-  <section data-screen-label="Категории">
+  <section class="gridbg" id="buy" data-screen-label="Билеты">
     <div class="inner">
-      <div class="fp-eyebrow">Категории рядов</div>
-      <h2>Чем ближе к сцене<br>— тем дороже</h2>
-      <p class="lead">Один зал, три зоны. Место в выбранной категории закрепляется за тобой; конкретный ряд/место распределяем при рассадке.</p>
-      <div class="tk-legend">
-        <div class="tk-leg">
-          <p class="tk-leg__n">VIP</p>
-          <p class="tk-leg__d">Ряды 1–2, ближе всего к сцене. Всего 30 мест.</p>
-        </div>
-        <div class="tk-leg tk-leg--premium">
-          <p class="tk-leg__n">Premium</p>
-          <p class="tk-leg__d">Ряды 3–5, отличный обзор. 45 мест.</p>
-        </div>
-        <div class="tk-leg tk-leg--standard">
-          <p class="tk-leg__n">Standard</p>
-          <p class="tk-leg__d">Ряды 6–20, основной зал. 225 мест.</p>
-        </div>
+      <div class="fp-eyebrow">Билеты · CHF</div>
+      <h2>Три категории<br>— один зал на 300 мест</h2>
+      <p class="lead">Крупная цифра — актуальная цена Early Bird. Зачёркнутая серым — обычная, после объявления всех спикеров.</p>
+      <div class="tk-inc">
+        <p class="tk-inc__h">Включено во все билеты</p>
+        <ul>
+          <li>Доступ ко всем лекциям дня вживую</li>
+          <li>Кофе-брейк и аперо</li>
+          <li>Вопрос спикеру онлайн — ответ после форума</li>
+          <li>Онлайн-платформа нетворкинга</li>
+          <li>Общая офлайн-зона нетворкинга на форуме</li>
+          <li>Участие в лотерее</li>
+        </ul>
       </div>
-    </div>
-  </section>
-
-  <section class="gridbg" data-screen-label="Цены">
-    <div class="inner">
-      <div class="fp-eyebrow">Цены · CHF</div>
-      <h2>Один день, два дня<br>— как удобно</h2>
-      <p class="lead">Крупная цифра — актуальная цена Early Bird. Зачёркнутая — обычная, после объявления всех спикеров.</p>
 
       <div class="tk-grid">
-        <!-- День 1 -->
         <article class="tk-card">
-          <div class="tk-card__top"><h3>День №1</h3><span class="tk-card__seg">База</span></div>
-          <p class="tk-card__date">24 октября 2026</p>
-          <ul class="tk-rows">
-            <li class="tk-row"><span class="tk-row__cat">VIP<span>ряды 1–2</span></span><span class="tk-price"><span class="tk-price__eb">209</span><span class="tk-price__cur">CHF</span><span class="tk-price__was">279 CHF</span></span></li>
-            <li class="tk-row"><span class="tk-row__cat">Premium<span>ряды 3–5</span></span><span class="tk-price"><span class="tk-price__eb">149</span><span class="tk-price__cur">CHF</span><span class="tk-price__was">199 CHF</span></span></li>
-            <li class="tk-row"><span class="tk-row__cat">Standard<span>ряды 6–20</span></span><span class="tk-price"><span class="tk-price__eb">112</span><span class="tk-price__cur">CHF</span><span class="tk-price__was">149 CHF</span></span></li>
+          <div class="tk-card__top"><h3>Standard</h3><span class="tk-card__seg">ряды 9–20 · 180 мест</span></div>
+          <ul class="tk-feat">
+            <li>Свободная рассадка в своей зоне</li>
+            <li>Всё, что включено во все билеты</li>
+            <li>Лотерея: 10 призов</li>
           </ul>
-          <div class="tk-buy-row"><button type="button" class="tk-buy" data-product="day1">Купить билет →</button></div>
+          <ul class="tk-rows">
+            <li class="tk-row"><span class="tk-row__cat">День 1<span>База 🇨🇭 финансов · 24.10</span></span><span class="tk-price"><s class="tk-price__old">149</s><span class="tk-price__eb">112</span><span class="tk-price__cur">CHF</span></span></li>
+            <li class="tk-row"><span class="tk-row__cat">День 2<span>LvL UP · 25.10</span></span><span class="tk-price"><s class="tk-price__old">219</s><span class="tk-price__eb">164</span><span class="tk-price__cur">CHF</span></span></li>
+            <li class="tk-row"><span class="tk-row__cat">Оба дня<span>База + LvL UP</span></span><span class="tk-price"><s class="tk-price__old">319</s><span class="tk-price__eb">239</span><span class="tk-price__cur">CHF</span></span></li>
+          </ul>
+          <div class="tk-buy-row"><button type="button" class="tk-buy" data-cat="standard">Купить Standard →</button></div>
         </article>
-
-        <!-- День 2 -->
         <article class="tk-card">
-          <div class="tk-card__top"><h3>День №2</h3><span class="tk-card__seg">Следующий уровень</span></div>
-          <p class="tk-card__date">25 октября 2026</p>
-          <ul class="tk-rows">
-            <li class="tk-row"><span class="tk-row__cat">VIP<span>ряды 1–2</span></span><span class="tk-price"><span class="tk-price__eb">277</span><span class="tk-price__cur">CHF</span><span class="tk-price__was">369 CHF</span></span></li>
-            <li class="tk-row"><span class="tk-row__cat">Premium<span>ряды 3–5</span></span><span class="tk-price"><span class="tk-price__eb">217</span><span class="tk-price__cur">CHF</span><span class="tk-price__was">289 CHF</span></span></li>
-            <li class="tk-row"><span class="tk-row__cat">Standard<span>ряды 6–20</span></span><span class="tk-price"><span class="tk-price__eb">164</span><span class="tk-price__cur">CHF</span><span class="tk-price__was">219 CHF</span></span></li>
+          <div class="tk-card__top"><h3>Premium</h3><span class="tk-card__seg">ряды 4–8 · 75 мест</span></div>
+          <ul class="tk-feat">
+            <li>Всё из Standard</li>
+            <li>Места ближе к сцене</li>
+            <li>Записи лекций и материалы спикеров после форума</li>
+            <li>Приоритетный ответ на вопросы</li>
+            <li>Отдельная зона нетворкинга (Premium + VIP)</li>
+            <li>Лотерея: 5 призов</li>
           </ul>
-          <div class="tk-buy-row"><button type="button" class="tk-buy" data-product="day2">Купить билет →</button></div>
+          <ul class="tk-rows">
+            <li class="tk-row"><span class="tk-row__cat">День 1<span>База 🇨🇭 финансов · 24.10</span></span><span class="tk-price"><s class="tk-price__old">199</s><span class="tk-price__eb">149</span><span class="tk-price__cur">CHF</span></span></li>
+            <li class="tk-row"><span class="tk-row__cat">День 2<span>LvL UP · 25.10</span></span><span class="tk-price"><s class="tk-price__old">289</s><span class="tk-price__eb">217</span><span class="tk-price__cur">CHF</span></span></li>
+            <li class="tk-row"><span class="tk-row__cat">Оба дня<span>База + LvL UP</span></span><span class="tk-price"><s class="tk-price__old">419</s><span class="tk-price__eb">314</span><span class="tk-price__cur">CHF</span></span></li>
+          </ul>
+          <div class="tk-buy-row"><button type="button" class="tk-buy" data-cat="premium">Купить Premium →</button></div>
         </article>
-
-        <!-- Пакет 2 дня -->
         <article class="tk-card tk-card--pack">
-          <div class="tk-card__top"><h3>Оба дня</h3><span class="tk-card__seg">пакет · выгодно</span></div>
-          <p class="tk-card__date">24 + 25 октября</p>
-          <ul class="tk-rows">
-            <li class="tk-row"><span class="tk-row__cat">VIP<span>оба дня · −99 CHF</span></span><span class="tk-price"><span class="tk-price__eb">412</span><span class="tk-price__cur">CHF</span><span class="tk-price__was">549 CHF</span></span></li>
-            <li class="tk-row"><span class="tk-row__cat">Premium<span>оба дня · −69 CHF</span></span><span class="tk-price"><span class="tk-price__eb">314</span><span class="tk-price__cur">CHF</span><span class="tk-price__was">419 CHF</span></span></li>
-            <li class="tk-row"><span class="tk-row__cat">Standard<span>оба дня · −49 CHF</span></span><span class="tk-price"><span class="tk-price__eb">239</span><span class="tk-price__cur">CHF</span><span class="tk-price__was">319 CHF</span></span></li>
+          <div class="tk-card__top"><h3>VIP</h3><span class="tk-card__seg">ряды 1–3 · 45 мест</span></div>
+          <ul class="tk-feat">
+            <li>Всё из Premium</li>
+            <li>Первые ряды, именная рассадка от центра к краям</li>
+            <li>Приоритет в вопросах спикерам — голосом из первого ряда и первоочередной ответ онлайн</li>
+            <li>Полезные подарки от партнёров</li>
+            <li>Отдельный нетворкинг + мини-афтепати со спикерами</li>
+            <li>Лотерея: 3 приза</li>
           </ul>
-          <p class="tk-pack-note">Дешевле, чем два дня по отдельности. <span class="tk-save">Экономия до 99 CHF</span></p>
-          <div class="tk-buy-row"><button type="button" class="tk-buy" data-product="both">Купить пакет →</button></div>
+          <ul class="tk-rows">
+            <li class="tk-row"><span class="tk-row__cat">День 1<span>База 🇨🇭 финансов · 24.10</span></span><span class="tk-price"><s class="tk-price__old">279</s><span class="tk-price__eb">209</span><span class="tk-price__cur">CHF</span></span></li>
+            <li class="tk-row"><span class="tk-row__cat">День 2<span>LvL UP · 25.10</span></span><span class="tk-price"><s class="tk-price__old">369</s><span class="tk-price__eb">277</span><span class="tk-price__cur">CHF</span></span></li>
+            <li class="tk-row"><span class="tk-row__cat">Оба дня<span>База + LvL UP · экономия до 99</span></span><span class="tk-price"><s class="tk-price__old">549</s><span class="tk-price__eb">412</span><span class="tk-price__cur">CHF</span></span></li>
+          </ul>
+          <p class="tk-note"><b>Места идут от центра к краям</b> — первые купившие VIP получают центр, дальше по мере заполнения.</p>
+          <div class="tk-buy-row"><button type="button" class="tk-buy" data-cat="vip">Купить VIP →</button></div>
         </article>
+      </div>
+
+      <div class="tk-lotto">
+        <div class="tk-lotto__big">Лотерея · <span>18 призов</span> · фонд более 5'000 CHF</div>
+        <p class="tk-lotto__d">Распределение по зонам: VIP — 3, Premium — 5, Standard — 10.</p>
       </div>
 
       <div class="tk-lunch">
@@ -235,19 +260,18 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
         <p class="tk-lunch__d">К любому билету можно добавить <b>ланч</b> — обед на площадке. За два дня — <b>+70 CHF</b> (по ланчу на каждый день). Ланч оформляется как доп при покупке; <b>Early Bird на ланч не распространяется</b>.</p>
       </div>
 
-      <p class="tk-fine"><b>Все цены в CHF, без НДС.</b> Early Bird −25% действует на билеты (не на ланч) до момента объявления всех спикеров. Количество мест в каждой категории ограничено. Онлайн-покупка с оплатой картой откроется скоро — сейчас можно оставить <a href="index.html#reg">раннюю регистрацию</a>, и мы напишем первыми, как только откроются продажи.</p>
+      <p class="tk-fine"><b>Все цены в CHF, без НДС.</b> Early Bird −25% действует на билеты (не на ланч) до объявления всех спикеров. Всего 300 мест: VIP 45 · Premium 75 · Standard 180 — количество в каждой категории ограничено.</p>
     </div>
   </section>
 
-  <section data-screen-label="Финал">
+  <section data-screen-label="Бартер">
     <div class="inner">
       <div class="tk-final">
-        <div class="fp-eyebrow">24–25 октября 2026 · Baden</div>
-        <h2>Пока продажи не открыты<br>— забронируй цену</h2>
-        <p>Оставь контакты в ранней регистрации — <b>напишем первыми</b>, как только откроется покупка, и ты успеешь взять билет по цене Early Bird до публичного анонса.</p>
+        <div class="fp-eyebrow">Бартер</div>
+        <h2>Хочу участвовать бартером</h2>
+        <p>Есть чем вложиться вместо денег? Предложи услугу (дизайн, съёмка, перевод, тексты, SMM) или помощь на площадке — взамен участие в форуме.</p>
         <div class="ch-cta-row" style="display:flex;gap:14px;flex-wrap:wrap;margin-top:28px">
-          <a class="fp-btn fp-btn--gold" href="index.html#reg">Ранняя регистрация →</a>
-          <a class="fp-btn fp-btn--ghost" href="day1.html">Программа форума</a>
+          <a class="fp-btn fp-btn--gold" href="collaboration.html">Оставить заявку →</a>
         </div>
       </div>
     </div>

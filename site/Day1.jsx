@@ -41,9 +41,9 @@ function Day1() {
             <Badge variant="lila" dot>День №1<span className="bdg-tail"> · база <SwissFlag />, с которой стоит начать</span></Badge>
           </div>
           <h1>Где бабки — <span className="hl">и как<br />их не потерять</span></h1>
-          <p className="sub">День 1 — про самые частые и самые тихие вопросы, которые есть почти у каждого, кто живёт в Швейцарии. Мы их называем вслух. Ты можешь просто прийти и послушать — ничего никому не рассказывая.</p>
+          <p className="sub">День 1 — про самые частые и самые тихие вопросы, которые есть почти у каждого, кто живёт в Швейцарии. Мы их называем вслух. Ты можешь просто прийти и послушать ответы на частые вопросы — а свой вопрос задать анонимно, онлайн или офлайн, на своё усмотрение.</p>
           <div style={{ marginTop: 28 }}>
-            <Button variant="gold" href="index.html#reg">Забронировать место</Button>
+            <Button variant="gold" href="tickets.html">Купить билет</Button>
           </div>
         </div>
       </header>
@@ -171,7 +171,7 @@ function Day1() {
           <div className="spk-mob">
             <SpeakerRows speakers={window.FP_SPEAKERS.filter((s) => window.FP_IN_DAY(s, 1))} day={1} showDay />
           </div>
-          <p className="spk-note">Хочешь на эту сцену сам? <a href="speakers.html">Стань спикером →</a></p>
+          <p className="spk-note">Знаешь, кого стоит позвать? <a href="anketa.html">Предложить спикера →</a></p>
         </div>
       </section>
 
@@ -197,8 +197,8 @@ function Day1() {
           title={<>Узнать базу<br />— и перестать терять</>}
           action={<div className="band-cows"><img src="site/img/cows-invite-w.png" alt="" aria-hidden="true" /></div>}>
             <p className="fp-band__body"><strong>Знать базу — значит перестать тревожиться.</strong> Эти вопросы есть почти у всех — просто о них молчат. На форуме можно тихо разобраться и забрать вектор.</p>
-            <p className="cta-mid__note">В зале <b>всего 300 мест</b>.<br />На ранней регистрации цена ниже — а программа Дня 1 придёт тебе первой.</p>
-            <Button variant="gold" href="index.html#reg">Забронировать место</Button>
+            <p className="cta-mid__note">В зале <b>всего 300 мест</b>.<br />Early Bird −25% — пока не объявлены все спикеры.</p>
+            <Button variant="gold" href="tickets.html">Купить билет</Button>
           </ReliefBand>
         </div>
       </section>
