@@ -331,13 +331,13 @@ textarea{resize:vertical;min-height:68px}
   <div class="fs">
    <label>Вес и габарит</label>
    <div class="row">
-    <input type="number" placeholder="Вес, кг" step="0.1">
-    <select><option>Размер: конверт А4</option><option>Размер: коробка обуви</option><option>Размер: пакет</option><option>Размер: рюкзак</option><option>Размер: отдельное место</option></select>
+    <input id="okzA_weight" type="number" placeholder="Вес, кг" step="0.1">
+    <select id="okzA_size"><option>Размер: конверт А4</option><option>Размер: коробка обуви</option><option>Размер: пакет</option><option>Размер: рюкзак</option><option>Размер: отдельное место</option></select>
    </div>
   </div>
   <div class="fs">
    <label>Что внутри</label>
-   <textarea placeholder="Детские книги, 4 штуки, в мягкой обложке. Упаковано в пакет, покажу при передаче."></textarea>
+   <textarea id="okzA_what" placeholder="Детские книги, 4 штуки, в мягкой обложке. Упаковано в пакет, покажу при передаче."></textarea>
    <p class="hint">Пиши конкретно. «Подарок» и «личные вещи» — самая частая причина отказа.</p>
   </div>
   <div class="fs">
@@ -422,15 +422,26 @@ textarea{resize:vertical;min-height:68px}
     <div class="capTop"><span class="capBig">25 CHF</span><span class="capSub">Конверт по тарифу</span></div>
    </div>
    <p class="hintI">Доставка до перевозчика и от него — за счёт отправителя, отдельно от вознаграждения.</p>
-   <input placeholder="Своё предложение, если в объявлении «обсуждаемо»" style="margin-top:11px">
+   <input id="okzA_offer" placeholder="Своё предложение, если в объявлении «обсуждаемо»" style="margin-top:11px">
   </div>
   <div class="fs">
    <label>Сообщение</label>
-   <textarea placeholder="Здравствуйте! Книги для племянницы, всё покажу при встрече. Удобно привезти на выходных."></textarea>
+   <textarea id="okzA_note" placeholder="Здравствуйте! Книги для племянницы, всё покажу при встрече. Удобно привезти на выходных."></textarea>
   </div>
+
+  <div class="step"><div class="stepN priv">5</div><div class="stepT">Как с тобой связаться<span>Видит только команда Frankenplatz — публично не показывается</span></div></div>
+  <div class="fs">
+   <div class="row"><input id="okzA_name" placeholder="Как тебя зовут"><input id="okzA_email" type="email" placeholder="E-mail для ответа *"></div>
+   <input id="okzA_contact" placeholder="Telegram или телефон (необязательно)" style="margin-top:10px">
+   <div style="position:absolute;left:-9999px" aria-hidden="true"><input id="okzA_hp" tabindex="-1" autocomplete="off" placeholder="Не заполняйте"></div>
+  </div>
+
   <label class="chk"><input type="checkbox">
    <span>Подтверждаю: содержимое покажу при передаче, ничего из «красных флагов» в посылке нет.</span></label>
-  <button class="submit" onclick="sendApply()">Отправить заявку</button>
+  <label class="chk"><input type="checkbox" id="okzA_consent">
+   <span>Согласен(на) на обработку контактов, чтобы команда Frankenplatz связала меня с тем, кто везёт. <a class="link" href="/legal#datenschutz">Политика конфиденциальности</a>.</span></label>
+  <p class="hint" id="okzA_msg" style="display:none;color:var(--red);font-weight:600"></p>
+  <button class="submit" id="okzA_btn" onclick="sendApply()">Отправить заявку</button>
  </div>
  <div class="ok" id="okApply"><b>Заявка отправлена</b>
   <p>Решение придёт во вкладку «Мои заявки». Адреса откроются, только если заявку примут.</p></div>
@@ -506,7 +517,7 @@ textarea{resize:vertical;min-height:68px}
   <label>Города</label>
   <div class="row"><input id="cityA" placeholder="Город отправления"><input id="cityB" placeholder="Город назначения"></div>
  </div>
- <div class="fs"><label>Дата выезда</label><div class="row"><input type="date"><input placeholder="Или окно: «конец ноября»"></div></div>
+ <div class="fs"><label>Дата выезда</label><div class="row"><input id="okzN_date" type="date"><input id="okzN_dateTxt" placeholder="Или окно: «конец ноября»"></div></div>
 
  <div class="step"><div class="stepN">2</div><div class="stepT">Сколько могу взять<span>Общая ёмкость: вес и габарит</span></div></div>
  <div class="capBox">
@@ -662,10 +673,21 @@ textarea{resize:vertical;min-height:68px}
   <p>Отсюда правило, которое стоит сделать своим: <b>посылку показывают при тебе, ты смотришь содержимое и только потом соглашаешься.</b> Не показали — твоё право отказаться.</p>
   <p>Frankenplatz соединяет запросы и не участвует в передаче. Мы не проверяем содержимое, не храним вещи и не выступаем стороной в договорённости.</p></div>
 
- <div class="fs" style="margin-top:16px"><label>Комментарий</label><textarea placeholder="Габаритное обсуждаемо. Всё показываем при передаче."></textarea></div>
+ <div class="fs" style="margin-top:16px"><label>Комментарий</label><textarea id="okzN_note" placeholder="Габаритное обсуждаемо. Всё показываем при передаче."></textarea></div>
+
+ <div class="step"><div class="stepN priv">7</div><div class="stepT">Как с тобой связаться<span>Видит только команда Frankenplatz — публично не показывается</span></div></div>
+ <div class="fs">
+  <div class="row"><input id="okzN_name" placeholder="Как тебя зовут"><input id="okzN_email" type="email" placeholder="E-mail для ответа *"></div>
+  <input id="okzN_contact" placeholder="Telegram или телефон (необязательно)" style="margin-top:10px">
+  <div style="position:absolute;left:-9999px" aria-hidden="true"><input id="okzN_hp" tabindex="-1" autocomplete="off" placeholder="Не заполняйте"></div>
+ </div>
+
  <label class="chk"><input type="checkbox">
   <span>Прочитала блок «Важно». Понимаю, что ответственность за содержимое несёт тот, кто везёт, и решение о каждой посылке принимаю сама.</span></label>
- <button class="submit" onclick="send()">Разместить объявление</button>
+ <label class="chk"><input type="checkbox" id="okzN_consent">
+  <span>Согласен(на) на обработку контактов, чтобы команда Frankenplatz связала меня с отправителями. <a class="link" href="/legal#datenschutz">Политика конфиденциальности</a>.</span></label>
+ <p class="hint" id="okzN_msg" style="display:none;color:var(--red);font-weight:600"></p>
+ <button class="submit" id="okzN_btn" onclick="send()">Разместить объявление</button>
 </div>
 <div class="ok" id="ok"><b>Объявление размещено</b>
  <p>Заявки придут во вкладку «Мои заявки». В письме — только уведомление и ссылка, никаких данных.</p></div>
@@ -967,6 +989,110 @@ function pick(b,multi){if(multi){b.classList.toggle('on');return}document.queryS
 function send(){document.getElementById('formCard').style.display='none';document.getElementById('ok').classList.add('show');window.scrollTo({top:0,behavior:'smooth'})}
 function sendApply(){document.getElementById('applyCard').style.display='none';document.getElementById('okApply').classList.add('show');window.scrollTo({top:0,behavior:'smooth'})}
 buildDirs();applyDir();buildGab();capOut();buildKinds();render();renderReq();renderMine();
+
+/* ─── Оказия → база аудитории Frankenplatz (/api/forms) ───────────────────
+   Обе формы пишут строку в public.submissions и шлют письмо-уведомление
+   оргам + автоответ отправителю. Тот же паттерн, что у прочих форм форума
+   (site/registration-form.js): source:'forum', honeypot 'website', time-trap,
+   consent. Доска (data[]) пока mock — реального матчинга объявление↔заявка нет,
+   команда связывает людей вручную. */
+const OKZ_ENDPOINT='https://slswiss-tickets.vercel.app/api/forms';
+// Time-trap считаем от загрузки страницы (форма могла быть открыта давно).
+const OKZ_LOADED=Date.now();
+function okzVal(sel){const el=document.querySelector(sel);return el&&el.value?String(el.value).trim():'';}
+function okzOn(g){const el=document.querySelector(`[data-g="${g}"].on`);return el?el.textContent.trim():'';}
+function okzAll(g){return [...document.querySelectorAll(`[data-g="${g}"].on`)].map(e=>e.textContent.trim()).join(', ');}
+function okzVisible(id){const el=document.getElementById(id);return !!el&&el.style.display!=='none';}
+function okzClean(o){const r={};for(const k in o){const v=o[k];if(v!=null&&String(v).trim()!=='')r[k]=String(v).trim();}return r;}
+function okzSend(body,onOk,onErr){
+ fetch(OKZ_ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
+  .then(r=>r.json().catch(()=>({})).then(d=>({status:r.status,data:d})))
+  .then(res=>{
+   if(res.status>=200&&res.status<300&&res.data&&res.data.ok) onOk();
+   else onErr((res.data&&res.data.error)||'Не получилось отправить. Попробуй ещё раз.');
+  })
+  .catch(()=>onErr('Сеть недоступна. Попробуй ещё раз чуть позже.'));
+}
+// Telegram отличаем от телефона по ведущему @ — без лишнего поля.
+function okzContact(v){const c=String(v||'').trim();return c.charAt(0)==='@'?{telegram:c,phone:''}:{telegram:'',phone:c};}
+
+/* Заявка на объявление */
+function sendApply(){
+ const email=okzVal('#okzA_email');
+ const msg=document.getElementById('okzA_msg');
+ const show=t=>{msg.textContent=t;msg.style.display='block';};
+ if(!email||email.indexOf('@')<1){show('Проверь e-mail — кажется, есть опечатка.');document.getElementById('okzA_email').focus();return;}
+ if(!document.getElementById('okzA_consent').checked){show('Нужно согласие на обработку данных.');return;}
+ msg.style.display='none';
+ const btn=document.getElementById('okzA_btn');btn.disabled=true;btn.textContent='Отправляю…';
+ const c=okzContact(okzVal('#okzA_contact'));
+ const payload=okzClean({
+  'Объявление':document.querySelector('#applyCard .sub')?.textContent.trim(),
+  'Тип посылки':okzOn('ak'),
+  'Вес, кг':okzVal('#okzA_weight'),
+  'Размер':okzVal('#okzA_size'),
+  'Что внутри':okzVal('#okzA_what'),
+  'Категории':okzAll('ac'),
+  'Как отдаёт':okzOn('aw1')+(okzVisible('aw1Post')?' · '+okzOn('aw1t'):''),
+  'Как забирает':okzOn('aw2')+(okzVisible('aw2Post')?' · '+okzOn('aw2t'):''),
+  'Предложение по оплате':okzVal('#okzA_offer'),
+  'Сообщение':okzVal('#okzA_note')
+ });
+ okzSend({
+  source:'forum',form_key:'okaziya-request',kind:'application',role:'Оказия · заявка',
+  source_url:location.href,name:okzVal('#okzA_name'),email,telegram:c.telegram,phone:c.phone,
+  consent:true,website:okzVal('#okzA_hp'),elapsed_ms:Date.now()-OKZ_LOADED,payload
+ },
+ ()=>{document.getElementById('applyCard').style.display='none';document.getElementById('okApply').classList.add('show');window.scrollTo({top:0,behavior:'smooth'});},
+ e=>{show(e);btn.disabled=false;btn.textContent='Отправить заявку';});
+}
+
+/* Разместить объявление */
+function okzKinds(){
+ const money=okzOn('pay')==='По тарифу';
+ return KINDS.filter(k=>document.getElementById('k_'+k.id)?.classList.contains('on')).map(k=>{
+  if(!money) return k.nm;
+  const inp=document.querySelector('#k_'+k.id+' .kPrice input');
+  const p=inp&&inp.value?inp.value.trim()+' CHF':'—';
+  return k.nm+': '+p;
+ }).join('; ');
+}
+function send(){
+ const email=okzVal('#okzN_email');
+ const msg=document.getElementById('okzN_msg');
+ const show=t=>{msg.textContent=t;msg.style.display='block';};
+ if(!email||email.indexOf('@')<1){show('Проверь e-mail — кажется, есть опечатка.');document.getElementById('okzN_email').focus();return;}
+ if(!document.getElementById('okzN_consent').checked){show('Нужно согласие на обработку данных.');return;}
+ msg.style.display='none';
+ const btn=document.getElementById('okzN_btn');btn.disabled=true;btn.textContent='Отправляю…';
+ const c=okzContact(okzVal('#okzN_contact'));
+ const [da,db]=dir;
+ const napr=`${OPS[da].flag} ${cap(OPS[da].name)} → ${OPS[db].flag} ${cap(OPS[db].name)}`;
+ const gab=(GAB.find(g=>g.v===gabSel)||{}).nm||'';
+ const cw=okzVal('#cwFree')||('до '+(okzVal('#cw')||'?')+' кг');
+ const cityA=okzVal('#cityA'),cityB=okzVal('#cityB');
+ const payload=okzClean({
+  'Тип':okzOn('type'),
+  'Направление':napr,
+  'Города':cityA||cityB?`${cityA||'?'} → ${cityB||'?'}`:'',
+  'Дата выезда':[okzVal('#okzN_date'),okzVal('#okzN_dateTxt')].filter(Boolean).join(' · '),
+  'Ёмкость':`${cw} · ${gab}`,
+  'Тариф':okzOn('pay'),
+  'Что берёт':okzKinds(),
+  'Что взамен':okzVisible('altWrap')?okzAll('alt'):'',
+  'Как передать':okzOn('wa')+(okzVisible('waAddr')?' · '+(document.querySelector('#waAddr textarea')?.value||'').trim():''),
+  'Как забрать':okzOn('wb'),
+  'Категории':okzAll('c'),
+  'Комментарий':okzVal('#okzN_note')
+ });
+ okzSend({
+  source:'forum',form_key:'okaziya-listing',kind:'application',role:'Оказия · объявление',
+  source_url:location.href,name:okzVal('#okzN_name'),email,telegram:c.telegram,phone:c.phone,
+  consent:true,website:okzVal('#okzN_hp'),elapsed_ms:Date.now()-OKZ_LOADED,payload
+ },
+ ()=>{document.getElementById('formCard').style.display='none';document.getElementById('ok').classList.add('show');window.scrollTo({top:0,behavior:'smooth'});},
+ e=>{show(e);btn.disabled=false;btn.textContent='Разместить объявление';});
+}
 </script>
 </body>
 </html>
