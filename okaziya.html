@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Оказия — доска Frankenplatz: кто летит между Швейцарией и другими странами и готов взять посылку, и кому нужно что-то передать.">
+<title>Оказия — Frankenplatz</title>
+<style>
+:root{
+  --cream:#F5EFE6; --ink:#1a0f04; --ink2:#4a3628;
+  --blue:#1E4A8E; --red:#C8102E; --caramel:#C9A063; --sand:#F2D9A8;
+  --green:#2D6A4F;
+  --line:rgba(26,15,4,.12); --card:#FFFCF7;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;background:var(--cream);color:var(--ink);line-height:1.45;-webkit-font-smoothing:antialiased}
+.wrap{max-width:840px;margin:0 auto;padding:18px 16px 80px}
+.plate{background:var(--blue);color:#fff;font-weight:800;font-size:11px;letter-spacing:.14em;padding:7px 11px;border-radius:3px;display:inline-block}
+h1{font-size:31px;font-weight:800;letter-spacing:-.02em;line-height:1.05;margin:13px 0 7px}
+h1 .mk{background:var(--sand);padding:0 6px;border-radius:3px}
+.lead{font-size:15.5px;color:var(--ink2);max-width:52ch}
+.nav{display:flex;gap:4px;margin:20px 0 16px;flex-wrap:wrap;border-bottom:2px solid var(--line)}
+.nv{padding:11px 13px;border:none;background:transparent;font:inherit;font-weight:700;font-size:13.5px;color:var(--ink2);cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:.15s}
+.nv:hover{color:var(--ink)}
+.nv.on{color:var(--blue);border-bottom-color:var(--blue)}
+.dot{display:inline-grid;place-items:center;min-width:19px;height:19px;padding:0 5px;border-radius:100px;background:var(--red);color:#fff;font-size:11px;font-weight:800;margin-left:5px;vertical-align:1px}
+.sec{display:none}.sec.on{display:block}
+.h2{font-size:19px;font-weight:800;margin-bottom:5px}
+.sub{font-size:14px;color:var(--ink2);margin-bottom:16px;line-height:1.55}
+.fLab{font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--ink2);opacity:.6;margin:14px 0 7px}
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+.chip{padding:7px 13px;border:1.5px solid var(--line);border-radius:100px;background:transparent;font:inherit;font-size:13px;font-weight:600;color:var(--ink2);cursor:pointer;transition:.15s}
+.chip:hover{border-color:var(--caramel)}
+.chip.on{background:var(--ink);border-color:var(--ink);color:var(--cream)}
+.list{display:flex;flex-direction:column;gap:12px;margin-top:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.card.go{border-left:4px solid var(--blue)}
+.card.need{border-left:4px solid var(--red)}
+.ctop{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:9px}
+.badge{font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;padding:4px 9px;border-radius:4px}
+.badge.go{background:var(--blue);color:#fff}
+.badge.need{background:var(--red);color:#fff}
+.badge.rate{background:var(--caramel);color:#fff}
+.badge.free{background:var(--sand);color:var(--ink)}
+.when{margin-left:auto;font-size:12px;font-weight:600;color:var(--ink2);opacity:.65}
+.route{font-size:20px;font-weight:800;letter-spacing:-.01em;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.arrow{color:var(--caramel);font-size:16px}
+.cities{font-size:13px;color:var(--ink2);margin-top:3px}
+.cap{margin-top:12px;background:rgba(30,74,142,.06);border-radius:12px;padding:13px 15px}
+.capTop{display:flex;gap:13px;align-items:baseline;flex-wrap:wrap}
+.capBig{font-size:20px;font-weight:800;color:var(--blue);letter-spacing:-.01em}
+.capSub{font-size:13px;color:var(--ink2)}
+.capBar{height:7px;border-radius:100px;background:rgba(26,15,4,.09);margin-top:10px;overflow:hidden}
+.capFill{height:100%;background:var(--blue);border-radius:100px}
+.capScale{display:flex;justify-content:space-between;font-size:11px;color:var(--ink2);opacity:.65;margin-top:5px}
+.tgrid{margin-top:11px;border:1px solid var(--line);border-radius:11px;overflow:hidden}
+.trow{display:flex;align-items:center;gap:10px;padding:9px 13px;font-size:13.5px}
+.trow+.trow{border-top:1px solid var(--line)}
+.trow .ic{font-size:16px;flex:none;width:22px;text-align:center}
+.trow .nm{font-weight:700;flex:1;min-width:0}
+.trow .nm small{display:block;font-weight:500;font-size:12px;color:var(--ink2);opacity:.8;margin-top:1px}
+.trow .pr{font-weight:800;font-size:14px;white-space:nowrap;color:var(--blue)}
+.trow.off{opacity:.4}
+.trow.off .pr{color:var(--ink2);font-weight:600;font-size:12.5px}
+.tnote{background:rgba(201,160,99,.13);padding:10px 13px;font-size:12.5px;color:var(--ink2);line-height:1.5;font-style:italic}
+.legs{margin-top:13px;border-top:1px solid var(--line);padding-top:13px;display:flex;flex-direction:column;gap:13px}
+.leg{display:flex;gap:11px}
+.legIco{width:25px;height:25px;flex:none;border-radius:7px;display:grid;place-items:center;font-size:11.5px;font-weight:800;color:#fff}
+.legIco.a{background:var(--red)}.legIco.b{background:var(--blue)}
+.legBody{flex:1;min-width:0}
+.legTitle{font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--ink2);opacity:.75;margin-bottom:3px}
+.legMain{font-size:14px;font-weight:700}
+.ways{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.way{font-size:12.5px;padding:4px 10px;border-radius:100px;background:rgba(26,15,4,.05);color:var(--ink2);font-weight:500}
+.lock{margin-top:9px;display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:var(--ink2);background:rgba(30,74,142,.06);border-radius:9px;padding:9px 11px;line-height:1.5}
+.note{font-size:13.5px;color:var(--ink2);margin-top:11px;line-height:1.5}
+.cfoot{display:flex;align-items:center;gap:10px;margin-top:13px;padding-top:12px;border-top:1px solid var(--line)}
+.ava{width:37px;height:37px;flex:none;border-radius:50%;background:var(--sand);display:grid;place-items:center;font-size:15px;font-weight:800}
+.who{min-width:0}
+.whoN{font-size:14px;font-weight:800;display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.ver{font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;background:rgba(30,74,142,.12);color:var(--blue);padding:3px 7px;border-radius:4px}
+.stat{font-size:12.5px;color:var(--ink2);margin-top:2px;display:flex;gap:9px;flex-wrap:wrap}
+.stat i{font-style:normal;color:var(--caramel);font-weight:700}
+.btn{padding:9px 16px;border-radius:100px;border:none;background:var(--ink);color:var(--cream);font:inherit;font-size:13px;font-weight:700;cursor:pointer;flex:none}
+.btn:hover{background:var(--blue)}
+.btn.ml{margin-left:auto}
+.btn.ok{background:var(--green)}
+.btn.no{background:transparent;color:var(--ink2);border:1.5px solid var(--line)}
+.btn.no:hover{background:transparent;border-color:var(--red);color:var(--red)}
+.empty{text-align:center;padding:42px 20px;color:var(--ink2)}
+.empty b{display:block;font-size:16px;margin-bottom:6px;color:var(--ink)}
+.req{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 18px}
+.req.new{border-color:rgba(200,16,46,.35);box-shadow:0 2px 14px rgba(200,16,46,.07)}
+.rtop{display:flex;gap:11px;align-items:center;margin-bottom:12px}
+.rtxt{flex:1;min-width:0}
+.rtxt b{font-size:15px;font-weight:800;display:block}
+.rtxt small{font-size:12.5px;color:var(--ink2)}
+.st{font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;padding:4px 9px;border-radius:4px;flex:none}
+.st.wait{background:rgba(201,160,99,.22);color:#8a6a2f}
+.st.acc{background:rgba(45,106,79,.15);color:var(--green)}
+.st.dec{background:rgba(26,15,4,.08);color:var(--ink2)}
+.st.done{background:rgba(30,74,142,.13);color:var(--blue)}
+.rbody{font-size:13.5px;color:var(--ink2);line-height:1.6}
+.rbody .kv{display:flex;gap:8px;padding:5px 0}
+.rbody .kv span:first-child{flex:none;width:104px;font-weight:700;color:var(--ink)}
+.hidden{background:rgba(26,15,4,.04);border:1px dashed var(--line);border-radius:10px;padding:12px 14px;margin-top:11px;font-size:13px;color:var(--ink2);line-height:1.55}
+.hidden b{display:block;color:var(--ink);font-size:13px;margin-bottom:4px}
+.revealed{background:rgba(45,106,79,.07);border:1px solid rgba(45,106,79,.28);border-radius:10px;padding:13px 15px;margin-top:11px}
+.revealed b{display:block;font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--green);margin-bottom:9px}
+.revealed .kv{display:flex;gap:8px;padding:4px 0;font-size:13.5px}
+.revealed .kv span:first-child{flex:none;width:104px;font-weight:700;color:var(--ink2);font-size:12.5px}
+.acts{display:flex;gap:8px;margin-top:13px;flex-wrap:wrap}
+.log{margin-top:11px;font-size:12px;color:var(--ink2);opacity:.75;line-height:1.5}
+.flow{display:flex;margin:13px 0 3px;flex-wrap:wrap}
+.fst{flex:1;min-width:74px;text-align:center;position:relative;padding-top:20px;font-size:11px;font-weight:600;color:var(--ink2);opacity:.5}
+.fst::before{content:"";position:absolute;top:5px;left:50%;transform:translateX(-50%);width:11px;height:11px;border-radius:50%;background:var(--line)}
+.fst::after{content:"";position:absolute;top:10px;left:50%;width:100%;height:2px;background:var(--line);z-index:-1}
+.fst:last-child::after{display:none}
+.fst.done{opacity:1;color:var(--green)}
+.fst.done::before{background:var(--green)}
+.fst.now{opacity:1;color:var(--blue);font-weight:800}
+.fst.now::before{background:var(--blue);box-shadow:0 0 0 4px rgba(30,74,142,.16)}
+.stars{display:flex;gap:5px;margin:9px 0 4px}
+.sr{font-size:28px;cursor:pointer;color:var(--line);transition:.12s;line-height:1}
+.sr.on{color:var(--caramel)}
+.blind{background:rgba(30,74,142,.06);border-radius:10px;padding:11px 13px;font-size:12.5px;color:var(--ink2);margin-top:12px;line-height:1.55}
+.pcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}
+.phead{display:flex;gap:14px;align-items:center;margin-bottom:16px}
+.pava{width:58px;height:58px;border-radius:50%;background:var(--sand);display:grid;place-items:center;font-size:23px;font-weight:800;flex:none}
+.pname{font-size:20px;font-weight:800}
+.pmeta{font-size:13px;color:var(--ink2);margin-top:3px}
+.pstats{display:grid;grid-template-columns:repeat(auto-fit,minmax(86px,1fr));gap:9px;margin-bottom:18px}
+.ps{background:rgba(26,15,4,.04);border-radius:11px;padding:12px;text-align:center}
+.ps b{display:block;font-size:21px;font-weight:800}
+.ps span{font-size:11.5px;color:var(--ink2)}
+.vlist{display:flex;flex-direction:column;gap:9px}
+.vrow{display:flex;gap:10px;align-items:center;padding:11px 13px;border:1px solid var(--line);border-radius:11px;font-size:13.5px}
+.vrow.yes{border-color:rgba(45,106,79,.3);background:rgba(45,106,79,.05)}
+.vrow b{flex:1;font-weight:700}
+.vrow .tag{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--green)}
+.vrow .tag.no{color:var(--caramel)}
+.rev{border-top:1px solid var(--line);padding-top:14px;margin-top:16px}
+.rv{padding:12px 0;border-bottom:1px solid var(--line)}
+.rv:last-child{border:none}
+.rvT{display:flex;gap:8px;align-items:center;font-size:13.5px;font-weight:700;margin-bottom:4px}
+.rvT i{font-style:normal;color:var(--caramel)}
+.rvT small{margin-left:auto;font-weight:500;font-size:12px;color:var(--ink2);opacity:.7}
+.rv p{font-size:13.5px;color:var(--ink2);line-height:1.5}
+.form{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}
+.step{margin:22px 0 14px;padding-top:18px;border-top:2px solid var(--line);display:flex;gap:10px;align-items:center}
+.stepN{width:24px;height:24px;flex:none;border-radius:7px;background:var(--blue);color:#fff;font-size:12px;font-weight:800;display:grid;place-items:center}
+.stepN.priv{background:var(--caramel)}
+.stepT{font-size:15px;font-weight:800}
+.stepT span{display:block;font-size:12.5px;font-weight:500;color:var(--ink2);margin-top:1px}
+.fs{margin-bottom:16px}
+.fs>label{display:block;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2);margin-bottom:8px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row>*{flex:1;min-width:128px}
+input,select,textarea{width:100%;padding:11px 13px;border:1.5px solid var(--line);border-radius:10px;font:inherit;font-size:15px;background:var(--cream);color:var(--ink)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--blue);outline-offset:1px;border-color:transparent}
+textarea{resize:vertical;min-height:68px}
+.opts{display:flex;gap:6px;flex-wrap:wrap}
+.opt{padding:8px 13px;border:1.5px solid var(--line);border-radius:100px;background:transparent;font:inherit;font-size:13.5px;font-weight:600;color:var(--ink2);cursor:pointer;transition:.15s}
+.opt:hover{border-color:var(--caramel)}
+.opt.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.hint{font-size:12.5px;color:var(--ink2);opacity:.85;margin-top:7px;line-height:1.55}
+.hintI{font-size:12.5px;color:var(--ink2);margin-top:9px;line-height:1.55;font-style:italic;padding-left:11px;border-left:2px solid var(--caramel)}
+.dirGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:8px}
+.dirBtn{padding:12px 14px;border:1.5px solid var(--line);border-radius:12px;background:transparent;font:inherit;font-size:14px;font-weight:700;color:var(--ink2);cursor:pointer;text-align:left;transition:.15s}
+.dirBtn:hover{border-color:var(--caramel)}
+.dirBtn.on{background:var(--blue);border-color:var(--blue);color:#fff}
+.dirBtn small{display:block;font-size:11.5px;font-weight:500;opacity:.75;margin-top:2px}
+.swap{margin-top:9px;padding:9px 15px;border:1.5px solid var(--line);border-radius:100px;background:transparent;font:inherit;font-size:13px;font-weight:700;color:var(--blue);cursor:pointer}
+.ctxBox{background:rgba(30,74,142,.055);border-radius:12px;padding:14px 15px;margin-top:10px}
+.ctxT{font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--blue);margin-bottom:9px}
+.privBox{border:1.5px dashed var(--caramel);border-radius:14px;padding:16px 17px;background:rgba(201,160,99,.06)}
+.pTop{display:flex;gap:9px;align-items:flex-start;margin-bottom:14px}
+.pTop b{font-size:13.5px;font-weight:800;display:block;margin-bottom:3px}
+.pTop p{font-size:13px;color:var(--ink2);line-height:1.5}
+.capBox{background:rgba(30,74,142,.055);border-radius:12px;padding:15px 16px}
+.gab{display:flex;flex-direction:column;gap:7px;margin-top:10px}
+.gb{display:flex;gap:11px;align-items:center;padding:11px 13px;border:1.5px solid var(--line);border-radius:11px;cursor:pointer;transition:.15s;background:var(--cream)}
+.gb:hover{border-color:var(--caramel)}
+.gb.on{border-color:var(--blue);background:rgba(30,74,142,.07)}
+.gb .gi{font-size:19px;flex:none;width:24px;text-align:center}
+.gb .gt{flex:1;min-width:0}
+.gb .gt b{font-size:14px;font-weight:800;display:block}
+.gb .gt small{font-size:12px;color:var(--ink2)}
+.capOut{margin-top:12px;padding-top:11px;border-top:1px solid rgba(30,74,142,.18);font-size:13.5px;color:var(--ink2);line-height:1.5}
+.capOut b{color:var(--blue);font-weight:800;font-size:16px}
+.kinds{display:flex;flex-direction:column;gap:9px}
+.kind{border:1.5px solid var(--line);border-radius:12px;padding:13px 15px;transition:.15s}
+.kind.on{border-color:var(--blue);background:rgba(30,74,142,.045)}
+.kHead{display:flex;gap:11px;align-items:center;cursor:pointer}
+.kHead input{width:20px;height:20px;flex:none;accent-color:var(--blue)}
+.kIc{font-size:19px;flex:none}
+.kNm{flex:1;min-width:0}
+.kNm b{font-size:14.5px;font-weight:800;display:block}
+.kNm small{font-size:12.5px;color:var(--ink2)}
+.kPrice{display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.kind.on .kPrice{display:block}
+.kPrice label{display:block;font-size:11.5px;font-weight:700;color:var(--ink2);margin-bottom:4px}
+.kPrice .row>*{min-width:96px}
+.moneyOff .kPrice .row{display:none}
+.moneyOff .kind.on .kPrice::after{content:"Цену не указываешь — договоритесь в переписке";font-size:12.5px;color:var(--ink2);opacity:.8;font-style:italic}
+.plat{margin-top:15px;border:1.5px solid var(--line);border-radius:14px;padding:15px 17px;background:var(--card)}
+.plat b{display:block;font-size:12px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
+.plat p{font-size:14px;color:var(--ink2);line-height:1.55}
+.plat p+p{margin-top:8px}
+.plat i{font-style:normal;font-weight:700;color:var(--ink)}
+.link{color:var(--blue);font-weight:700;text-decoration:underline;text-underline-offset:2px}
+.chBox{margin-top:12px;border:1.5px solid rgba(30,74,142,.25);border-radius:13px;overflow:hidden}
+.chH{background:rgba(30,74,142,.07);padding:12px 15px;display:flex;gap:9px;align-items:center}
+.chH b{font-size:13.5px;font-weight:800}
+.chH small{display:block;font-size:12px;color:var(--ink2);font-weight:500;margin-top:1px}
+.chB{padding:13px 15px;font-size:13.5px;color:var(--ink2);line-height:1.6}
+.chB ul{list-style:none;margin-top:7px}
+.chB li{padding-left:16px;position:relative;margin-bottom:5px}
+.chB li::before{content:"→";position:absolute;left:0;color:var(--blue);font-weight:700}
+.chB li b{color:var(--ink);font-weight:700}
+.chB i{font-style:italic}
+.imp{margin-top:16px;border:1.5px solid rgba(200,16,46,.25);border-radius:14px;overflow:hidden}
+.impH{background:rgba(200,16,46,.07);padding:14px 17px}
+.impH b{display:block;font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin-bottom:5px}
+.impH p{font-size:13.5px;color:var(--ink2);line-height:1.55}
+.impI{padding:15px 17px;border-top:1px solid var(--line)}
+.impI h4{font-size:14.5px;font-weight:800;margin-bottom:7px}
+.impI ul{list-style:none;font-size:13.5px;color:var(--ink2);line-height:1.6}
+.impI li{padding-left:15px;position:relative;margin-bottom:3px}
+.impI li::before{content:"–";position:absolute;left:0;color:var(--caramel);font-weight:700}
+.impI li b{font-weight:700;color:var(--ink)}
+.stop{background:rgba(200,16,46,.05)}
+.stop h4{color:var(--red)}
+.stop li::before{content:"×";color:var(--red)}
+.resp{margin-top:16px;background:var(--ink);color:var(--cream);border-radius:14px;padding:16px 18px}
+.resp b{display:block;font-size:12px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--sand);margin-bottom:9px}
+.resp p{font-size:14px;line-height:1.6;opacity:.92}
+.resp p+p{margin-top:9px}
+.chk{display:flex;gap:10px;align-items:flex-start;margin-top:16px;padding:14px 15px;border:1.5px solid var(--line);border-radius:12px;cursor:pointer}
+.chk input{width:20px;height:20px;flex:none;margin-top:1px;accent-color:var(--blue)}
+.chk span{font-size:13.5px;color:var(--ink2);line-height:1.55}
+.submit{width:100%;padding:15px;border:none;border-radius:12px;background:var(--red);color:#fff;font:inherit;font-size:16px;font-weight:800;cursor:pointer;margin-top:16px}
+.submit:hover{background:#a80d26}
+.ok{display:none;text-align:center;padding:34px 20px;background:var(--card);border:1px solid var(--line);border-radius:16px}
+.ok.show{display:block}
+.ok b{display:block;font-size:20px;font-weight:800;margin-bottom:8px}
+.ok p{font-size:14px;color:var(--ink2)}
+.foot{margin-top:32px;text-align:center;font-size:13px;color:var(--ink2);opacity:.7}
+.foot b{font-weight:700}
+.backLink{font-size:13px;color:var(--blue);font-weight:700;cursor:pointer;margin-bottom:12px;display:inline-block}
+@media(max-width:520px){h1{font-size:26px}.route{font-size:18px}.nv{padding:10px 9px;font-size:12.5px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="plate">FRANKENPLATZ</div>
+<h1>Оказия: <span class="mk">кто едет</span>,<br>кому передать</h1>
+<p class="lead">Доска для тех, кто летит между Швейцарией и другими странами и готов взять посылку. И для тех, кому нужно что-то передать.</p>
+
+<div class="nav">
+ <button class="nv on" data-s="board" onclick="go(this)">Доска</button>
+ <button class="nv" data-s="new" onclick="go(this)">Разместить</button>
+ <button class="nv" data-s="apply" onclick="go(this)">Заявка</button>
+ <button class="nv" data-s="reqs" onclick="go(this)">Мои заявки<span class="dot">2</span></button>
+ <button class="nv" data-s="mine" onclick="go(this)">Объявления</button>
+ <button class="nv" data-s="prof" onclick="go(this)">Профиль</button>
+</div>
+
+<div class="sec on" id="board">
+ <div class="plat">
+  <b>Как это работает</b>
+  <p>Кто едет — размещает объявление: направление, даты, <i>сколько кг и какой габарит готов взять</i>, как принимает и как выдаёт.</p>
+  <p>Кто передаёт — отправляет заявку и вносит адреса. <i>Они открываются только после принятия заявки.</i></p>
+  <p><i>Все издержки на доставку — курьер, ПВЗ, почта — несёт отправитель</i>, если в объявлении не сказано иначе.</p>
+ </div>
+ <div class="fLab">Направление</div>
+ <div class="filters">
+  <button class="chip on" data-d="all" onclick="setD(this)">Все</button>
+  <button class="chip" data-d="CH-RU" onclick="setD(this)">🇨🇭 → 🇷🇺</button>
+  <button class="chip" data-d="RU-CH" onclick="setD(this)">🇷🇺 → 🇨🇭</button>
+  <button class="chip" data-d="CH-UA" onclick="setD(this)">🇨🇭 → 🇺🇦</button>
+  <button class="chip" data-d="UA-CH" onclick="setD(this)">🇺🇦 → 🇨🇭</button>
+  <button class="chip" data-d="CH-BY" onclick="setD(this)">🇨🇭 → 🇧🇾</button>
+  <button class="chip" data-d="BY-CH" onclick="setD(this)">🇧🇾 → 🇨🇭</button>
+  <button class="chip" data-d="other" onclick="setD(this)">Другие</button>
+ </div>
+ <div class="fLab">Сколько влезет</div>
+ <div class="filters">
+  <button class="chip on" data-c="all" onclick="setC(this)">Любой объём</button>
+  <button class="chip" data-c="1" onclick="setC(this)">✉️ Конверт</button>
+  <button class="chip" data-c="2" onclick="setC(this)">👜 Пакет</button>
+  <button class="chip" data-c="3" onclick="setC(this)">🎒 Ручная кладь</button>
+  <button class="chip" data-c="4" onclick="setC(this)">🧳 Полчемодана</button>
+  <button class="chip" data-c="5" onclick="setC(this)">🧳 Чемодан</button>
+ </div>
+ <div class="fLab">Тип объявления</div>
+ <div class="filters">
+  <button class="chip on" data-f="all" onclick="setF(this)">Все</button>
+  <button class="chip" data-f="go" onclick="setF(this)">✈️ Еду и возьму</button>
+  <button class="chip" data-f="need" onclick="setF(this)">📦 Нужно передать</button>
+  <button class="chip" data-f="free" onclick="setF(this)">Без денег</button>
+ </div>
+ <div class="list" id="list"></div>
+</div>
+
+<!-- ЗАЯВКА -->
+<div class="sec" id="apply">
+ <span class="backLink" onclick="go(document.querySelector('[data-s=board]'))">← К доске</span>
+ <div class="form" id="applyCard">
+  <div class="h2">Заявка на объявление</div>
+  <p class="sub">Ксения · 🇷🇺 Россия → 🇨🇭 Швейцария · Москва → Baden · выезд 30.11</p>
+
+  <div class="cap" style="margin-bottom:6px">
+   <div class="capTop"><span class="capBig">до 8 кг</span><span class="capSub">🧳 Полчемодана · свободно 6.4 кг</span></div>
+   <div class="capBar"><div class="capFill" style="width:20%"></div></div>
+   <div class="capScale"><span>занято 1.6 кг</span><span>всего 8 кг</span></div>
+  </div>
+  <p class="hint">Это ёмкость из объявления. Если твоё не влезает — заявку отправить можно, но её могут отклонить.</p>
+
+  <div class="step"><div class="stepN">1</div><div class="stepT">Что везём<span>Опиши честно — от этого зависит решение</span></div></div>
+  <div class="fs">
+   <label>Тип</label>
+   <div class="opts">
+    <button class="opt on" data-g="ak" onclick="pick(this)">✉️ Конверт</button>
+    <button class="opt" data-g="ak" onclick="pick(this)">📦 Небольшая</button>
+    <button class="opt" data-g="ak" onclick="pick(this)">📦 Средняя</button>
+    <button class="opt" data-g="ak" onclick="pick(this)">🧳 Крупная</button>
+   </div>
+  </div>
+  <div class="fs">
+   <label>Вес и габарит</label>
+   <div class="row">
+    <input type="number" placeholder="Вес, кг" step="0.1">
+    <select><option>Размер: конверт А4</option><option>Размер: коробка обуви</option><option>Размер: пакет</option><option>Размер: рюкзак</option><option>Размер: отдельное место</option></select>
+   </div>
+  </div>
+  <div class="fs">
+   <label>Что внутри</label>
+   <textarea placeholder="Детские книги, 4 штуки, в мягкой обложке. Упаковано в пакет, покажу при передаче."></textarea>
+   <p class="hint">Пиши конкретно. «Подарок» и «личные вещи» — самая частая причина отказа.</p>
+  </div>
+  <div class="fs">
+   <label>Категории</label>
+   <div class="opts">
+    <button class="opt" data-g="ac" onclick="pick(this,1)">Документы</button>
+    <button class="opt" data-g="ac" onclick="pick(this,1)">Косметика</button>
+    <button class="opt" data-g="ac" onclick="pick(this,1)">Одежда</button>
+    <button class="opt" data-g="ac" onclick="pick(this,1)">Подарки</button>
+    <button class="opt" data-g="ac" onclick="pick(this,1)">Книги</button>
+    <button class="opt" data-g="ac" onclick="pick(this,1)">Еда сухая</button>
+    <button class="opt" data-g="ac" onclick="pick(this,1)">Техника с чеком</button>
+    <button class="opt" data-g="ac" onclick="pickOther(this,'aOther')">Другое</button>
+   </div>
+   <input id="aOther" placeholder="Что именно" style="display:none;margin-top:9px">
+  </div>
+
+  <div class="step"><div class="stepN">2</div><div class="stepT">Как отдаём и как забираем<span>Из вариантов, которые указаны в объявлении</span></div></div>
+  <div class="ctxBox">
+   <div class="ctxT">🇷🇺 Как вещь попадёт к тому, кто везёт</div>
+   <div class="opts">
+    <button class="opt on" data-g="aw1" onclick="pickWay1(this,'send')">Отправлю почтой</button>
+    <button class="opt" data-g="aw1" onclick="pickWay1(this,'meet')">Встреча лично</button>
+    <button class="opt" data-g="aw1" onclick="pickWay1(this,'home')">Курьером ей на дом</button>
+   </div>
+   <div id="aw1Post" style="margin-top:11px">
+    <label style="display:block;font-size:11.5px;font-weight:700;color:var(--ink2);margin-bottom:6px">Каким тарифом</label>
+    <div class="opts">
+     <button class="opt" data-g="aw1t" onclick="pick(this)">Быстрый</button>
+     <button class="opt on" data-g="aw1t" onclick="pick(this)">Обычный</button>
+     <button class="opt" data-g="aw1t" onclick="pick(this)">Наложенным платежом</button>
+    </div>
+   </div>
+  </div>
+  <div class="ctxBox" style="margin-top:9px">
+   <div class="ctxT">🇨🇭 Как получатель заберёт в Швейцарии</div>
+   <div class="opts">
+    <button class="opt on" data-g="aw2" onclick="pickWay2(this,'pickup')">Заберу у перевозчика</button>
+    <button class="opt" data-g="aw2" onclick="pickWay2(this,'meet')">Встреча в городе</button>
+    <button class="opt" data-g="aw2" onclick="pickWay2(this,'post')">Отправить мне почтой</button>
+   </div>
+   <div id="aw2Post" style="display:none;margin-top:11px">
+    <label style="display:block;font-size:11.5px;font-weight:700;color:var(--ink2);margin-bottom:6px">Каким тарифом Die Post</label>
+    <div class="opts">
+     <button class="opt" data-g="aw2t" onclick="pick(this)">A-Post — на следующий день</button>
+     <button class="opt on" data-g="aw2t" onclick="pick(this)">B-Post — 2–3 дня, дешевле</button>
+     <button class="opt" data-g="aw2t" onclick="pick(this)">Наложенным платежом</button>
+    </div>
+   </div>
+   <p class="hintI">Почтовые расходы оплачивает отправитель, если в объявлении не сказано иначе.</p>
+  </div>
+
+  <div class="step"><div class="stepN priv">3</div><div class="stepT">Адреса и контакты<span>Откроются только если заявку примут</span></div></div>
+  <div class="privBox">
+   <div class="pTop"><span style="font-size:19px">🔒</span><div>
+    <b>Пока заявка не принята — эти поля не видит никто</b>
+    <p>Отправитель и получатель могут быть не тобой: например, мама передаёт в Москве, а забирает подруга в Цюрихе.</p></div></div>
+   <div class="fs">
+    <label>Отправитель — кто передаёт в 🇷🇺 России</label>
+    <div class="opts" style="margin-bottom:10px">
+     <button class="opt on" data-g="who1" onclick="pick(this)">Это я</button>
+     <button class="opt" data-g="who1" onclick="pick(this)">Другой человек</button>
+    </div>
+    <div class="row"><input placeholder="Имя и фамилия"><input placeholder="Телефон с кодом страны"></div>
+    <textarea placeholder="Индекс, город, улица, дом, квартира — откуда отправляем или где встречаемся" style="margin-top:10px"></textarea>
+   </div>
+   <div class="fs" style="margin-bottom:0">
+    <label>Получатель — кто забирает в 🇨🇭 Швейцарии</label>
+    <div class="opts" style="margin-bottom:10px">
+     <button class="opt on" data-g="who2" onclick="pick(this)">Это я</button>
+     <button class="opt" data-g="who2" onclick="pick(this)">Другой человек</button>
+    </div>
+    <div class="row"><input placeholder="Имя и фамилия"><input placeholder="Телефон с кодом страны"></div>
+    <textarea id="a2addr" placeholder="Адрес — нужен, только если отправляем почтой" style="margin-top:10px;display:none"></textarea>
+    <p class="hint" id="a2hint">Забираешь сама — адрес не нужен, хватит телефона.</p>
+   </div>
+  </div>
+
+  <div class="step"><div class="stepN">4</div><div class="stepT">Деньги<span>По тарифу объявления</span></div></div>
+  <div class="fs">
+   <div class="cap" style="margin-top:0">
+    <div class="capTop"><span class="capBig">25 CHF</span><span class="capSub">Конверт по тарифу</span></div>
+   </div>
+   <p class="hintI">Доставка до перевозчика и от него — за счёт отправителя, отдельно от вознаграждения.</p>
+   <input placeholder="Своё предложение, если в объявлении «обсуждаемо»" style="margin-top:11px">
+  </div>
+  <div class="fs">
+   <label>Сообщение</label>
+   <textarea placeholder="Здравствуйте! Книги для племянницы, всё покажу при встрече. Удобно привезти на выходных."></textarea>
+  </div>
+  <label class="chk"><input type="checkbox">
+   <span>Подтверждаю: содержимое покажу при передаче, ничего из «красных флагов» в посылке нет.</span></label>
+  <button class="submit" onclick="sendApply()">Отправить заявку</button>
+ </div>
+ <div class="ok" id="okApply"><b>Заявка отправлена</b>
+  <p>Решение придёт во вкладку «Мои заявки». Адреса откроются, только если заявку примут.</p></div>
+</div>
+
+<div class="sec" id="reqs">
+ <div class="h2">Мои заявки</div>
+ <p class="sub">Приняла — контакты и адреса открываются обеим сторонам. Отклонила — данные не передаются.</p>
+ <div class="filters" style="margin-bottom:6px">
+  <button class="chip on" data-r="in" onclick="setR(this)">Входящие <span style="opacity:.7">2</span></button>
+  <button class="chip" data-r="out" onclick="setR(this)">Отправленные <span style="opacity:.7">1</span></button>
+  <button class="chip" data-r="arch" onclick="setR(this)">Архив <span style="opacity:.7">1</span></button>
+ </div>
+ <div class="list" id="reqList"></div>
+</div>
+
+<div class="sec" id="mine">
+ <div class="h2">Мои объявления</div>
+ <p class="sub">Скрываются автоматически на следующий день после даты выезда.</p>
+ <div class="list" id="mineList"></div>
+</div>
+
+<div class="sec" id="prof">
+ <div class="pcard">
+  <div class="phead"><div class="pava">К</div>
+   <div><div class="pname">Ксения</div><div class="pmeta">На платформе с марта 2026 · Baden</div></div></div>
+  <div class="pstats">
+   <div class="ps"><b>★ 4.9</b><span>рейтинг</span></div>
+   <div class="ps"><b>12</b><span>передач</span></div>
+   <div class="ps"><b>9</b><span>отзывов</span></div>
+   <div class="ps"><b>100%</b><span>доведено</span></div></div>
+  <div class="ctxT">Верификация</div>
+  <div class="vlist">
+   <div class="vrow yes"><span>📧</span><b>Почта подтверждена</b><span class="tag">✓ Готово</span></div>
+   <div class="vrow yes"><span>📱</span><b>Телефон подтверждён</b><span class="tag">✓ Готово</span></div>
+   <div class="vrow"><span>🪪</span><b>Документ</b><span class="tag no">Не пройдена</span></div></div>
+  <div class="ctxT" style="margin-top:18px">Мои данные</div>
+  <p class="sub" style="margin-bottom:11px">Заполняются один раз и подставляются в объявление и заявку одной кнопкой. Публично не видны.</p>
+  <div class="fs">
+   <div class="row"><input value="Ксения Чудина"><input value="+41 79 ___ __ __"></div>
+   <textarea style="margin-top:10px">5400 Baden, Bäderstrasse 28</textarea></div>
+  <div class="rev">
+   <div class="ctxT">Отзывы</div>
+   <div class="rv"><div class="rvT">Елена <i>★★★★★</i><small>июнь 2026</small></div><p>Всё показала при передаче, приехала вовремя. Договорились по тарифу без сюрпризов.</p></div>
+   <div class="rv"><div class="rvT">Оксана <i>★★★★★</i><small>май 2026</small></div><p>Взяла конверт без денег, привезла в тот же день.</p></div>
+   <div class="rv"><div class="rvT">Наталья <i>★★★★☆</i><small>апрель 2026</small></div><p>Всё хорошо, только выдача сдвинулась на два дня. Предупредила заранее.</p></div></div>
+ </div>
+</div>
+
+<!-- РАЗМЕСТИТЬ -->
+<div class="sec" id="new">
+<div class="form" id="formCard">
+ <div class="h2">Разместить объявление</div>
+ <p class="sub">Ты указываешь только себя: как тебе передать и как у тебя забрать. Адреса внесёт тот, кто откликнется.</p>
+
+ <div class="fs">
+  <div class="opts">
+   <button class="opt on" data-g="type" onclick="pick(this)">✈️ Еду и возьму</button>
+   <button class="opt" data-g="type" onclick="pick(this)">📦 Нужно передать</button>
+  </div>
+ </div>
+
+ <div class="step"><div class="stepN">1</div><div class="stepT">Направление<span>Видно всем на доске</span></div></div>
+ <div class="fs">
+  <div class="dirGrid" id="dirGrid"></div>
+  <div id="otherWrap" style="display:none;margin-top:10px">
+   <div class="row">
+    <select id="otherSide" onchange="applyDir()"><option value="from">Из Швейцарии в…</option><option value="to">В Швейцарию из…</option></select>
+    <input id="otherCountry" placeholder="Какая страна" oninput="applyDir()"></div></div>
+  <button class="swap" onclick="swapDir()">⇅ Поменять местами</button>
+ </div>
+ <div class="fs">
+  <label>Города</label>
+  <div class="row"><input id="cityA" placeholder="Город отправления"><input id="cityB" placeholder="Город назначения"></div>
+ </div>
+ <div class="fs"><label>Дата выезда</label><div class="row"><input type="date"><input placeholder="Или окно: «конец ноября»"></div></div>
+
+ <div class="step"><div class="stepN">2</div><div class="stepT">Сколько могу взять<span>Общая ёмкость: вес и габарит</span></div></div>
+ <div class="capBox">
+  <div class="row">
+   <div><label style="display:block;font-size:11.5px;font-weight:700;color:var(--ink2);margin-bottom:5px">Вес, кг</label>
+    <input type="number" id="cw" value="8" step="0.5" oninput="capOut()"></div>
+   <div><label style="display:block;font-size:11.5px;font-weight:700;color:var(--ink2);margin-bottom:5px">Или без точного веса</label>
+    <select id="cwFree" onchange="capOut()"><option value="">Указан вес слева</option><option>Вес не принципиален</option><option>Обсуждаемо</option></select></div>
+  </div>
+  <div class="gab" id="gab"></div>
+  <div class="capOut" id="capOut"></div>
+ </div>
+ <p class="hint">Габарит важнее веса: детский рюкзак весит 400 г, но занимает пол-сумки.</p>
+
+ <div class="step"><div class="stepN">3</div><div class="stepT">Тариф<span>Что берёшь и почём</span></div></div>
+ <div class="fs">
+  <div class="opts" style="margin-bottom:12px">
+   <button class="opt on" data-g="pay" onclick="pickPay(this,'money')">По тарифу</button>
+   <button class="opt" data-g="pay" onclick="pickPay(this,'free')">Без денег</button>
+   <button class="opt" data-g="pay" onclick="pickPay(this,'alt')">Не деньгами</button>
+   <button class="opt" data-g="pay" onclick="pickPay(this,'talk')">Обсуждаемо</button>
+  </div>
+  <div class="kinds" id="kinds"></div>
+  <p class="hint" id="payHint">Отметь типы, которые готова взять, и поставь цену.</p>
+  <p class="hintI">Все издержки на доставку — курьер, ПВЗ, почта — несёт отправитель. Это отдельно от вознаграждения.</p>
+ </div>
+ <div class="fs" id="altWrap" style="display:none">
+  <label>Что взамен</label>
+  <div class="opts">
+   <button class="opt" data-g="alt" onclick="pick(this,1)">Шоколадка</button>
+   <button class="opt" data-g="alt" onclick="pick(this,1)">Кофе</button>
+   <button class="opt" data-g="alt" onclick="pick(this,1)">Что-то взамен из дома</button>
+   <button class="opt" data-g="alt" onclick="pick(this,1)">Ответная услуга</button>
+   <button class="opt" data-g="alt" onclick="pick(this,1)">Просто спасибо</button>
+  </div>
+  <input placeholder="Или своими словами: привези чай" style="margin-top:9px">
+ </div>
+
+ <div class="step"><div class="stepN">4</div><div class="stepT">Как мне передать<span id="ttlA">в городе отправления</span></div></div>
+ <div class="fs">
+  <div class="opts">
+   <button class="opt" data-g="wa" onclick="pickA(this,'home')">На дом или в офис</button>
+   <button class="opt" data-g="wa" onclick="pickA(this,'post')">Почтой</button>
+   <button class="opt" data-g="wa" onclick="pickA(this,'meet')">Встреча</button>
+   <button class="opt" data-g="wa" onclick="pickA(this,'other')">Другое</button>
+  </div>
+  <div id="waOther" style="display:none;margin-top:10px">
+   <input placeholder="Опиши способ: например, оставить у консьержа">
+  </div>
+  <div id="waAddr" style="display:none;margin-top:10px">
+   <textarea placeholder="Индекс, город, улица, дом — куда вызывать курьера"></textarea>
+   <div class="opts" style="margin-top:9px">
+    <button class="opt" data-g="ta" onclick="pick(this,1)">Частный дом</button>
+    <button class="opt" data-g="ta" onclick="pick(this,1)">Квартира</button>
+    <button class="opt" data-g="ta" onclick="pick(this,1)">Офис</button>
+    <button class="opt" data-g="ta" onclick="pick(this,1)">Всегда кто-то есть</button>
+   </div>
+   <p class="hint">🔒 Адрес не публикуется. Откроется только тому, чью заявку примешь.</p>
+  </div>
+  <p class="hint" id="waHint">Почта и встреча адреса не требуют — договоритесь в переписке.</p>
+ </div>
+ <div class="fs"><label>Принимаю до</label><div class="row"><input type="date"><input placeholder="Напр. «до вечера 30.11»"></div></div>
+
+ <div class="step"><div class="stepN">5</div><div class="stepT">Как у меня забрать<span id="ttlB">в городе назначения</span></div></div>
+ <div class="fs">
+  <div class="opts">
+   <button class="opt" data-g="wb" onclick="pickB(this,'pickup')">Самовывоз у меня</button>
+   <button class="opt" data-g="wb" onclick="pickB(this,'post')">Отправлю почтой</button>
+   <button class="opt" data-g="wb" onclick="pickB(this,'meet')">Встреча</button>
+   <button class="opt" data-g="wb" onclick="pickB(this,'other')">Другое</button>
+  </div>
+  <div id="wbOther" style="display:none;margin-top:10px">
+   <input placeholder="Опиши способ: например, привезу по CH сама">
+  </div>
+  <p class="hint" id="wbHint">Отправляешь почтой — адрес получателя внесёт тот, кто откликнется.</p>
+ </div>
+ <div class="fs">
+  <label>Я в городе назначения</label>
+  <div class="row"><input type="date"><input type="date"></div>
+  <p class="hint">С какого по какое число можно забирать.</p>
+ </div>
+
+ <div class="chBox">
+  <div class="chH"><span style="font-size:19px">🇨🇭</span><div><b>Как отправлять по Швейцарии легко</b><small>Короткая памятка для точки Б</small></div></div>
+  <div class="chB">
+   Внутри Швейцарии почта работает предсказуемо, разница только в скорости и цене:
+   <ul>
+    <li><b>A-Post</b> — доставка на следующий рабочий день, дороже</li>
+    <li><b>B-Post</b> — 2–3 дня, заметно дешевле. Для большинства посылок этого хватает</li>
+    <li><b>PickPost</b> — получатель забирает в удобном отделении или автомате, адрес квартиры не нужен</li>
+    <li><b>Наложенный платёж</b> — если хочешь, чтобы получатель оплатил при выдаче</li>
+   </ul>
+   <i style="display:block;margin-top:8px">Марку можно купить прямо в приложении Die Post и распечатать дома — идти в отделение не обязательно.</i>
+   <a class="link" href="#" style="display:inline-block;margin-top:9px">Подробная памятка →</a>
+  </div>
+ </div>
+
+ <div class="step"><div class="stepN">6</div><div class="stepT">Что беру<span>Отметь категории</span></div></div>
+ <div class="fs">
+  <div class="opts">
+   <button class="opt" data-g="c" onclick="pick(this,1)">Документы</button>
+   <button class="opt" data-g="c" onclick="pick(this,1)">Косметика</button>
+   <button class="opt" data-g="c" onclick="pick(this,1)">Одежда</button>
+   <button class="opt" data-g="c" onclick="pick(this,1)">Подарки</button>
+   <button class="opt" data-g="c" onclick="pick(this,1)">Книги</button>
+   <button class="opt" data-g="c" onclick="pick(this,1)">Еда сухая</button>
+   <button class="opt" data-g="c" onclick="pick(this,1)">Техника с чеком</button>
+   <button class="opt" data-g="c" onclick="pickMed(this)">Лекарства</button>
+   <button class="opt" data-g="c" onclick="pickOther(this,'cOther')">Другое</button>
+  </div>
+  <div id="medWrap" style="display:none;margin-top:10px">
+   <div class="opts">
+    <button class="opt on" data-g="med" onclick="pick(this)">Куплю сама в аптеке по списку</button>
+    <button class="opt" data-g="med" onclick="pick(this)">Возьму готовое с рецептом</button>
+   </div>
+   <p class="hintI">Купить самой спокойнее: знаешь, что везёшь, упаковка заводская, есть чек.</p>
+  </div>
+  <input id="cOther" placeholder="Что именно" style="display:none;margin-top:9px">
+ </div>
+
+ <div class="imp">
+  <div class="impH"><b>Важно — что стоит иметь в виду</b>
+   <p>Не запреты: решаешь ты. Но есть четыре категории, где чаще всего заканчиваются приятные истории. За каждой стоит либо таможня, либо досмотр, либо чужая ответственность, которая может лечь на тебя.</p></div>
+  <div class="impI"><h4>🛂 Документы и паспорта</h4><ul>
+   <li><b>Чужой паспорт — самый частый источник проблем.</b> Перевозка чужого удостоверения вызывает вопросы на границе, и объяснять придётся тебе. Многие принципиально за это не берутся.</li>
+   <li>Копии, доверенности, справки, дипломы обычно проходят спокойно — если конверт открыт и ты видела, что внутри.</li>
+   <li>Банковские карты на чужое имя, пачки SIM-карт, ключи от чужой квартиры — из той же зоны риска.</li></ul></div>
+  <div class="impI"><h4>💊 Лекарства</h4><ul>
+   <li><b>Самый спокойный вариант: купить самой в аптеке</b> по списку и с чеком. Тогда ты знаешь, что везёшь, упаковка заводская, а чек подтверждает происхождение.</li>
+   <li>Готовая посылка с лекарствами — другая история: что в блистере, ты не проверишь, а отвечать на границе будешь ты.</li>
+   <li>Рецептурное имеет смысл везти только с рецептом на имя получателя и в разумном личном количестве.</li>
+   <li>Швейцария ограничивает ввоз лекарств личного пользования. Список стоит проверить на сайте Swissmedic до поездки.</li></ul></div>
+  <div class="impI"><h4>🧴 Жидкости и вкусняшки</h4><ul>
+   <li>В ручной клади жидкости — до 100 мл за флакон, всё в одном прозрачном литровом пакете. Духи и сыворотки чаще всего теряются именно здесь.</li>
+   <li>Больше 100 мл — только в сдаваемый багаж. Летишь без багажа — скажи сразу.</li>
+   <li><b>Мясное и молочное в ЕС и Швейцарию ввозить нельзя.</b> Колбаса, сыр, домашние котлеты, сгущёнка — заберут на границе, возможен штраф.</li>
+   <li>Обычно проходят: шоколад, конфеты, чай, кофе, печенье, мёд в пределах личной нормы, сухие специи.</li>
+   <li>Алкоголь — в пределах беспошлинной нормы и только в багаже. У икры отдельные лимиты.</li></ul></div>
+  <div class="impI"><h4>💎 Роскошь и дорогие вещи</h4><ul>
+   <li><b>Порог беспошлинного ввоза в Швейцарию — 150 CHF на человека.</b> Всё выше декларируется, пошлину платит тот, кто везёт.</li>
+   <li>Ювелирка, часы, брендовые сумки, техника дороже 300 CHF — даже с чеком это красный коридор и риск, что растаможку повесят на тебя.</li>
+   <li>Наличные от 10 000 CHF декларируются. Чужие деньги — отдельная зона риска.</li>
+   <li>Если вещь дорогая и правда нужна — страхуемая курьерская отправка обычно дешевле одного спора на таможне.</li></ul></div>
+  <div class="impI stop"><h4>Красные флаги</h4><ul>
+   <li>Запечатанный пакет, содержимое которого отказываются показать</li>
+   <li>Просьба «просто отдать человеку у выхода» — без имени и контакта</li>
+   <li>Посылка от того, с кем ты лично не переписывалась</li>
+   <li>Вознаграждение сильно выше рынка за маленький свёрток</li></ul></div>
+ </div>
+
+ <div class="resp"><b>Ответственность</b>
+  <p>Через границу вещь провозит конкретный человек, и по закону за неё отвечает <b>тот, кто везёт</b> — независимо от того, кто её собрал и кто просил. Таможня разговаривает с тем, у кого сумка в руках.</p>
+  <p>Отсюда правило, которое стоит сделать своим: <b>посылку показывают при тебе, ты смотришь содержимое и только потом соглашаешься.</b> Не показали — твоё право отказаться.</p>
+  <p>Frankenplatz соединяет запросы и не участвует в передаче. Мы не проверяем содержимое, не храним вещи и не выступаем стороной в договорённости.</p></div>
+
+ <div class="fs" style="margin-top:16px"><label>Комментарий</label><textarea placeholder="Габаритное обсуждаемо. Всё показываем при передаче."></textarea></div>
+ <label class="chk"><input type="checkbox">
+  <span>Прочитала блок «Важно». Понимаю, что ответственность за содержимое несёт тот, кто везёт, и решение о каждой посылке принимаю сама.</span></label>
+ <button class="submit" onclick="send()">Разместить объявление</button>
+</div>
+<div class="ok" id="ok"><b>Объявление размещено</b>
+ <p>Заявки придут во вкладку «Мои заявки». В письме — только уведомление и ссылка, никаких данных.</p></div>
+</div>
+
+<p class="foot"><b>frankenplatz.ch</b> · форум о деньгах в Швейцарии 🇨🇭</p>
+</div>
+
+<script>
+const OPS={
+ CH:{name:'Швейцарии',flag:'🇨🇭'},RU:{name:'России',flag:'🇷🇺'},
+ UA:{name:'Украине',flag:'🇺🇦'},BY:{name:'Беларуси',flag:'🇧🇾'},
+ XX:{name:'другой стране',flag:'🌍'}
+};
+const GAB=[
+ {v:1,ic:'✉️',nm:'Конверт',ds:'Только документы, плоское'},
+ {v:2,ic:'👜',nm:'Пакет',ds:'Помещается в сумку'},
+ {v:3,ic:'🎒',nm:'Ручная кладь',ds:'Отдельная сумка или рюкзак'},
+ {v:4,ic:'🧳',nm:'Полчемодана',ds:'Половина сдаваемого багажа'},
+ {v:5,ic:'🧳',nm:'Целый чемодан',ds:'Отдельное багажное место'}
+];
+const KINDS=[
+ {id:'env',ic:'✉️',nm:'Конверт',ds:'Документы, до 500 г',ph:'Цена за конверт'},
+ {id:'sml',ic:'📦',nm:'Небольшая',ds:'До 2 кг, коробка обуви',ph:'Цена или ставка'},
+ {id:'med',ic:'📦',nm:'Средняя',ds:'До 5 кг',ph:'Цена или ставка'},
+ {id:'big',ic:'🧳',nm:'Крупная',ds:'Больше 5 кг, отдельное место',ph:'Цена или ставка'}
+];
+const DIRS=[['CH','RU'],['RU','CH'],['CH','UA'],['UA','CH'],['CH','BY'],['BY','CH']];
+let dir=['RU','CH'],gabSel=4;
+
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+function buildGab(){
+ document.getElementById('gab').innerHTML=GAB.map(g=>`
+ <div class="gb ${g.v===gabSel?'on':''}" onclick="setGab(${g.v})">
+  <span class="gi">${g.ic}</span><span class="gt"><b>${g.nm}</b><small>${g.ds}</small></span></div>`).join('');
+}
+function setGab(v){gabSel=v;buildGab();capOut()}
+function capOut(){
+ const w=document.getElementById('cw').value,free=document.getElementById('cwFree').value;
+ const g=GAB.find(x=>x.v===gabSel);
+ document.getElementById('capOut').innerHTML=`На доске покажется так:<br><b>${free?free.toLowerCase():`до ${w||'?'} кг`} · ${g.ic} ${g.nm.toLowerCase()}</b>`;
+}
+function buildKinds(){
+ document.getElementById('kinds').innerHTML=KINDS.map(k=>`
+ <div class="kind" id="k_${k.id}">
+  <label class="kHead"><input type="checkbox" onchange="tk('${k.id}',this)">
+   <span class="kIc">${k.ic}</span>
+   <span class="kNm"><b>${k.nm}</b><small>${k.ds}</small></span></label>
+  <div class="kPrice"><div class="row">
+   <div><label>${k.ph}</label><input type="number" placeholder="CHF"></div>
+   <div><label>За сколько грамм</label><input type="number" placeholder="500" ${k.id==='env'?'disabled':''}></div>
+   <div><label>Минимум, CHF</label><input type="number" placeholder="20"></div>
+  </div></div></div>`).join('');
+}
+function tk(id,el){document.getElementById('k_'+id).classList.toggle('on',el.checked)}
+function pickPay(b,mode){
+ pick(b);
+ document.getElementById('kinds').classList.toggle('moneyOff',mode!=='money');
+ document.getElementById('altWrap').style.display=mode==='alt'?'':'none';
+ document.getElementById('payHint').textContent =
+  mode==='money'?'Отметь типы, которые готова взять, и поставь цену.':
+  mode==='free'?'Отметь типы, которые готова взять. Цену не указываешь.':
+  mode==='alt'?'Отметь типы. Что взамен — ниже.':
+  'Отметь типы. Сумму обсудите в переписке.';
+}
+function pickA(b,mode){
+ pick(b);
+ document.getElementById('waAddr').style.display=mode==='home'?'':'none';
+ document.getElementById('waOther').style.display=mode==='other'?'':'none';
+ document.getElementById('waHint').textContent =
+  mode==='home'?'Адрес нужен для курьера. Не публикуется.':
+  mode==='post'?'Адрес не нужен — отделение выберете в переписке.':
+  mode==='meet'?'Место встречи обсудите в переписке.':'Опиши способ своими словами.';
+}
+function pickB(b,mode){
+ pick(b);
+ document.getElementById('wbOther').style.display=mode==='other'?'':'none';
+ document.getElementById('wbHint').textContent =
+  mode==='pickup'?'Точку самовывоза сообщишь тому, чью заявку примешь.':
+  mode==='post'?'Адрес получателя внесёт тот, кто откликнется.':
+  mode==='meet'?'Место встречи обсудите в переписке.':'Опиши способ своими словами.';
+}
+function pickWay1(b,mode){
+ pick(b);
+ document.getElementById('aw1Post').style.display=mode==='send'?'':'none';
+}
+function pickWay2(b,mode){
+ pick(b);
+ document.getElementById('aw2Post').style.display=mode==='post'?'':'none';
+ document.getElementById('a2addr').style.display=mode==='post'?'':'none';
+ document.getElementById('a2hint').textContent=mode==='post'
+  ?'Адрес нужен для почтовой отправки.'
+  :'Забираешь сама — адрес не нужен, хватит телефона.';
+}
+function pickMed(b){
+ b.classList.toggle('on');
+ document.getElementById('medWrap').style.display=b.classList.contains('on')?'':'none';
+}
+function pickOther(b,id){
+ b.classList.toggle('on');
+ document.getElementById(id).style.display=b.classList.contains('on')?'':'none';
+}
+function buildDirs(){
+ document.getElementById('dirGrid').innerHTML=DIRS.map(([a,b])=>`
+  <button class="dirBtn ${a===dir[0]&&b===dir[1]?'on':''}" onclick="setDir('${a}','${b}')">
+   ${OPS[a].flag} → ${OPS[b].flag}<small>${cap(OPS[a].name)} → ${cap(OPS[b].name)}</small></button>`).join('')+
+  `<button class="dirBtn ${dir.includes('XX')?'on':''}" onclick="setDir('XX','CH')">🌍 Другое<small>Указать страну</small></button>`;
+}
+function setDir(a,b){dir=[a,b];document.getElementById('otherWrap').style.display=(a==='XX'||b==='XX')?'':'none';buildDirs();applyDir()}
+function swapDir(){dir=[dir[1],dir[0]];buildDirs();applyDir()}
+function applyDir(){
+ let [a,b]=dir;
+ if(a==='XX'||b==='XX'){
+  const side=document.getElementById('otherSide').value;
+  OPS.XX.name=document.getElementById('otherCountry').value.trim()||'другой стране';
+  dir=side==='from'?['CH','XX']:['XX','CH'];[a,b]=dir;
+ }
+ document.getElementById('ttlA').textContent=`в ${OPS[a].name} ${OPS[a].flag}`;
+ document.getElementById('ttlB').textContent=`в ${OPS[b].name} ${OPS[b].flag}`;
+ document.getElementById('cityA').placeholder=`Город в ${OPS[a].name}`;
+ document.getElementById('cityB').placeholder=`Город в ${OPS[b].name}`;
+}
+
+const data=[
+{k:'go',d:'RU-CH',capV:5,from:'🇷🇺 Россия',to:'🇨🇭 Швейцария',cities:'Москва → Baden',date:'выезд 30.11',
+ capW:'до 8 кг',capG:'🧳 Полчемодана',capFree:6.4,capPct:20,
+ pay:'По тарифу',kinds:{env:'25 CHF',sml:'20 CHF / 500 г',med:'20 CHF / 500 г',big:'Обсуждаемо'},
+ a:{t:'Принимаю до вечера 30.11',main:'Москва и область',ways:['На дом или в офис','Почтой','Встреча']},
+ b:{t:'В Baden с 06.12 по 20.12',main:'Baden, Aargau',ways:['Самовывоз у меня','Отправлю почтой']},
+ note:'Смотрю на объём, а не только на вес. Лекарства куплю сама в аптеке по списку.',
+ who:'Ксения',ini:'К',trips:12,revs:9,rate5:'4.9'},
+{k:'need',d:'CH-RU',capV:1,from:'🇨🇭 Швейцария',to:'🇷🇺 Россия',cities:'Basel → Санкт-Петербург',date:'до 20 авг',
+ capW:'0.1 кг',capG:'✉️ Конверт',capFree:0,capPct:100,
+ pay:'50 CHF',kinds:{env:'50 CHF',sml:null,med:null,big:null},
+ a:{t:'Передам до 18.08',main:'Basel, центр',ways:['Встреча','Почтой']},
+ b:{t:'Получатель заберёт',main:'Санкт-Петербург',ways:['Встреча','Почтой']},
+ note:'Нотариальная доверенность. Конверт открыт, всё покажу при передаче.',
+ who:'Елена',ini:'Е',trips:3,revs:3,rate5:'5.0'},
+{k:'go',d:'CH-UA',capV:3,from:'🇨🇭 Швейцария',to:'🇺🇦 Украина',cities:'Zürich → Львів',date:'12–14 сен',
+ capW:'до 4 кг',capG:'🎒 Ручная кладь',capFree:4,capPct:0,
+ pay:'По тарифу',kinds:{env:'15 CHF',sml:'15 CHF / 500 г',med:'15 CHF / 500 г',big:null},
+ a:{t:'Принимаю до 11.09',main:'Zürich та околиці',ways:['Встреча','Почтой']},
+ b:{t:'У Львові з 15.09 по 22.09',main:'Львів',ways:['Самовивіз','Відправлю поштою']},
+ note:'Еду поездом, места достаточно.',
+ who:'Оксана',ini:'О',trips:7,revs:6,rate5:'4.8'},
+{k:'go',d:'BY-CH',capV:2,from:'🇧🇾 Беларусь',to:'🇨🇭 Швейцария',cities:'Минск → Genève',date:'октябрь',
+ capW:'до 2 кг',capG:'👜 Пакет',capFree:2,capPct:0,
+ pay:'Не деньгами',kinds:{env:'Шоколадка',sml:'Кофе или спасибо',med:null,big:null},
+ a:{t:'Принимаю до 20.10',main:'Минск',ways:['Почтой','На дом или в офис']},
+ b:{t:'В Genève с 25.10 по 05.11',main:'Genève',ways:['Самовывоз у меня','Встреча']},
+ note:'Беру мелочи для своих. Деньги не нужны, привези чай из дома.',
+ who:'Наталья',ini:'Н',trips:1,revs:1,rate5:'5.0'}
+];
+let f='all',fd='all',fc='all';
+function kindRows(x){
+ return `<div class="tgrid">${KINDS.map(k=>{
+  const v=x.kinds[k.id];
+  return `<div class="trow ${v?'':'off'}"><span class="ic">${k.ic}</span>
+   <span class="nm">${k.nm}<small>${k.ds}</small></span>
+   <span class="pr">${v||'не берёт'}</span></div>`}).join('')}
+  <div class="tnote">Все издержки на доставку — курьер, ПВЗ, почта — несёт отправитель</div></div>`;
+}
+function render(){
+ const l=document.getElementById('list');
+ const d=data.filter(x=>{
+  const okT=f==='all'||x.k===f||(f==='free'&&(x.pay==='Не деньгами'||x.pay==='Без денег'));
+  const okD=fd==='all'||x.d===fd||(fd==='other'&&!['CH-RU','RU-CH','CH-UA','UA-CH','CH-BY','BY-CH'].includes(x.d));
+  const okC=fc==='all'||x.capV>=+fc;
+  return okT&&okD&&okC;
+ });
+ if(!d.length){l.innerHTML='<div class="empty"><b>Пока пусто</b>По этим фильтрам объявлений нет. Разместишь первым?</div>';return}
+ l.innerHTML=d.map(x=>`
+ <div class="card ${x.k}">
+  <div class="ctop"><span class="badge ${x.k}">${x.k==='go'?'✈️ Еду и возьму':'📦 Нужно передать'}</span>
+   <span class="badge ${x.pay==='По тарифу'?'rate':'free'}">${x.pay}</span>
+   <span class="when">${x.date}</span></div>
+  <div class="route">${x.from}<span class="arrow">→</span>${x.to}</div>
+  <div class="cities">${x.cities}</div>
+  <div class="cap">
+   <div class="capTop"><span class="capBig">${x.capW}</span><span class="capSub">${x.capG}${x.capFree?` · свободно ${x.capFree} кг`:''}</span></div>
+   <div class="capBar"><div class="capFill" style="width:${x.capPct}%"></div></div>
+   <div class="capScale"><span>${x.capPct?'уже занято':'свободно полностью'}</span><span>${x.capW}</span></div>
+  </div>
+  ${kindRows(x)}
+  <div class="legs">
+   <div class="leg"><div class="legIco a">A</div><div class="legBody">
+    <div class="legTitle">${x.a.t}</div><div class="legMain">${x.a.main}</div>
+    <div class="ways">${x.a.ways.map(w=>`<span class="way">${w}</span>`).join('')}</div></div></div>
+   <div class="leg"><div class="legIco b">Б</div><div class="legBody">
+    <div class="legTitle">${x.b.t}</div><div class="legMain">${x.b.main}</div>
+    <div class="ways">${x.b.ways.map(w=>`<span class="way">${w}</span>`).join('')}</div></div></div></div>
+  <div class="lock"><span>🔒</span><div>Точный адрес и телефон откроются в кабинете, если заявку примут.</div></div>
+  <p class="note">${x.note}</p>
+  <div class="cfoot"><div class="ava">${x.ini}</div>
+   <div class="who"><div class="whoN">${x.who}<span class="ver">✓ Почта и телефон</span></div>
+   <div class="stat"><span><i>★ ${x.rate5}</i> · ${x.revs} отзыва</span><span>${x.trips} передач</span></div></div>
+   <button class="btn ml" onclick="go(document.querySelector('[data-s=apply]'))">Отправить заявку</button></div>
+ </div>`).join('');
+}
+
+const REQ={
+ in:[
+  {id:1,st:'wait',who:'Марина',ini:'М',r5:'4.7',rv:5,adv:'Москва → Baden · выезд 30.11',
+   kind:'✉️ Конверт · 0.1 кг',what:'Документы для нотариуса, А4, вскрытый конверт',price:'25 CHF',
+   ways:'Отдаёт: почтой, обычный тариф · Забирает: сама у перевозчика',when:'2 часа назад'},
+  {id:2,st:'wait',who:'Алина',ini:'А',r5:'5.0',rv:2,adv:'Москва → Baden · выезд 30.11',
+   kind:'📦 Небольшая · 1.2 кг',what:'Детские книги, 4 штуки, мягкая обложка',price:'≈ 48 CHF по тарифу',
+   ways:'Отдаёт: курьером на дом · Забирает: отправить почтой B-Post',when:'вчера'}],
+ out:[
+  {id:3,st:'acc',who:'Оксана',ini:'О',r5:'4.8',rv:6,adv:'Zürich → Львів · 12–14 сен',
+   kind:'✉️ Конверт · 0.1 кг',what:'Справка из университета',price:'15 CHF',
+   ways:'Отдаёт: встреча · Забирает: Нова Пошта',when:'принята 3 дня назад',
+   rev:{s:'Ксения Чудина · +41 79 000 00 00 · 5400 Baden, Bäderstrasse 28',
+        c:'Оксана Мельник · +41 78 000 00 00',
+        r:'Ірина Мельник · +380 67 000 00 00 · 79000 Львів, відділення НП №12'},
+   log:'Данные раскрыты 20.07.2026 в 14:32 после принятия. Скроются 20.10.2026.'}],
+ arch:[
+  {id:4,st:'done',who:'Елена',ini:'Е',r5:'5.0',rv:3,adv:'Basel → Санкт-Петербург · июнь',
+   kind:'✉️ Конверт · 0.1 кг',what:'Доверенность',price:'50 CHF',
+   ways:'Отдаёт: встреча · Забирает: СДЭК',when:'передано 18.06.2026',rate:true}]
+};
+let fr='in';
+const FLOW=['Заявка','Принята','Данные','Передано','Оценка'];
+function flowHtml(st){
+ const idx={wait:0,acc:2,dec:-1,done:4}[st];
+ return `<div class="flow">${FLOW.map((s,i)=>{
+  const cl=idx<0?'':(i<idx?'done':i===idx?'now':'');
+  return `<div class="fst ${cl}">${s}</div>`}).join('')}</div>`;
+}
+function reqHtml(r){
+ const stTxt={wait:'Ждёт решения',acc:'Принята',dec:'Отклонена',done:'Завершена'}[r.st];
+ let body=`<div class="rbody">
+  <div class="kv"><span>Объявление</span><span>${r.adv}</span></div>
+  <div class="kv"><span>Посылка</span><span>${r.kind}</span></div>
+  <div class="kv"><span>Что внутри</span><span>${r.what}</span></div>
+  <div class="kv"><span>Логистика</span><span>${r.ways}</span></div>
+  <div class="kv"><span>Оплата</span><span>${r.price}</span></div></div>`;
+ if(r.st==='wait') body+=`<div class="hidden"><b>🔒 Отправитель, получатель и адреса скрыты</b>
+   Примешь заявку — данные откроются здесь обеим сторонам. Отклонишь — не откроются и не уйдут в письме.</div>
+   <div class="acts"><button class="btn ok" onclick="acc(${r.id})">Принять</button>
+   <button class="btn no" onclick="dec(${r.id})">Отклонить</button>
+   <button class="btn no">Уточнить, не раскрывая</button></div>`;
+ if(r.st==='acc'&&r.rev) body+=`<div class="revealed"><b>🔓 Данные открыты обеим сторонам</b>
+   <div class="kv"><span>Отправитель</span><span>${r.rev.s}</span></div>
+   <div class="kv"><span>Везёт</span><span>${r.rev.c}</span></div>
+   <div class="kv"><span>Получатель</span><span>${r.rev.r}</span></div></div>
+   <div class="log">🗒 ${r.log}</div>
+   <div class="acts"><button class="btn">Отметить «передано»</button><button class="btn no">Переписка</button></div>`;
+ if(r.st==='dec') body+=`<div class="hidden"><b>Заявка отклонена</b>Данные не передавались. Вторая сторона видит только факт отказа.</div>`;
+ if(r.st==='done'&&r.rate) body+=`<div style="margin-top:12px;padding:14px;border:1px solid var(--line);border-radius:11px">
+   <b style="font-size:14px">Оцени, как прошло</b>
+   <div class="stars">${[1,2,3,4,5].map(()=>`<span class="sr" onclick="setStar(this)">★</span>`).join('')}</div>
+   <textarea placeholder="Пара слов: пришла вовремя, всё показала" style="margin-top:9px"></textarea>
+   <div class="blind">👁 Оценки откроются обеим одновременно — когда обе поставят или через 7 дней.</div>
+   <button class="btn" style="margin-top:11px">Отправить оценку</button></div>`;
+ return `<div class="req ${r.st==='wait'?'new':''}">
+  <div class="rtop"><div class="ava">${r.ini}</div>
+   <div class="rtxt"><b>${r.who}</b><small>★ ${r.r5} · ${r.rv} отзыва · ${r.when}</small></div>
+   <span class="st ${r.st}">${stTxt}</span></div>
+  ${flowHtml(r.st)}${body}</div>`;
+}
+function renderReq(){
+ const l=document.getElementById('reqList'),arr=REQ[fr];
+ l.innerHTML=arr.length?arr.map(reqHtml).join(''):'<div class="empty"><b>Пусто</b>Здесь появятся заявки.</div>';
+}
+function acc(id){const r=REQ.in.find(x=>x.id===id);r.st='acc';
+ r.rev={s:'Марина Соколова · +7 916 000 00 00 · 143421 Красногорск, ул. Ленина 5, кв. 12',
+        c:'Ксения Чудина · +41 79 000 00 00',
+        r:'Марина Соколова · заберёт сама у перевозчика в Baden'};
+ r.log='Данные раскрыты '+new Date().toLocaleDateString('ru-RU')+' после принятия. Скроются через 90 дней.';
+ renderReq()}
+function dec(id){const r=REQ.in.find(x=>x.id===id);r.st='dec';renderReq()}
+function setStar(el){const p=[...el.parentNode.children],i=p.indexOf(el);p.forEach((s,j)=>s.classList.toggle('on',j<=i))}
+function setR(b){document.querySelectorAll('[data-r]').forEach(c=>c.classList.remove('on'));b.classList.add('on');fr=b.dataset.r;renderReq()}
+function renderMine(){
+ document.getElementById('mineList').innerHTML=`
+ <div class="card go"><div class="ctop"><span class="badge go">✈️ Еду и возьму</span>
+  <span class="badge rate">По тарифу</span><span class="when">выезд 30.11</span></div>
+  <div class="route">🇷🇺 Россия<span class="arrow">→</span>🇨🇭 Швейцария</div>
+  <div class="cities">Москва → Baden</div>
+  <div class="cap"><div class="capTop"><span class="capBig">до 8 кг</span><span class="capSub">🧳 Полчемодана · свободно 6.4 кг</span></div>
+   <div class="capBar"><div class="capFill" style="width:20%"></div></div></div>
+  <div class="rbody" style="margin-top:11px"><div class="kv"><span>Заявок</span><span>2 ждут · 1 принята</span></div>
+  <div class="kv"><span>Просмотров</span><span>47</span></div></div>
+  <div class="acts"><button class="btn no">Редактировать</button><button class="btn no">Снять</button></div></div>
+ <div class="card need" style="opacity:.6"><div class="ctop"><span class="badge need">📦 Нужно передать</span>
+  <span class="badge free">Без денег</span><span class="when">архив · июнь</span></div>
+  <div class="route">🇨🇭 Швейцария<span class="arrow">→</span>🇷🇺 Россия</div>
+  <div class="cities">Baden → Москва</div>
+  <div class="rbody" style="margin-top:11px"><div class="kv"><span>Итог</span><span>Передано, оценка ★ 5.0</span></div></div></div>`;
+}
+function setF(b){document.querySelectorAll('[data-f]').forEach(c=>c.classList.remove('on'));b.classList.add('on');f=b.dataset.f;render()}
+function setD(b){document.querySelectorAll('[data-d]').forEach(c=>c.classList.remove('on'));b.classList.add('on');fd=b.dataset.d;render()}
+function setC(b){document.querySelectorAll('[data-c]').forEach(c=>c.classList.remove('on'));b.classList.add('on');fc=b.dataset.c;render()}
+function go(b){document.querySelectorAll('.nv').forEach(c=>c.classList.remove('on'));b.classList.add('on');
+ document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+ document.getElementById(b.dataset.s).classList.add('on');window.scrollTo({top:0,behavior:'smooth'})}
+function pick(b,multi){if(multi){b.classList.toggle('on');return}document.querySelectorAll(`[data-g="${b.dataset.g}"]`).forEach(c=>c.classList.remove('on'));b.classList.add('on')}
+function send(){document.getElementById('formCard').style.display='none';document.getElementById('ok').classList.add('show');window.scrollTo({top:0,behavior:'smooth'})}
+function sendApply(){document.getElementById('applyCard').style.display='none';document.getElementById('okApply').classList.add('show');window.scrollTo({top:0,behavior:'smooth'})}
+buildDirs();applyDir();buildGab();capOut();buildKinds();render();renderReq();renderMine();
+</script>
+</body>
+</html>
