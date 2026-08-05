@@ -2212,7 +2212,9 @@ html, body{overflow-x:clip}
 /* заявка-шапка */
 .kit .ok-req-head{border:1px solid rgba(230,180,80,.42);border-radius:20px;background:linear-gradient(160deg,rgba(230,180,80,.12),rgba(185,139,255,.08));padding:22px 24px;margin-top:22px;max-width:760px}
 .kit .ok-req-head .ok-ad__top{margin-bottom:8px}
-.kit .ok-back{font:600 13.5px var(--font-body);color:var(--lila-bright);text-decoration:none;cursor:pointer;background:none;border:none;padding:0}
+/* display:block обязателен: .fp-eyebrow ниже — inline-flex, и без этого
+   «← К доске» и подпись раздела слипались в одну строку. */
+.kit .ok-back{font:600 13.5px var(--font-body);color:var(--lila-bright);text-decoration:none;cursor:pointer;background:none;border:none;padding:0;display:block;width:fit-content}
 /* мои заявки */
 .kit .ok-subtabs{display:flex;gap:8px;flex-wrap:wrap;margin:22px 0 18px}
 .kit .ok-req{border:1px solid var(--line);border-radius:18px;background:var(--glass);padding:20px 22px;margin-top:14px;max-width:760px}
