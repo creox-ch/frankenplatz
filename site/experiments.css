@@ -449,7 +449,7 @@
 .kit .sp-mission h2{font-size:clamp(30px,4.2vw,48px);text-align:left}
 .kit .sp-mission .lead{max-width:none;margin:0 0 18px;text-align:left}
 .kit .sp-mission__photo{width:440px;height:410px;max-width:100%;border-radius:20px;justify-self:end;
-  background:#241138 url("img/photo-02.jpg") center/cover no-repeat;
+  background:#241138 url("img/photo-01.jpg") center/cover no-repeat;
   border:1px solid rgba(255,255,255,.08)}
 @media(max-width:900px) {
 .kit .sp-mission{padding:72px 0}
@@ -461,7 +461,7 @@
 .kit .sp-mission h2{font-size:clamp(30px,4.2vw,48px);text-align:left}
 .kit .sp-mission .lead{max-width:none;margin:0 0 18px;text-align:left}
 .kit .sp-mission__photo{width:440px;height:410px;max-width:100%;border-radius:20px;justify-self:end;
-    background:#241138 url("img/photo-03.jpg") center/cover no-repeat;
+    background:#241138 url("img/photo-01.jpg") center/cover no-repeat;
     border:1px solid rgba(255,255,255,.08)}
 @media(max-width:900px) {
 .kit .sp-mission__photo{justify-self:start}
