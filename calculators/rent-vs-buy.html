@@ -50,7 +50,7 @@
   .combo{display:flex;align-items:center;gap:14px}
   .combo input[type=range]{flex:1;accent-color:var(--amber);height:4px}
   .numwrap{position:relative;display:flex;align-items:center;flex:0 0 auto}
-  .numwrap input[type=number]{width:150px;font-family:"Manrope",sans-serif;font-size:16px;
+  .numwrap input{width:150px;font-family:"Manrope",sans-serif;font-size:16px;
     font-weight:700;padding:9px 56px 9px 11px;border:1.5px solid rgba(255,255,255,.22);background:var(--paper-2);
     color:var(--ink);text-align:left;-moz-appearance:textfield;border-radius:11px}
   .numwrap input[type=number]::-webkit-outer-spin-button,
@@ -60,7 +60,7 @@
   .split{display:grid;grid-template-columns:1fr 1fr;gap:14px}
   .split .sub-f label{display:block;font-family:"Manrope",sans-serif;font-size:12.5px;
     font-weight:600;margin-bottom:6px;color:var(--ink)}
-  .split .numwrap input[type=number]{width:100%}
+  .split .numwrap input{width:100%}
   .star{color:var(--amber);font-weight:700;cursor:help}
   .footnote{font-family:"Manrope",sans-serif;font-size:12px;color:var(--muted);
     background:var(--amber-soft);border-left:3px solid var(--amber);border-radius:12px;padding:11px 14px;margin-top:8px;line-height:1.5}
@@ -347,7 +347,7 @@
       </div>
       <div class="combo" style="margin-top:10px">
         <input type="range" id="rentInR" min="500" max="15000" step="100" value="2500">
-        <div class="numwrap"><input type="number" inputmode="numeric" id="rentInN" value="2500"><span class="unit" id="rentInUnit">CHF/мес</span></div>
+        <div class="numwrap"><input type="text" inputmode="decimal" id="rentInN" value="2500"><span class="unit" id="rentInUnit">CHF/мес</span></div>
       </div>
       <div class="hint" id="rentDayNote" style="display:none" data-i18n="rentDayNote">Посуточно считаем со средней загрузкой 60% (≈18 ночей в месяц) — типично для отпускного жилья.</div>
       <div id="dayCosts" style="display:none">
@@ -355,27 +355,27 @@
         <div class="dc-grid">
           <div class="dc-f">
             <label data-i18n="dcOcc">Загрузка</label>
-            <div class="numwrap"><input type="number" inputmode="numeric" id="dcOccN" value="60"><span class="unit">%</span></div>
+            <div class="numwrap"><input type="text" inputmode="decimal" id="dcOccN" value="60"><span class="unit">%</span></div>
           </div>
           <div class="dc-f">
             <label data-i18n="dcPlatform">Платформа (Booking/Airbnb)</label>
-            <div class="numwrap"><input type="number" inputmode="numeric" id="dcPlatformN" value="15"><span class="unit">%</span></div>
+            <div class="numwrap"><input type="text" inputmode="decimal" id="dcPlatformN" value="15"><span class="unit">%</span></div>
           </div>
           <div class="dc-f">
             <label data-i18n="dcClean">Уборка/стирка за выезд</label>
-            <div class="numwrap"><input type="number" inputmode="numeric" id="dcCleanN" value="120"><span class="unit">CHF</span></div>
+            <div class="numwrap"><input type="text" inputmode="decimal" id="dcCleanN" value="120"><span class="unit">CHF</span></div>
           </div>
           <div class="dc-f">
             <label data-i18n="dcStay">Средняя длина брони</label>
-            <div class="numwrap"><input type="number" inputmode="numeric" id="dcStayN" value="3"><span class="unit" data-i18n="unitNights">ночей</span></div>
+            <div class="numwrap"><input type="text" inputmode="decimal" id="dcStayN" value="3"><span class="unit" data-i18n="unitNights">ночей</span></div>
           </div>
           <div class="dc-f">
             <label data-i18n="dcAds">Реклама в год</label>
-            <div class="numwrap"><input type="number" inputmode="numeric" id="dcAdsN" value="1200"><span class="unit">CHF</span></div>
+            <div class="numwrap"><input type="text" inputmode="decimal" id="dcAdsN" value="1200"><span class="unit">CHF</span></div>
           </div>
           <div class="dc-f">
             <label data-i18n="dcConsum">Расходники в месяц</label>
-            <div class="numwrap"><input type="number" inputmode="numeric" id="dcConsumN" value="80"><span class="unit">CHF</span></div>
+            <div class="numwrap"><input type="text" inputmode="decimal" id="dcConsumN" value="80"><span class="unit">CHF</span></div>
           </div>
         </div>
       </div>
@@ -388,7 +388,7 @@
       <div class="hint" data-i18n="rentHint">Ваша текущая квартплата (брутто, со всеми Nebenkosten). С ней сравним покупку.</div>
       <div class="combo">
         <input type="range" id="rentR" min="800" max="6000" step="50" value="1900">
-        <div class="numwrap"><input type="number" inputmode="numeric" id="rentN" value="1900"><span class="unit" data-i18n="unitRent">CHF/мес</span></div>
+        <div class="numwrap"><input type="text" inputmode="decimal" id="rentN" value="1900"><span class="unit" data-i18n="unitRent">CHF/мес</span></div>
       </div>
     </div>
     </div>
@@ -399,7 +399,7 @@
       <div class="hint" data-i18n="priceHint">Цена объекта, который хотели бы купить</div>
       <div class="combo">
         <input type="range" id="priceR" min="300" max="3000" step="10" value="680">
-        <div class="numwrap"><input type="number" inputmode="numeric" id="priceN" value="" placeholder="680"><span class="unit" data-i18n="unitKCHF">тыс. CHF</span></div>
+        <div class="numwrap"><input type="text" inputmode="decimal" id="priceN" value="" placeholder="680"><span class="unit" data-i18n="unitKCHF">тыс. CHF</span></div>
       </div>
     </div>
     <div class="field">
@@ -407,7 +407,7 @@
       <div class="hint" data-i18n="ageHint">Важно: 2-ю ипотеку нужно погасить за 15 лет ИЛИ до 65 лет (пенсия) — что раньше. Чем ближе к 65, тем короче срок и выше платёж.</div>
       <div class="combo">
         <input type="range" id="ageR" min="25" max="70" step="1" value="40">
-        <div class="numwrap"><input type="number" inputmode="numeric" id="ageN" value="40"><span class="unit" data-i18n="unitAge">лет</span></div>
+        <div class="numwrap"><input type="text" inputmode="decimal" id="ageN" value="40"><span class="unit" data-i18n="unitAge">лет</span></div>
       </div>
       <div class="footnote" id="ageNote" style="background:var(--paper-2);border-color:var(--line)"></div>
     </div>
@@ -416,7 +416,7 @@
       <div class="hint" data-i18n="rateHint">Сейчас в Швейцарии фикс на 10 лет — примерно 1,5–2,2%. Базовое значение 2%.</div>
       <div class="combo">
         <input type="range" id="rateR" min="0.5" max="4" step="0.1" value="2">
-        <div class="numwrap"><input type="number" inputmode="decimal" id="rateN" value="2" step="0.1"><span class="unit">%</span></div>
+        <div class="numwrap"><input type="text" inputmode="decimal" id="rateN" value="2" step="0.1"><span class="unit">%</span></div>
       </div>
     </div>
 
@@ -426,11 +426,11 @@
       <div class="split">
         <div class="sub-f">
           <label data-i18n="cashLabel" data-i18n-html="1">Твёрдые деньги<span class="star">**</span></label>
-          <div class="numwrap"><input type="number" inputmode="numeric" id="cashN" value="" placeholder="0"><span class="unit">CHF</span></div>
+          <div class="numwrap"><input type="text" inputmode="decimal" id="cashN" value="" placeholder="0"><span class="unit">CHF</span></div>
         </div>
         <div class="sub-f">
           <label data-i18n="pensionLabel">Из пенсионной кассы *</label>
-          <div class="numwrap"><input type="number" inputmode="numeric" id="pensionN" value="" placeholder="0"><span class="unit">CHF</span></div>
+          <div class="numwrap"><input type="text" inputmode="decimal" id="pensionN" value="" placeholder="0"><span class="unit">CHF</span></div>
         </div>
       </div>
       <div class="quickset" id="quickset"></div>
@@ -512,7 +512,7 @@
             <div class="hint" data-i18n="bcIncomeHint">Домохозяйство — это общий доход всех, кто берёт ипотеку вместе: вы + супруг/партнёр, если подаёте вдвоём. Банк смотрит на сумму. Введите свою — посчитаем, на какую цену жилья вы примерно можете рассчитывать.</div>
             <div class="combo">
               <input type="range" id="hhR" min="50000" max="500000" step="5000" value="150000">
-              <div class="numwrap"><input type="number" inputmode="numeric" id="hhN" value="150000"><span class="unit" data-i18n="unitYear">CHF/год</span></div>
+              <div class="numwrap"><input type="text" inputmode="decimal" id="hhN" value="150000"><span class="unit" data-i18n="unitYear">CHF/год</span></div>
             </div>
             <div class="verdict-line" id="hhVerdict"></div>
           </div>
@@ -532,7 +532,7 @@
             <div class="hint" data-i18n="txMargHint">Сколько вы платите налога с последнего заработанного франка. По Швейцарии в среднем 25–35% в зависимости от кантона и дохода. Базово 30%.</div>
             <div class="combo">
               <input type="range" id="margR" min="20" max="42" step="1" value="30">
-              <div class="numwrap"><input type="number" inputmode="numeric" id="margN" value="30"><span class="unit">%</span></div>
+              <div class="numwrap"><input type="text" inputmode="decimal" id="margN" value="30"><span class="unit">%</span></div>
             </div>
           </div>
           <div class="tx-field">
@@ -798,10 +798,22 @@ var I18N={
 function t(k){return (I18N[lang] && I18N[lang][k]!==undefined)?I18N[lang][k]:I18N.ru[k];}
 var horizonYears=10;
 function fmt(n){return Math.round(n).toLocaleString('de-CH').replace(/\u2019/g,"'");}
+/* Парсер числа: терпит запятую, пробел, неразрывный пробел и швейцарский
+   апостроф (1'200'000 — так суммы копируются из документов). Поля —
+   type="text" inputmode="decimal": type="number" ломает навигацию на мобильном. */
+function fpNum(v){
+  var s=String(v==null?'':v).replace(/[\s\u00A0\u2009'\u2019]/g,'').replace(',','.');
+  var n=parseFloat(s);
+  return isFinite(n)?n:0;
+}
 function bindCombo(rangeId,numId,cb){
   var r=document.getElementById(rangeId),n=document.getElementById(numId);
   r.addEventListener('input',function(){n.value=r.value;if(cb)cb();});
-  n.addEventListener('input',function(){var v=parseFloat(n.value);if(!isNaN(v)&&v>=+r.min&&v<=+r.max)r.value=v;if(cb)cb();});
+  n.addEventListener('input',function(){
+    // пустое поле ползунок не двигает — человек чистит его, чтобы ввести заново
+    if(n.value.trim()){var v=fpNum(n.value);if(v>=+r.min&&v<=+r.max)r.value=v;}
+    if(cb)cb();
+  });
 }
 bindCombo('rentR','rentN');
 bindCombo('priceR','priceN',function(){autofillDown();updateDown();});
@@ -811,7 +823,7 @@ bindCombo('margR','margN',function(){updateTax();if(lastR)renderHorizon(lastR);}
 bindCombo('ageR','ageN',function(){updateAgeNote();updateDown();});
 document.getElementById('cashN').addEventListener('input',function(){downTouched=true;updateDown();});
 document.getElementById('pensionN').addEventListener('input',function(){downTouched=true;updateDown();});
-function getPrice(){return (parseFloat(document.getElementById('priceN').value)||0)*1000;}
+function getPrice(){return (fpNum(document.getElementById('priceN').value)||0)*1000;}
 function autofillDown(){
   // авто-подставляем минимальный взнос, пока человек не правил его вручную
   if(downTouched) return;
@@ -924,9 +936,9 @@ document.querySelectorAll('#propSeg button').forEach(function(b){
       autofillDown();
     } else if(!pensionAllowed()){
       // если правил вручную, но касса теперь запрещена — переносим в твёрдые
-      var pen=parseFloat(document.getElementById('pensionN').value)||0;
+      var pen=fpNum(document.getElementById('pensionN').value)||0;
       if(pen>0){
-        var curCash=parseFloat(document.getElementById('cashN').value)||0;
+        var curCash=fpNum(document.getElementById('cashN').value)||0;
         document.getElementById('cashN').value=Math.round(curCash+pen);
         document.getElementById('pensionN').value=0;
       }
@@ -979,8 +991,8 @@ function updateDown(){
     updateAmortBar(0,0,0);
     return;
   }
-  var cash=parseFloat(document.getElementById('cashN').value)||0;
-  var pension=parseFloat(document.getElementById('pensionN').value)||0;
+  var cash=fpNum(document.getElementById('cashN').value)||0;
+  var pension=fpNum(document.getElementById('pensionN').value)||0;
   var down=cash+pension, pct=price>0?down/price:0;
   var minDown=propMinDown();
   var txt='Всего взнос: <b>'+fmt(down)+' CHF</b> = <b>'+Math.round(pct*100)+'%</b> от стоимости.';
@@ -1025,7 +1037,7 @@ function updateAmortBar(price, down, pct){
     v.innerHTML=t('abVerdYes').replace('{f}',floorPctLbl).replace('{second}',fmt(second)).replace('{amortY}',fmt(amortY)).replace('{aY}',aY).replace('{kill}',amortKillDown).replace('{f2}',floorPctLbl);
   }
 }
-function getAge(){return parseInt(document.getElementById('ageN').value,10)||40;}
+function getAge(){return Math.round(fpNum(document.getElementById('ageN').value))||40;}
 function propFloor(){
   if(propType==='second')return CFG.SEC_FLOOR;
   if(propType==='rent')return CFG.RENT_FLOOR;
@@ -1049,11 +1061,11 @@ function amortYearsByAge(age){
   return Math.max(1, Math.min(maxY, toRetire));
 }
 function calc(){
-  var rent=parseFloat(document.getElementById('rentN').value)||0;
+  var rent=fpNum(document.getElementById('rentN').value)||0;
   var price=getPrice();
-  var rate=(parseFloat(document.getElementById('rateN').value)||2)/100;
-  var cash=parseFloat(document.getElementById('cashN').value)||0;
-  var pension=parseFloat(document.getElementById('pensionN').value)||0;
+  var rate=(fpNum(document.getElementById('rateN').value)||2)/100;
+  var cash=fpNum(document.getElementById('cashN').value)||0;
+  var pension=fpNum(document.getElementById('pensionN').value)||0;
   var age=getAge();
   var down=cash+pension, loan=price-down, loanPct=price>0?loan/price:0;
   // граница, до которой надо амортизировать: 67% (первое) или 50% (второе)
@@ -1067,16 +1079,16 @@ function calc(){
   var payYear=interestYear+maintYear+amortYear, rentYear=rent*12;
   var reqIncome=(loan*CFG.CALC_RATE+maintYear+amortYear)/CFG.BURDEN;
   // доход от сдачи в аренду (только режим 'rent')
-  var rentInVal=parseFloat(document.getElementById('rentInN').value)||0;
+  var rentInVal=fpNum(document.getElementById('rentInN').value)||0;
   var opexYear, rentIncomeYear, opexBreak=null;
   if(rentMode==='day'){
     // посуточно: выручка и расходы из редактируемых полей
-    var occ=(parseFloat(document.getElementById('dcOccN').value)||60)/100;
-    var platformPct=(parseFloat(document.getElementById('dcPlatformN').value)||0)/100;
-    var cleanPerStay=parseFloat(document.getElementById('dcCleanN').value)||0;
-    var avgStay=Math.max(1, parseFloat(document.getElementById('dcStayN').value)||3);
-    var adsYear=parseFloat(document.getElementById('dcAdsN').value)||0;
-    var consumMonth=parseFloat(document.getElementById('dcConsumN').value)||0;
+    var occ=(fpNum(document.getElementById('dcOccN').value)||60)/100;
+    var platformPct=(fpNum(document.getElementById('dcPlatformN').value)||0)/100;
+    var cleanPerStay=fpNum(document.getElementById('dcCleanN').value)||0;
+    var avgStay=Math.max(1, fpNum(document.getElementById('dcStayN').value)||3);
+    var adsYear=fpNum(document.getElementById('dcAdsN').value)||0;
+    var consumMonth=fpNum(document.getElementById('dcConsumN').value)||0;
     var nightsYear=30*occ*12;
     rentIncomeYear=rentInVal*nightsYear;
     var staysYear=nightsYear/avgStay;
@@ -1138,7 +1150,7 @@ function renderHorizon(r){
   var growth=r.price*Math.pow(1+CFG.GROWTH,y)-r.price;
   var totalCap=capital+growth;
   // налоговый эффект в год (используем текущую предельную ставку)
-  var marg=(parseFloat(document.getElementById('margN').value)||30)/100;
+  var marg=(fpNum(document.getElementById('margN').value)||30)/100;
   var emw=r.price*CFG.EMW_TAXVALUE*CFG.EMW_RATE;
   var taxYear=(emw-(r.interestYear+r.price*CFG.MAINT_DEDUCT))*marg; // >0 доплата, <0 экономия
   var taxCum=taxYear*y;
@@ -1168,7 +1180,7 @@ function renderHorizon(r){
 }
 function updateHH(){
   if(!lastR)return;
-  var hh=parseFloat(document.getElementById('hhN').value)||0, el=document.getElementById('hhVerdict'), maxP=maxPriceFromIncome(hh);
+  var hh=fpNum(document.getElementById('hhN').value)||0, el=document.getElementById('hhVerdict'), maxP=maxPriceFromIncome(hh);
   if(hh>=lastR.reqIncome){el.className='verdict-line ok';el.innerHTML=t('bcPass').replace('{hh}',fmt(hh)).replace('{maxP}',fmt(maxP));}
   else{el.className='verdict-line';el.innerHTML=t('bcFail').replace('{hh}',fmt(hh)).replace('{req}',fmt(lastR.reqIncome)).replace('{maxP}',fmt(maxP));}
 }
@@ -1186,7 +1198,7 @@ function ewCumulativeSave(years, interestYear, marg){
 }
 function updateTax(){
   if(!lastR)return;
-  var marg=(parseFloat(document.getElementById('margN').value)||30)/100;
+  var marg=(fpNum(document.getElementById('margN').value)||30)/100;
   var rentYear=lastR.rentYear;
   var emw=lastR.price*CFG.EMW_TAXVALUE*CFG.EMW_RATE;
   var deduction=lastR.interestYear+lastR.price*CFG.MAINT_DEDUCT;

@@ -1,0 +1,36 @@
+name: Калькуляторы
+
+# Регламент калькуляторов требует DOM-stub прогон перед отдачей файла.
+# Локально node нет — прогоняем здесь: на каждый push и PR, если правились
+# файлы калькуляторов или сам валидатор.
+on:
+  push:
+    paths:
+      - 'calculators/**'
+      - 'scripts/validate_calc.js'
+      - '.github/workflows/calculators.yml'
+  pull_request:
+    paths:
+      - 'calculators/**'
+      - 'scripts/validate_calc.js'
+      - '.github/workflows/calculators.yml'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: DOM-stub прогон всех калькуляторов
+        run: |
+          status=0
+          for f in calculators/budget.html calculators/pension.html calculators/rent-vs-buy.html calculators/taxes.html calculators/shares.html; do
+            echo "──────────────────────────────────────────"
+            node scripts/validate_calc.js "$f" || status=1
+          done
+          exit $status
