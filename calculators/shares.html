@@ -267,20 +267,8 @@
       <h3>Доли посчитали. Теперь их нужно защитить.</h3>
       <p>Что будет, если партнёр с клиентской базой уйдёт и заберёт её? Как зафиксировать неденежный вклад в Gesellschaftsvertrag, чтобы он не обнулился? Когда соц. актив «отрабатывается» и доля пересматривается (vesting)? И хватает ли вам капитала на выбранную форму?</p>
       <p style="margin-top:10px">Это и есть то, из-за чего получаются 40/40/20 и суды. Полный разбор — на форуме Frankenplatz.</p>
-      <div id="emailBlock">
-        <label style="text-align:left">Email — пришлём ваш расклад в PDF + чек-лист для договора
-          <span class="hint">И ссылку на спец-цену форума</span></label>
-        <input type="email" id="email" placeholder="you@example.com">
-        <div class="err hidden" id="emailErr">Введите корректный email.</div>
-        <button class="btn amber" id="getBtn">Получить разбор и спец-цену</button>
-        <div class="formnote">Без спама. Один разбор + приглашение на форум.</div>
-      </div>
-      <div id="offerBlock" class="hidden">
-        <div class="timer" id="timer">24:00:00</div>
-        <div class="price"><s>CHF 290</s> &nbsp; <b>CHF 190</b> <span style="color:var(--muted)">до конца таймера</span></div>
-        <button class="btn amber" id="buyBtn">Забронировать место на форуме</button>
-        <div class="formnote">После таймера цена возвращается к CHF 290 — это правило, не маркетинг.</div>
-      </div>
+      <a class="btn amber" href="/tickets" style="text-decoration:none;text-align:center">Смотреть билеты на форум</a>
+      <div class="formnote">24–25 октября 2026, Баден. Расчёт можно прислать себе на почту — форма выше.</div>
     <div class="foot">
       Расчёт — модель для переговоров между партнёрами, а не юридическая или оценочная экспертиза.
       Минимальный капитал: GmbH — CHF 20'000 (полностью оплачивается при основании, OR 773);
@@ -567,28 +555,11 @@
     $("step2").classList.remove("hidden");
   });
 
-  $("getBtn").addEventListener("click",function(){
-    var e=val("email");
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)){$("emailErr").classList.remove("hidden");return;}
-    $("emailErr").classList.add("hidden");
-    var ends=Date.now()+24*3600*1000;
-    $("emailBlock").classList.add("hidden");
-    $("offerBlock").classList.remove("hidden");
-    startTimer(ends);
-  });
-  function startTimer(ends){
-    var t=$("timer");
-    function tick(){
-      var d=ends-Date.now();
-      if(d<=0){t.textContent="00:00:00";
-        document.querySelector(".price").innerHTML='<b>CHF 290</b> <span style="color:var(--muted)">обычная цена</span>';
-        $("buyBtn").textContent="Перейти на форум (обычная цена)"; clearInterval(iv);return;}
-      var h=Math.floor(d/3600000),m=Math.floor(d%3600000/60000),s=Math.floor(d%60000/1000);
-      t.textContent=[h,m,s].map(function(x){return(x<10?"0":"")+x;}).join(":");
-    }
-    tick();var iv=setInterval(tick,1000);
-  }
-  $("buyBtn").addEventListener("click",function(){window.location.href="#";});
+  /* Здесь была имитация из макета: поле e-mail, которое никуда не отправляло,
+     24-часовой таймер и «CHF 290 → CHF 190». Ни PDF, ни чек-листа мы не шлём,
+     такой цены не существует, кнопка «Забронировать» вела на «#».
+     Реальный сбор e-mail — модуль report-capture.js в блоке #report-capture,
+     реальные цены — на странице /tickets. */
 })();
 </script>
 
