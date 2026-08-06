@@ -1237,7 +1237,8 @@ function Footer({
         { label: "Сотрудничество", href: "collaboration.html" },
         { label: "Другие форумы", href: "trips.html" },
       ];
-  const nav = links.length ? links : (onIndex ? fromNav.concat([{ label: "Калькуляторы", href: "calculators/index.html" }]) : fromNav);
+  const hasCalc = fromNav.some((l) => l.label === "Калькуляторы"); /* FP_NAV уже даёт пункт — не дублировать */
+  const nav = links.length ? links : (onIndex && !hasCalc ? fromNav.concat([{ label: "Калькуляторы", href: "calculators/index.html" }]) : fromNav);
   return h("footer", _extends({ className: ["fp-foot", className].filter(Boolean).join(" ") }, rest),
     h("div", { className: "fp-foot__grid" },
       h("div", null,

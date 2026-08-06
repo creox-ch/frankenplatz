@@ -9,6 +9,8 @@ window.FP_NAV = function (active) {
     { key: "program", label: "Программа", href: (home ? "" : "index.html") + "#program" },
     { key: "day1", label: "День №1", href: "day1.html" },
     { key: "day2", label: "День №2", href: "day2.html" },
+    /* абсолютный путь: cleanUrls, страница живёт в подпапке /calculators/ */
+    { key: "calculators", label: "Калькуляторы", href: "/calculators" },
     /* «Спикерам» в меню не публикуем — закрытая прямая ссылка speakers.html */
     { key: "market", label: "Маркет", href: "brand-market.html" },
     { key: "collab", label: "Сотрудничество", href: "collaboration.html" },
