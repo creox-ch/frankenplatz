@@ -101,7 +101,7 @@
     var consentLabel = document.createElement('label');
     consentLabel.className = 'fp-ff-consent';
     consentLabel.innerHTML =
-      '<input type="checkbox"><span>Согласен(на) на обработку данных заявки.<br>' +
+      '<input type="checkbox"><span>Даю согласие на обработку данных заявки.<br>' +
       'Отписаться можно в любой момент. <a href="' + legalHref() + '">Политика конфиденциальности</a>.</span>';
 
     var msg = document.createElement('p');

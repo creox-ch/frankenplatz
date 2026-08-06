@@ -115,7 +115,7 @@
       '<div class="mk-opts">' + opts + '</div>' +
       '<input class="mk-field" type="email" name="mkemail" placeholder="E-mail — на него придёт подтверждение" autocomplete="email" required>' +
       '<input class="mk-field" type="text" name="mkname" placeholder="Имя (по желанию)" autocomplete="name">' +
-      '<label class="mk-consent"><input type="checkbox" name="mkconsent"><span>Согласен(на) на обработку данных для оформления. <a href="legal.html#datenschutz">Политика конфиденциальности</a>.</span></label>' +
+      '<label class="mk-consent"><input type="checkbox" name="mkconsent"><span>Даю согласие на обработку данных для оформления. <a href="legal.html#datenschutz">Политика конфиденциальности</a>.</span></label>' +
       '<button class="mk-pay" type="button" disabled>Выбери пакет</button>' +
       '<p class="mk-note">Комиссия 12% берётся отдельно, только с реальных продаж. Кабинеты откроются 10.08 — пришлём ссылку. Точную сумму подтвердишь на странице оплаты.</p>' +
       '<p class="mk-msg" role="status" aria-live="polite"></p>' +

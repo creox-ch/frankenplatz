@@ -94,7 +94,7 @@
       ' <span style="color:var(--muted-2,#9A8BB3)">(Early Bird на ланч не действует)</span></span></label>' +
       '<input class="tk-field" type="email" name="tkemail" placeholder="E-mail — на него придёт билет" autocomplete="email" required>' +
       '<input class="tk-field" type="text" name="tkname" placeholder="Имя (по желанию)" autocomplete="name">' +
-      '<label class="tk-consent"><input type="checkbox" name="tkconsent"><span>Согласен(на) на обработку данных для оформления билета. <a href="legal.html#datenschutz">Политика конфиденциальности</a>.</span></label>' +
+      '<label class="tk-consent"><input type="checkbox" name="tkconsent"><span>Даю согласие на обработку данных для оформления билета. <a href="legal.html#datenschutz">Политика конфиденциальности</a>.</span></label>' +
       '<div class="tk-total"><span>Итого</span><b class="tk-total__val">—</b></div>' +
       '<button class="tk-pay" type="button" disabled>Выбери категорию</button>' +
       '<p class="tk-msg" role="status" aria-live="polite"></p>' +
@@ -204,7 +204,7 @@
       ' <span style="color:var(--muted-2,#9A8BB3)">(Early Bird на ланч не действует)</span></span></label>' +
       '<input class="tk-field" type="email" name="tkemail" placeholder="E-mail — на него придёт билет" autocomplete="email" required>' +
       '<input class="tk-field" type="text" name="tkname" placeholder="Имя (по желанию)" autocomplete="name">' +
-      '<label class="tk-consent"><input type="checkbox" name="tkconsent"><span>Согласен(на) на обработку данных для оформления билета. <a href="legal.html#datenschutz">Политика конфиденциальности</a>.</span></label>' +
+      '<label class="tk-consent"><input type="checkbox" name="tkconsent"><span>Даю согласие на обработку данных для оформления билета. <a href="legal.html#datenschutz">Политика конфиденциальности</a>.</span></label>' +
       '<div class="tk-total"><span>Итого</span><b class="tk-total__val">—</b></div>' +
       '<button class="tk-pay" type="button" disabled>Выбери день</button>' +
       '<p class="tk-msg" role="status" aria-live="polite"></p>' +

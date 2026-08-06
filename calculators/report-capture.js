@@ -92,7 +92,7 @@
           '</div>' +
           // honeypot — реальный человек это поле не видит и не заполняет
           '<div class="fp-hp" aria-hidden="true"><label>Не заполняйте<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>' +
-          '<label class="fp-consent"><input type="checkbox" name="consent"><span>Согласен(на) на обработку e-mail для отправки отчёта и писем форума (можно отписаться в любой момент).</span></label>' +
+          '<label class="fp-consent"><input type="checkbox" name="consent"><span>Даю согласие на обработку e-mail для отправки отчёта и писем форума (можно отписаться в любой момент).</span></label>' +
           '<div class="fp-msg" role="status" aria-live="polite"></div>' +
         '</form>' +
       '</div>'
