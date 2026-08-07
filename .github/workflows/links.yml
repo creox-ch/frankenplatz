@@ -1,0 +1,27 @@
+name: Ссылки
+
+# Битую ссылку в проде находит человек, а не мы. Проверяем на каждый push и PR:
+# ведёт ли каждый внутренний адрес на существующий файл и написан ли он чисто
+# (на сайте включён cleanUrls — адреса без .html).
+on:
+  push:
+    paths:
+      - '**/*.html'
+      - 'site/**'
+      - 'blog/**'
+      - 'calculators/**'
+      - 'scripts/check_links.js'
+      - '.github/workflows/links.yml'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Внутренние ссылки
+        run: node scripts/check_links.js
