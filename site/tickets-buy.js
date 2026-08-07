@@ -159,7 +159,7 @@
         .then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { return { status: r.status, data: d }; }); })
         .then(function (res) {
           if (res.status >= 200 && res.status < 300 && res.data && res.data.ok && res.data.payUrl) {
-            if (window.FPConsent) window.FPConsent.track('ticket_checkout', { product: product, category: cat });
+            if (window.FPConsent) window.FPConsent.track('ticket_checkout', { form_key: 'ticket', product: product, category: cat });
             window.location.href = res.data.payUrl; // на оплату Payrexx
           } else {
             setMsg((res.data && res.data.error) || 'Не получилось открыть оплату. Попробуй ещё раз.', 'err');
@@ -270,7 +270,7 @@
         .then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { return { status: r.status, data: d }; }); })
         .then(function (res) {
           if (res.status >= 200 && res.status < 300 && res.data && res.data.ok && res.data.payUrl) {
-            if (window.FPConsent) window.FPConsent.track('ticket_checkout', { product: prod, category: cat });
+            if (window.FPConsent) window.FPConsent.track('ticket_checkout', { form_key: 'ticket', product: prod, category: cat });
             window.location.href = res.data.payUrl;
           } else {
             setMsg((res.data && res.data.error) || 'Не получилось открыть оплату. Попробуй ещё раз.', 'err');
@@ -296,6 +296,13 @@
       cancelled: 'Оплата отменена — билет можно купить в любой момент.',
     }[m];
     var kind = m === 'paid' ? 'ok' : 'warn';
+    /* Итог оплаты. ticket_checkout ловит только «ушёл на Payrexx», а дошёл ли
+       человек до конца — было не видно. ⚠ Событие занижает продажи: кто закрыл
+       вкладку на странице банка, сюда не вернётся. Точное число оплат — в БД
+       (tickets.status='paid'), это про воронку, а не про бухгалтерию. */
+    if (window.FPConsent && window.FPConsent.track) {
+      window.FPConsent.track('ticket_' + m, { form_key: 'ticket', product: 'forum-ticket' });
+    }
     var host = document.querySelector('.hero .inner') || document.querySelector('.kit .inner');
     if (!host) return;
     var b = document.createElement('div');

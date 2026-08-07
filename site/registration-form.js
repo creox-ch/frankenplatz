@@ -173,7 +173,7 @@
         })
         .then(function (res) {
           if (res.status >= 200 && res.status < 300 && res.data && res.data.ok) {
-            if (window.FPConsent) window.FPConsent.track('registration_early', { event_slug: EVENT });
+            if (window.FPConsent) window.FPConsent.track('registration_early', { form_key: 'registration', event_slug: EVENT });
             form.innerHTML = '';
             setMsg('Готово! Ты в раннем списке — подтверждение отправили на ' + email +
                    '. Напишем первым, как только откроются продажи.', 'ok');

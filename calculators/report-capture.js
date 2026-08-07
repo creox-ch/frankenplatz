@@ -87,6 +87,27 @@
     }
   }
 
+  /* Событие «начал считать» — первое касание любого поля или ползунка.
+     Даёт средний шаг воронки: открыл страницу → начал вводить → досчитал →
+     оставил адрес. Без него не видно, где именно теряем: на пороге входа
+     (страница пугает) или на результате (нечего давать за адрес).
+     Ввод в самой карточке захвата e-mail не считается началом расчёта. */
+  var startWatched = false;
+  function watchStart() {
+    if (startWatched) return;
+    startWatched = true;
+    var fire = function (e) {
+      if (e && e.target && e.target.closest && e.target.closest('.fp-report')) return;
+      document.removeEventListener('input', fire, true);
+      document.removeEventListener('change', fire, true);
+      if (window.FPConsent && window.FPConsent.track) {
+        window.FPConsent.track('calculator_started', { form_key: lastFormKey || 'calculator' });
+      }
+    };
+    document.addEventListener('input', fire, true);
+    document.addEventListener('change', fire, true);
+  }
+
   function init(opts) {
     opts = opts || {};
     var mount = typeof opts.mount === 'string' ? document.querySelector(opts.mount) : opts.mount;
@@ -122,6 +143,7 @@
     card.querySelector('button').textContent = 'Прислать отчёт';
     mount.innerHTML = '';
     mount.appendChild(card);
+    watchStart();
 
     var form = card.querySelector('form');
     var emailInput = form.email;

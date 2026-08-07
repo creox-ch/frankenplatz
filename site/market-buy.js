@@ -171,7 +171,7 @@
         .then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { return { status: r.status, data: d }; }); })
         .then(function (res) {
           if (res.status >= 200 && res.status < 300 && res.data && res.data.ok && res.data.payUrl) {
-            if (window.FPConsent) window.FPConsent.track('market_checkout', { package: key });
+            if (window.FPConsent) window.FPConsent.track('market_checkout', { form_key: 'market', package: key });
             window.location.href = res.data.payUrl;
           } else {
             setMsg((res.data && res.data.error) || 'Не получилось открыть оплату. Попробуй ещё раз.', 'err');
@@ -197,6 +197,11 @@
       failed: 'Оплата не прошла. Попробуй ещё раз или напиши info@frankenplatz.ch.',
       cancelled: 'Оплата отменена — пакет можно оформить в любой момент.',
     }[m];
+    /* Итог оплаты пакета — см. пояснение в tickets-buy.js: событие занижает
+       продажи (кто не вернулся с банка, не считается), точное число — в БД. */
+    if (window.FPConsent && window.FPConsent.track) {
+      window.FPConsent.track('market_' + m, { form_key: 'market', product: 'brand-market' });
+    }
     var host = document.querySelector('.hero .inner') || document.querySelector('.inner') || document.body;
     var b = document.createElement('div');
     b.className = 'mk-banner mk-banner--' + (m === 'paid' ? 'ok' : 'warn');
