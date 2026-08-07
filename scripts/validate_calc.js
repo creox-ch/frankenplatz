@@ -179,7 +179,9 @@ if (!blocks.length) {
    дизайна, тогда как код внутри HTML затирается выгрузкой. Валидатор внешние
    <script src> не исполняет, поэтому объявляем их глобали заглушками — иначе он
    сообщает не об ошибке в файле, а о нашей архитектуре. */
-globalThis.FPReport = { mount() {}, config() {} };
+/* Сигнатура повторяет реальный экспорт calculators/report-capture.js:
+   window.FPReport = { init, MIN_FILL_MS } — при смене API поправить здесь. */
+globalThis.FPReport = { init() {}, MIN_FILL_MS: 2500 };
 globalThis.FPConsent = { granted: () => false, open() {}, track() {} };
 globalThis.FP_NAV = () => [];
 
