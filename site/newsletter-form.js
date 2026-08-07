@@ -40,6 +40,11 @@
     form.dataset.fpWired = '1';
     injectStyle();
 
+    // Якорь #subscribe: на форму подписки ведут ссылки из писем-отчётов
+    // («Подписаться на новости форума»). Без него человек попадал бы на верх
+    // страницы и искал форму сам.
+    if (!form.id) form.id = 'subscribe';
+
     var input = form.querySelector('input[type=email]');
     var btn = form.querySelector('button[type=submit], button');
     if (!input) return;

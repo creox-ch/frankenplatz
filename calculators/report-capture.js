@@ -202,6 +202,10 @@
           // honeypot — реальный человек это поле не видит и не заполняет
           '<div class="fp-hp" aria-hidden="true"><label>Не заполняйте<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>' +
           '<label class="fp-consent"><input type="checkbox" name="consent"><span>Даю согласие на обработку e-mail для отправки отчёта и писем форума (можно отписаться в любой момент).</span></label>' +
+          // Отдельное согласие на рассылку. Снята по умолчанию — предустановленная
+          // галочка согласием не считается. Адрес выше человек оставляет ради
+          // отчёта, новости форума — это другое, поэтому и спрашиваем отдельно.
+          '<label class="fp-consent"><input type="checkbox" name="news"><span>Хочу новости форума: программа, спикеры, старт продаж. Отписка — одним кликом в любом письме.</span></label>' +
           '<div class="fp-msg" role="status" aria-live="polite"></div>' +
         '</form>' +
       '</div>'
@@ -267,6 +271,9 @@
           email: email,
           consent: true,
           send_report: true, // просим сервер прислать отчёт на почту юзера
+          // отдельное согласие на рассылку → сервер заведёт подписку с
+          // двойным подтверждением (письмо со ссылкой)
+          newsletter_optin: !!(form.news && form.news.checked),
           website: hpInput.value, // honeypot → сервер отсечёт, если заполнено
           elapsed_ms: Date.now() - shownAt,
           payload: summary
