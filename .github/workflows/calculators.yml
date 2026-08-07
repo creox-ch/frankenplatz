@@ -34,3 +34,8 @@ jobs:
             node scripts/validate_calc.js "$f" || status=1
           done
           exit $status
+
+      # Валидатор арифметику не проверяет. Парсер чисел — единственное место,
+      # где ошибка не падает, а тихо превращает ввод в 0.
+      - name: Парсер чисел
+        run: node scripts/test_parsers.js
