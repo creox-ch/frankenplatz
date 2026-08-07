@@ -75,6 +75,9 @@ for (const file of walk(ROOT)) {
     const url = m[1].trim();
     if (!url || EXTERNAL.test(url) || url.startsWith('#')) continue;
     if (ASSET.test(url)) continue; // стили, иконки, манифест — не страницы
+    // Не адреса: примеры в комментариях (href="...#reg") и куски, которые код
+    // склеивает во время работы (' + root + ', ${slug}).
+    if (/\.\.\.|\$\{|['"]\s*\+|\+\s*['"]/.test(url)) continue;
 
     // Соглашение: адреса без .html
     if (/\.html($|[#?])/.test(url)) {
