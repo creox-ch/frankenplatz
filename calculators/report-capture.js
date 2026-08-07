@@ -176,72 +176,6 @@
     return wrap;
   }
 
-  /* Подписка на новости форума — ОТДЕЛЬНОЕ действие после отчёта.
-     Адрес человек оставил ради расчёта; это не согласие на рассылку, поэтому
-     спрашиваем явно и отдельной кнопкой. Дальше сервер шлёт письмо-
-     подтверждение (double opt-in) — подписчиком строка станет только после
-     перехода по ссылке из него. */
-  function subscribeRow(email, formKey, endpoint, startedAt) {
-    var wrap = document.createElement('div');
-    var row = document.createElement('div');
-    row.className = 'fp-after';
-    var btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'fp-ghost';
-    btn.textContent = '✉️ Новости форума — мне';
-    var note = document.createElement('div');
-    note.className = 'fp-hint';
-    note.textContent = 'Программа, спикеры и старт продаж. Отписка — одним кликом в любом письме.';
-    row.appendChild(btn);
-    wrap.appendChild(row);
-    wrap.appendChild(note);
-
-    btn.addEventListener('click', function () {
-      btn.disabled = true;
-      btn.textContent = 'Отправляю…';
-      fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          source: 'forum',
-          event: 'frankenplatz-2026-10',
-          form_key: 'newsletter', // сервер включит double opt-in именно по этому ключу
-          role: 'Подписка из калькулятора',
-          source_url: location.href,
-          email: email,
-          consent: true,
-          website: '',
-          elapsed_ms: Date.now() - startedAt,
-          payload: { 'Откуда подписка': formKey }
-        })
-      })
-        .then(function (r) { return r.json().catch(function () { return {}; }); })
-        .then(function (data) {
-          if (data && data.ok) {
-            row.style.display = 'none';
-            note.textContent = 'Почти готово: на ' + email +
-              ' летит письмо-подтверждение — подписка включится по ссылке из него.';
-            if (window.FPConsent && window.FPConsent.track) {
-              window.FPConsent.track('newsletter_subscribe', {
-                form_key: 'newsletter', source: 'calculator'
-              });
-            }
-          } else {
-            btn.disabled = false;
-            btn.textContent = '✉️ Новости форума — мне';
-            note.textContent = 'Не получилось. Попробуй ещё раз чуть позже.';
-          }
-        })
-        .catch(function () {
-          btn.disabled = false;
-          btn.textContent = '✉️ Новости форума — мне';
-          note.textContent = 'Сеть недоступна. Попробуй ещё раз чуть позже.';
-        });
-    });
-
-    return wrap;
-  }
-
   function init(opts) {
     opts = opts || {};
     var mount = typeof opts.mount === 'string' ? document.querySelector(opts.mount) : opts.mount;
@@ -350,9 +284,6 @@
             card.querySelector('.fp-row').style.display = 'none';
             form.querySelector('.fp-consent').style.display = 'none';
             setMsg('Готово! Отчёт пришлём на ' + email + '.', 'ok');
-            // Новости форума — отдельным явным действием: адрес человек оставил
-            // ради расчёта, и это не согласие на рассылку.
-            card.appendChild(subscribeRow(email, formKey, endpoint, shownAt));
           } else {
             var err = (res.data && res.data.error) || 'Не получилось отправить. Попробуй ещё раз.';
             setMsg(err, 'err');
