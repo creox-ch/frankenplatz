@@ -51,7 +51,13 @@
     '.fp-report .fp-msg.ok{color:var(--green,#8BE59B)}',
     '.fp-report .fp-msg.err{color:var(--red,#FF7A8A)}',
     // honeypot: прячем надёжно (не display:none — некоторые боты его игнорят как «невидимое»)
-    '.fp-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}'
+    '.fp-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}',
+    // «поделиться» и подписка — вторичные действия, поэтому контурные кнопки
+    '.fp-after{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}',
+    '.fp-ghost{background:transparent;border:1px solid var(--line-strong,rgba(255,255,255,.16));',
+    'color:var(--ink,#F3EEF9);border-radius:12px;padding:11px 18px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}',
+    '.fp-ghost:hover{border-color:var(--gold,#E6B450)}',
+    '.fp-hint{font-size:12.5px;color:var(--muted2,#9A8BB3);line-height:1.45;margin-top:8px}'
   ].join('');
 
   function injectStyle() {
@@ -108,6 +114,68 @@
     document.addEventListener('change', fire, true);
   }
 
+  /** Главная цифра расчёта — первая непустая строка снимка. Для «поделиться». */
+  function headline(summary) {
+    var keys = Object.keys(summary || {});
+    for (var i = 0; i < keys.length; i++) {
+      var v = summary[keys[i]];
+      if (v != null && String(v).trim()) return keys[i] + ': ' + String(v).trim();
+    }
+    return '';
+  }
+
+  /* Шерабельный результат: одна цифра, которую можно скинуть партнёру, —
+     БЕЗ e-mail и без входа. На телефоне открывается системное «Поделиться»,
+     на десктопе текст со ссылкой уходит в буфер обмена. */
+  function shareRow(getSummary, formKey) {
+    var wrap = document.createElement('div');
+    wrap.className = 'fp-after';
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'fp-ghost';
+    btn.textContent = '🔗 Поделиться результатом';
+    var note = document.createElement('span');
+    note.className = 'fp-hint';
+    note.style.margin = '0';
+    wrap.appendChild(btn);
+    wrap.appendChild(note);
+
+    btn.addEventListener('click', function () {
+      var summary = {};
+      try {
+        summary = (typeof getSummary === 'function' && getSummary()) || {};
+      } catch (e) {
+        summary = {};
+      }
+      var line = headline(summary);
+      var url = location.href.split('#')[0];
+      var text = (line ? 'Мой расчёт на Frankenplatz — ' + line + '. ' : '') + 'Посчитай свой:';
+
+      function done(how) {
+        note.textContent = how === 'copy' ? 'Скопировано — вставляй в чат.' : '';
+        if (window.FPConsent && window.FPConsent.track) {
+          window.FPConsent.track('calculator_share', { form_key: formKey, method: how });
+        }
+      }
+
+      if (navigator.share) {
+        navigator.share({ title: 'Frankenplatz — калькуляторы', text: text, url: url })
+          .then(function () { done('share'); })
+          .catch(function () { /* человек передумал — это не ошибка */ });
+        return;
+      }
+      var payload = text + ' ' + url;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(payload).then(function () { done('copy'); },
+          function () { note.textContent = payload; });
+      } else {
+        note.textContent = payload;
+      }
+    });
+
+    return wrap;
+  }
+
   function init(opts) {
     opts = opts || {};
     var mount = typeof opts.mount === 'string' ? document.querySelector(opts.mount) : opts.mount;
@@ -143,6 +211,9 @@
     card.querySelector('button').textContent = 'Прислать отчёт';
     mount.innerHTML = '';
     mount.appendChild(card);
+    // «Поделиться» доступно сразу и без e-mail: результат должен уходить
+    // партнёру скриншотом или ссылкой, не требуя от человека ничего взамен.
+    mount.appendChild(shareRow(opts.getSummary, formKey));
     watchStart();
 
     var form = card.querySelector('form');
