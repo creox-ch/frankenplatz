@@ -51,7 +51,13 @@
     '.fp-report .fp-msg.ok{color:var(--green,#8BE59B)}',
     '.fp-report .fp-msg.err{color:var(--red,#FF7A8A)}',
     // honeypot: прячем надёжно (не display:none — некоторые боты его игнорят как «невидимое»)
-    '.fp-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}'
+    '.fp-hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}',
+    // «поделиться» и подписка — вторичные действия, поэтому контурные кнопки
+    '.fp-after{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}',
+    '.fp-ghost{background:transparent;border:1px solid var(--line-strong,rgba(255,255,255,.16));',
+    'color:var(--ink,#F3EEF9);border-radius:12px;padding:11px 18px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}',
+    '.fp-ghost:hover{border-color:var(--gold,#E6B450)}',
+    '.fp-hint{font-size:12.5px;color:var(--muted2,#9A8BB3);line-height:1.45;margin-top:8px}'
   ].join('');
 
   function injectStyle() {
@@ -108,6 +114,134 @@
     document.addEventListener('change', fire, true);
   }
 
+  /** Главная цифра расчёта — первая непустая строка снимка. Для «поделиться». */
+  function headline(summary) {
+    var keys = Object.keys(summary || {});
+    for (var i = 0; i < keys.length; i++) {
+      var v = summary[keys[i]];
+      if (v != null && String(v).trim()) return keys[i] + ': ' + String(v).trim();
+    }
+    return '';
+  }
+
+  /* Шерабельный результат: одна цифра, которую можно скинуть партнёру, —
+     БЕЗ e-mail и без входа. На телефоне открывается системное «Поделиться»,
+     на десктопе текст со ссылкой уходит в буфер обмена. */
+  function shareRow(getSummary, formKey) {
+    var wrap = document.createElement('div');
+    wrap.className = 'fp-after';
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'fp-ghost';
+    btn.textContent = '🔗 Поделиться результатом';
+    var note = document.createElement('span');
+    note.className = 'fp-hint';
+    note.style.margin = '0';
+    wrap.appendChild(btn);
+    wrap.appendChild(note);
+
+    btn.addEventListener('click', function () {
+      var summary = {};
+      try {
+        summary = (typeof getSummary === 'function' && getSummary()) || {};
+      } catch (e) {
+        summary = {};
+      }
+      var line = headline(summary);
+      var url = location.href.split('#')[0];
+      var text = (line ? 'Мой расчёт на Frankenplatz — ' + line + '. ' : '') + 'Посчитай свой:';
+
+      function done(how) {
+        note.textContent = how === 'copy' ? 'Скопировано — вставляй в чат.' : '';
+        if (window.FPConsent && window.FPConsent.track) {
+          window.FPConsent.track('calculator_share', { form_key: formKey, method: how });
+        }
+      }
+
+      if (navigator.share) {
+        navigator.share({ title: 'Frankenplatz — калькуляторы', text: text, url: url })
+          .then(function () { done('share'); })
+          .catch(function () { /* человек передумал — это не ошибка */ });
+        return;
+      }
+      var payload = text + ' ' + url;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(payload).then(function () { done('copy'); },
+          function () { note.textContent = payload; });
+      } else {
+        note.textContent = payload;
+      }
+    });
+
+    return wrap;
+  }
+
+  /* Подписка на новости форума — ОТДЕЛЬНОЕ действие после отчёта.
+     Адрес человек оставил ради расчёта; это не согласие на рассылку, поэтому
+     спрашиваем явно и отдельной кнопкой. Дальше сервер шлёт письмо-
+     подтверждение (double opt-in) — подписчиком строка станет только после
+     перехода по ссылке из него. */
+  function subscribeRow(email, formKey, endpoint, startedAt) {
+    var wrap = document.createElement('div');
+    var row = document.createElement('div');
+    row.className = 'fp-after';
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'fp-ghost';
+    btn.textContent = '✉️ Новости форума — мне';
+    var note = document.createElement('div');
+    note.className = 'fp-hint';
+    note.textContent = 'Программа, спикеры и старт продаж. Отписка — одним кликом в любом письме.';
+    row.appendChild(btn);
+    wrap.appendChild(row);
+    wrap.appendChild(note);
+
+    btn.addEventListener('click', function () {
+      btn.disabled = true;
+      btn.textContent = 'Отправляю…';
+      fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          source: 'forum',
+          event: 'frankenplatz-2026-10',
+          form_key: 'newsletter', // сервер включит double opt-in именно по этому ключу
+          role: 'Подписка из калькулятора',
+          source_url: location.href,
+          email: email,
+          consent: true,
+          website: '',
+          elapsed_ms: Date.now() - startedAt,
+          payload: { 'Откуда подписка': formKey }
+        })
+      })
+        .then(function (r) { return r.json().catch(function () { return {}; }); })
+        .then(function (data) {
+          if (data && data.ok) {
+            row.style.display = 'none';
+            note.textContent = 'Почти готово: на ' + email +
+              ' летит письмо-подтверждение — подписка включится по ссылке из него.';
+            if (window.FPConsent && window.FPConsent.track) {
+              window.FPConsent.track('newsletter_subscribe', {
+                form_key: 'newsletter', source: 'calculator'
+              });
+            }
+          } else {
+            btn.disabled = false;
+            btn.textContent = '✉️ Новости форума — мне';
+            note.textContent = 'Не получилось. Попробуй ещё раз чуть позже.';
+          }
+        })
+        .catch(function () {
+          btn.disabled = false;
+          btn.textContent = '✉️ Новости форума — мне';
+          note.textContent = 'Сеть недоступна. Попробуй ещё раз чуть позже.';
+        });
+    });
+
+    return wrap;
+  }
+
   function init(opts) {
     opts = opts || {};
     var mount = typeof opts.mount === 'string' ? document.querySelector(opts.mount) : opts.mount;
@@ -143,6 +277,9 @@
     card.querySelector('button').textContent = 'Прислать отчёт';
     mount.innerHTML = '';
     mount.appendChild(card);
+    // «Поделиться» доступно сразу и без e-mail: результат должен уходить
+    // партнёру скриншотом или ссылкой, не требуя от человека ничего взамен.
+    mount.appendChild(shareRow(opts.getSummary, formKey));
     watchStart();
 
     var form = card.querySelector('form');
@@ -213,6 +350,9 @@
             card.querySelector('.fp-row').style.display = 'none';
             form.querySelector('.fp-consent').style.display = 'none';
             setMsg('Готово! Отчёт пришлём на ' + email + '.', 'ok');
+            // Новости форума — отдельным явным действием: адрес человек оставил
+            // ради расчёта, и это не согласие на рассылку.
+            card.appendChild(subscribeRow(email, formKey, endpoint, shownAt));
           } else {
             var err = (res.data && res.data.error) || 'Не получилось отправить. Попробуй ещё раз.';
             setMsg(err, 'err');
