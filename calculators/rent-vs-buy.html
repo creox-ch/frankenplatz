@@ -1308,6 +1308,8 @@ document.getElementById('go').addEventListener('click',function(){
   lastR=r;
   renderAll(r);
   document.getElementById('result').classList.add('show');
+  // сюда попадаем только после проверок цены и взноса выше — расчёт состоялся
+  if(window.FPReport && FPReport.completed) FPReport.completed('calc-rent-vs-buy');
   var resEl=document.getElementById('result');window.scrollTo({top:resEl.getBoundingClientRect().top+window.pageYOffset-16,behavior:'smooth'});
 });
 document.querySelectorAll('#htabs button').forEach(function(b){

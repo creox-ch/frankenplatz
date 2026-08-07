@@ -504,6 +504,7 @@
     $("step2").classList.add("hidden");
     $("results").classList.remove("hidden");
     $("gateCard").classList.remove("hidden");
+    if(window.FPReport && FPReport.completed) FPReport.completed("calc-shares");
     go($("results"));
   });
 

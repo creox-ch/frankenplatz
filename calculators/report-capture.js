@@ -68,6 +68,25 @@
     return d.firstChild;
   }
 
+  // Ключ последнего инициализированного калькулятора — чтобы completed()
+  // можно было звать без аргумента прямо из кода расчёта.
+  var lastFormKey = null;
+  var completedSent = {};
+
+  /* Событие «расчёт завершён» — знаменатель конверсии «расчёт → e-mail».
+     Без него отправку отчёта не с чем сравнивать: видно, сколько человек
+     оставили адрес, и не видно, сколько вообще досчитали.
+     Шлём один раз на загрузку страницы: пересчёт ползунком — не новый расчёт.
+     FPConsent.track молчит, пока нет согласия на аналитику. */
+  function completed(key) {
+    var k = key || lastFormKey || 'calculator';
+    if (completedSent[k]) return;
+    completedSent[k] = true;
+    if (window.FPConsent && window.FPConsent.track) {
+      window.FPConsent.track('calculator_completed', { form_key: k });
+    }
+  }
+
   function init(opts) {
     opts = opts || {};
     var mount = typeof opts.mount === 'string' ? document.querySelector(opts.mount) : opts.mount;
@@ -77,6 +96,7 @@
     var title = opts.title || 'Прислать отчёт на почту?';
     var sub = opts.sub || 'Оставь e-mail — пришлём результат расчёта и полезные разборы с форума. Без спама.';
     var formKey = opts.formKey || 'calculator';
+    lastFormKey = formKey;
     var endpoint = opts.endpoint || ENDPOINT;
     // человекочитаемое имя расчёта — идёт в тему письма-отчёта
     var reportName = opts.reportName || document.title || formKey;
@@ -186,5 +206,5 @@
     });
   }
 
-  window.FPReport = { init: init, MIN_FILL_MS: MIN_FILL_MS };
+  window.FPReport = { init: init, completed: completed, MIN_FILL_MS: MIN_FILL_MS };
 })();

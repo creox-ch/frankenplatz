@@ -181,7 +181,7 @@ if (!blocks.length) {
    сообщает не об ошибке в файле, а о нашей архитектуре. */
 /* Сигнатура повторяет реальный экспорт calculators/report-capture.js:
    window.FPReport = { init, MIN_FILL_MS } — при смене API поправить здесь. */
-globalThis.FPReport = { init() {}, MIN_FILL_MS: 2500 };
+globalThis.FPReport = { init() {}, completed() {}, MIN_FILL_MS: 2500 };
 globalThis.FPConsent = { granted: () => false, open() {}, track() {} };
 globalThis.FP_NAV = () => [];
 

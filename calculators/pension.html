@@ -299,6 +299,7 @@
     $('intro').style.display='none';
     $('cols').style.display='';
     document.querySelector('.fp-disclaimer').style.display='';
+    if(window.FPReport && FPReport.completed) FPReport.completed('calc-pension');
     window.scrollTo({top:0,behavior:'smooth'});
   });
   render();

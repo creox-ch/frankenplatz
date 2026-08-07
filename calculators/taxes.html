@@ -776,7 +776,7 @@ document.querySelectorAll('.lang button').forEach(function(b){ b.onclick=functio
   this.classList.add('on'); document.documentElement.lang=state.lang; renderAll();
 };});
 var inc=document.getElementById('income'), incR=document.getElementById('income-range');
-inc.oninput=function(){ state.income=Math.round(fpNum(this.value)*1000); incR.value=Math.min(500000,Math.max(20000,state.income)); renderResults(); renderProgression(); };
+inc.oninput=function(){ state.income=Math.round(fpNum(this.value)*1000); incR.value=Math.min(500000,Math.max(20000,state.income)); renderResults(); renderProgression(); markCompleted(); };
 incR.oninput=function(){ state.income=+this.value; inc.value=this.value/1000; renderResults(); renderProgression(); };
 document.querySelectorAll('#status-seg button').forEach(function(b){ b.onclick=function(){
   state.married=(this.dataset.status==='married');
@@ -789,7 +789,15 @@ document.getElementById('add-btn').onclick=function(){
   addItem(state.selCanton, state.selMuni);
   if(state.baseId===null) state.baseId=state.items[0].id;
   renderAll();
+  markCompleted();
 };
+
+/* Здесь таблица показана с самого начала (общины подставлены заранее),
+   поэтому «расчёт завершён» = первое осмысленное действие: свой доход
+   или добавленная для сравнения община. Дальше событие не повторяется. */
+function markCompleted(){
+  if(window.FPReport && FPReport.completed) FPReport.completed('calc-taxes');
+}
 
 /* ---------- Init ---------- */
 buildCantonSel(); buildMuniSel(); seed(); renderAll();
