@@ -213,7 +213,7 @@
     <input type="text" id="bizName" placeholder="Салон красоты">
     <label>Сколько примерно нужно денег на старт, CHF
       <span class="hint">Прикидка. Помещение, ремонт, оборудование, первые месяцы</span></label>
-    <input type="number" inputmode="numeric" id="bizBudget" placeholder="150000" step="5000" min="0">
+    <input type="text" inputmode="decimal" id="bizBudget" placeholder="150000">
     <label>Правовая форма<span class="hint">От неё зависит минимальный капитал</span></label>
     <div class="chips" id="formChips">
       <div class="chip on" data-form="GmbH">GmbH<br><small style="color:var(--muted)">мин. 20'000</small></div>
@@ -267,20 +267,8 @@
       <h3>Доли посчитали. Теперь их нужно защитить.</h3>
       <p>Что будет, если партнёр с клиентской базой уйдёт и заберёт её? Как зафиксировать неденежный вклад в Gesellschaftsvertrag, чтобы он не обнулился? Когда соц. актив «отрабатывается» и доля пересматривается (vesting)? И хватает ли вам капитала на выбранную форму?</p>
       <p style="margin-top:10px">Это и есть то, из-за чего получаются 40/40/20 и суды. Полный разбор — на форуме Frankenplatz.</p>
-      <div id="emailBlock">
-        <label style="text-align:left">Email — пришлём ваш расклад в PDF + чек-лист для договора
-          <span class="hint">И ссылку на спец-цену форума</span></label>
-        <input type="email" id="email" placeholder="you@example.com">
-        <div class="err hidden" id="emailErr">Введите корректный email.</div>
-        <button class="btn amber" id="getBtn">Получить разбор и спец-цену</button>
-        <div class="formnote">Без спама. Один разбор + приглашение на форум.</div>
-      </div>
-      <div id="offerBlock" class="hidden">
-        <div class="timer" id="timer">24:00:00</div>
-        <div class="price"><s>CHF 290</s> &nbsp; <b>CHF 190</b> <span style="color:var(--muted)">до конца таймера</span></div>
-        <button class="btn amber" id="buyBtn">Забронировать место на форуме</button>
-        <div class="formnote">После таймера цена возвращается к CHF 290 — это правило, не маркетинг.</div>
-      </div>
+      <a class="btn amber" href="/tickets" style="text-decoration:none;text-align:center">Смотреть билеты на форум</a>
+      <div class="formnote">24–25 октября 2026, Баден. Расчёт можно прислать себе на почту — форма выше.</div>
     <div class="foot">
       Расчёт — модель для переговоров между партнёрами, а не юридическая или оценочная экспертиза.
       Минимальный капитал: GmbH — CHF 20'000 (полностью оплачивается при основании, OR 773);
@@ -299,7 +287,15 @@
   var COLORS={money:"#B98BFF",labor:"#E6B450",expertise:"#8BE59B",social:"#7B3FE4"};
   var state={n:0, form:"GmbH", participants:[], builtN:0, budget:0};
   function go(el){window.scrollTo({top:el.getBoundingClientRect().top+window.pageYOffset-16,behavior:"smooth"});}
-  function num(id){var v=parseFloat($(id).value);return isNaN(v)?0:v;}
+  /* Парсер числа: терпит запятую, пробел, неразрывный пробел и швейцарский
+     апостроф (1'200'000 — так суммы копируются из документов). Поля —
+     type="text" inputmode="decimal": type="number" ломает навигацию на мобильном. */
+  function fpNum(v){
+    var s=String(v==null?'':v).replace(/[\s\u00A0\u2009'\u2019]/g,'').replace(',','.');
+    var n=parseFloat(s);
+    return isFinite(n)?n:0;
+  }
+  function num(id){return fpNum($(id).value);}
   function val(id){return ($(id).value||"").trim();}
 
   $("startBtn").addEventListener("click",function(){
@@ -348,7 +344,7 @@
 
   var BUNDLE=[
     {key:"expertise_skill", type:"expertise", title:"Экспертиза / профессия", sub:"мастер, технолог, ключевой навык"},
-    {key:"expertise_know",  type:"expertise", title:"Знания / опыт запуска", sub:"уже строил(а) такое, знает как"},
+    {key:"expertise_know",  type:"expertise", title:"Знания / опыт запуска", sub:"есть опыт запуска такого, знает как"},
     {key:"social_base",     type:"social",    title:"Клиентская база", sub:"готовые клиенты с первого дня"},
     {key:"social_network",  type:"social",    title:"Связи / нетворк", sub:"поставщики, партнёры, доступ"},
     {key:"social_brand",    type:"social",    title:"Имя / репутация / бренд", sub:"люди идут на имя"},
@@ -375,7 +371,7 @@
         '<label>Имя или роль<input type="text" id="nm'+i+'" placeholder="Имя / роль"></label>'+
         '<label>Вносит денег, CHF'+
           '<span class="hint">Сколько реально кладёт в дело. 0 — если не вкладывает</span>'+
-          '<input type="number" inputmode="numeric" id="money'+i+'" placeholder="'+hintShare+'" value="0" min="0" class="moneyInp"></label>'+
+          '<input type="text" inputmode="decimal" id="money'+i+'" placeholder="'+hintShare+'" value="0" class="moneyInp"></label>'+
         '<label style="margin-bottom:2px">Работает в проекте?</label>'+
         '<div class="yn" data-p="'+i+'">'+
           '<div class="chip ynchip" data-work="no">Нет</div>'+
@@ -383,7 +379,7 @@
         '<div class="hoursWrap hidden" id="hoursWrap'+i+'">'+
           '<label>Сколько часов в неделю, фактически'+
           '<span class="hint">40+ — полная занятость</span>'+
-          '<input type="number" inputmode="numeric" id="hours'+i+'" placeholder="20" value="0"></label></div>'+
+          '<input type="text" inputmode="decimal" id="hours'+i+'" placeholder="20" value="0"></label></div>'+
         '<label style="margin-top:12px;margin-bottom:2px">Что приносит с собой</label>'+
         '<div class="sub2" style="margin-bottom:8px">Отметьте и оцените силу вклада</div>'+
         '<div class="bundle">'+bundleHtml+'</div>';
@@ -435,7 +431,7 @@
   function totalMoney(){
     var t=0;
     [].forEach.call(document.querySelectorAll(".moneyInp"),function(inp){
-      var v=parseFloat(inp.value); if(!isNaN(v))t+=v;
+      t+=fpNum(inp.value);
     });
     return t;
   }
@@ -508,6 +504,7 @@
     $("step2").classList.add("hidden");
     $("results").classList.remove("hidden");
     $("gateCard").classList.remove("hidden");
+    if(window.FPReport && FPReport.completed) FPReport.completed("calc-shares");
     go($("results"));
   });
 
@@ -559,28 +556,11 @@
     $("step2").classList.remove("hidden");
   });
 
-  $("getBtn").addEventListener("click",function(){
-    var e=val("email");
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)){$("emailErr").classList.remove("hidden");return;}
-    $("emailErr").classList.add("hidden");
-    var ends=Date.now()+24*3600*1000;
-    $("emailBlock").classList.add("hidden");
-    $("offerBlock").classList.remove("hidden");
-    startTimer(ends);
-  });
-  function startTimer(ends){
-    var t=$("timer");
-    function tick(){
-      var d=ends-Date.now();
-      if(d<=0){t.textContent="00:00:00";
-        document.querySelector(".price").innerHTML='<b>CHF 290</b> <span style="color:var(--muted)">обычная цена</span>';
-        $("buyBtn").textContent="Перейти на форум (обычная цена)"; clearInterval(iv);return;}
-      var h=Math.floor(d/3600000),m=Math.floor(d%3600000/60000),s=Math.floor(d%60000/1000);
-      t.textContent=[h,m,s].map(function(x){return(x<10?"0":"")+x;}).join(":");
-    }
-    tick();var iv=setInterval(tick,1000);
-  }
-  $("buyBtn").addEventListener("click",function(){window.location.href="#";});
+  /* Здесь была имитация из макета: поле e-mail, которое никуда не отправляло,
+     24-часовой таймер и «CHF 290 → CHF 190». Ни PDF, ни чек-листа мы не шлём,
+     такой цены не существует, кнопка «Забронировать» вела на «#».
+     Реальный сбор e-mail — модуль report-capture.js в блоке #report-capture,
+     реальные цены — на странице /tickets. */
 })();
 </script>
 

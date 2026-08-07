@@ -96,7 +96,7 @@
               '<option value="Оба дня">Оба дня</option>' +
               '<option value="День 1 — где деньги и как их не потерять">День 1 — база</option>' +
               '<option value="День 2 — деньги работают на тебя">День 2 — следующий уровень</option>' +
-              '<option value="Ещё не решил(а)">Ещё не решил(а)</option>' +
+              '<option value="Пока не решено">Пока не решено</option>' +
             '</select></div>' +
           '<div class="fp-reg__f"><label for="' + p + 'seats">Сколько мест</label>' +
             '<select id="' + p + 'seats" name="seats">' +
@@ -108,7 +108,7 @@
         '</div>' +
         '<div class="fp-reg__hp" aria-hidden="true"><label>Не заполняйте<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>' +
         '<label class="fp-reg__consent"><input type="checkbox" name="consent">' +
-          '<span>Согласен(на) на обработку контактов, чтобы получить информацию о старте продаж и программе. ' +
+          '<span>Даю согласие на обработку контактов, чтобы получить информацию о старте продаж и программе. ' +
           'Отписаться можно в любой момент. <a href="' + legalHref() + '">Политика конфиденциальности</a>.</span></label>' +
         '<button type="submit" class="fp-reg__btn">Записаться в ранний список</button>' +
         '<p class="fp-reg__msg" role="status" aria-live="polite"></p>' +

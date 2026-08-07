@@ -38,7 +38,7 @@
   .card h2{font-family:"Unbounded","Manrope",sans-serif; font-size:19px; margin:0 0 14px;}
   label{display:block; font-size:13px; font-weight:700; margin:0 0 6px; color:var(--ink);}
   .hint{font-weight:400; color:var(--muted); font-size:12px;}
-  input[type=number],select{width:100%; padding:11px 12px; font-size:16px; border:1px solid var(--line); border-radius:11px; background:rgba(255,255,255,.05); color:var(--ink); -webkit-appearance:none; appearance:none; font-family:inherit;}
+  input[type=number],input[type=text],select{width:100%; padding:11px 12px; font-size:16px; border:1px solid var(--line); border-radius:11px; background:rgba(255,255,255,.05); color:var(--ink); -webkit-appearance:none; appearance:none; font-family:inherit;}
   input:focus,select:focus{outline:none; border-color:var(--lila-bright); box-shadow:0 0 0 3px rgba(185,139,255,.18);}
   select option{background:#1C1029; color:var(--ink);}
   select{background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'><path d='M2 4l4 4 4-4' stroke='%23C3B7D4' stroke-width='1.6' fill='none'/></svg>"); background-repeat:no-repeat; background-position:right 12px center;}
@@ -148,7 +148,7 @@
     <h2 id="t-inputs">Ваши данные</h2>
     <div id="income-wrap">
       <label id="t-income-l">Налогооблагаемый доход в год <span class="hint" id="t-income-h">после вычетов</span></label>
-      <input type="number" id="income" value="200" min="0" step="0.5" inputmode="decimal">
+      <input type="text" id="income" value="200" inputmode="decimal">
       <span class="hint" id="income-unit" style="margin-left:2px;">× 1000 CHF</span>
       <input type="range" id="income-range" value="200000" min="20000" max="500000" step="5000" style="margin-top:10px;">
       <p class="hint" id="t-income-explain" style="margin-top:8px; line-height:1.5;"></p>
@@ -467,6 +467,16 @@ var I18N={
     note:'Shows cantonal + municipal + federal income tax. Each canton has its own progressive tariff and multiplier mechanism (Aargau/Zürich tax-foot in %, Zug/Luzern units, Basel-Stadt single cantonal tariff with no municipal multiplier). Tariffs are approximated and calibrated to 2026 ESTV reference points; municipal factors are 2026. Church tax excluded. Estimate, not an official assessment. Inter-cantonal comparisons are order-of-magnitude.'}
 };
 
+/* ---------- Ввод чисел ----------
+   Регламент: поля type="text" inputmode="decimal" (type="number" ломает
+   навигацию на мобильном), парсер терпит запятую, пробел, неразрывный пробел
+   и швейцарский апостроф — 1'200'000 приходит вставкой из документов. */
+function fpNum(v){
+  var s=String(v==null?'':v).replace(/[\s\u00A0\u2009'\u2019]/g,'').replace(',','.');
+  var n=parseFloat(s);
+  return isFinite(n)?n:0;
+}
+
 /* ---------- State ---------- */
 var state={lang:'ru', income:200000, married:true, mode:'income', items:[], nextId:1, baseId:null,
   selCanton:'AG', selMuni:0,
@@ -565,11 +575,11 @@ function renderWealthFields(){
     var wrap=document.createElement('div'); wrap.style.marginBottom='12px';
     var val=state.wealth[f.key]? (state.wealth[f.key]/1000) : '';
     wrap.innerHTML='<label>'+L['w_'+f.key]+' <span class="hint">'+L['w_'+f.key+'_h']+' · '+L.inThousands+'</span></label>'+
-      '<input type="number" data-w="'+f.key+'" value="'+val+'" min="0" step="10" placeholder="0" inputmode="numeric">';
+      '<input type="text" data-w="'+f.key+'" value="'+val+'" placeholder="0" inputmode="decimal">';
     box.appendChild(wrap);
   });
   box.querySelectorAll('[data-w]').forEach(function(inp){
-    inp.oninput=function(){ state.wealth[this.dataset.w]=(+this.value||0)*1000; updateWealthNet(); renderResults(); };
+    inp.oninput=function(){ state.wealth[this.dataset.w]=fpNum(this.value)*1000; updateWealthNet(); renderResults(); };
   });
   updateWealthNet();
 }
@@ -766,7 +776,7 @@ document.querySelectorAll('.lang button').forEach(function(b){ b.onclick=functio
   this.classList.add('on'); document.documentElement.lang=state.lang; renderAll();
 };});
 var inc=document.getElementById('income'), incR=document.getElementById('income-range');
-inc.oninput=function(){ state.income=Math.round((+this.value||0)*1000); incR.value=Math.min(500000,Math.max(20000,state.income)); renderResults(); renderProgression(); };
+inc.oninput=function(){ state.income=Math.round(fpNum(this.value)*1000); incR.value=Math.min(500000,Math.max(20000,state.income)); renderResults(); renderProgression(); markCompleted(); };
 incR.oninput=function(){ state.income=+this.value; inc.value=this.value/1000; renderResults(); renderProgression(); };
 document.querySelectorAll('#status-seg button').forEach(function(b){ b.onclick=function(){
   state.married=(this.dataset.status==='married');
@@ -779,7 +789,15 @@ document.getElementById('add-btn').onclick=function(){
   addItem(state.selCanton, state.selMuni);
   if(state.baseId===null) state.baseId=state.items[0].id;
   renderAll();
+  markCompleted();
 };
+
+/* Здесь таблица показана с самого начала (общины подставлены заранее),
+   поэтому «расчёт завершён» = первое осмысленное действие: свой доход
+   или добавленная для сравнения община. Дальше событие не повторяется. */
+function markCompleted(){
+  if(window.FPReport && FPReport.completed) FPReport.completed('calc-taxes');
+}
 
 /* ---------- Init ---------- */
 buildCantonSel(); buildMuniSel(); seed(); renderAll();

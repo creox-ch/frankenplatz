@@ -812,7 +812,11 @@ function go(n){
 function pay(id){ return state.split ? (payers[id]||'shared') : 'shared'; }
 
 function run(){
-  try { runInner(); }
+  try {
+    runInner();
+    // считаем расчёт состоявшимся только если runInner не упал
+    if(window.FPReport && FPReport.completed) FPReport.completed('calc-budget');
+  }
   catch(err){
     alert('Не получилось посчитать: '+err.message+'. Сообщите об этом — поправим.');
     console.error(err);
