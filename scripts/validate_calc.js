@@ -71,6 +71,13 @@ function makeEl(id) {
     id: id || '',
     value: '',
     checked: false,
+    // Наша правка: узлы-потомки. Калькуляторы правят подпись через
+    // childNodes[0].textContent (label с вложенным <span>); без этого
+    // стаб падает там, где в браузере всё работает.
+    childNodes: [{ textContent: '' }],
+    firstChild: { textContent: '' },
+    parentNode: null,
+    remove() {},
     textContent: '',
     innerHTML: '',
     innerText: '',
@@ -165,6 +172,16 @@ while ((m = scriptRe.exec(html)) !== null) {
 if (!blocks.length) {
   problems.push('в файле нет инлайновых <script> — нечего валидировать');
 }
+
+/* Наша правка: калькуляторы Frankenplatz подключают общий слой отдельными
+   файлами (report-capture.js — сбор e-mail, cookie-consent.js — согласие и GA,
+   calc-nav.js — меню). Так сделано намеренно: отдельные модули переживают синк
+   дизайна, тогда как код внутри HTML затирается выгрузкой. Валидатор внешние
+   <script src> не исполняет, поэтому объявляем их глобали заглушками — иначе он
+   сообщает не об ошибке в файле, а о нашей архитектуре. */
+globalThis.FPReport = { mount() {}, config() {} };
+globalThis.FPConsent = { granted: () => false, open() {}, track() {} };
+globalThis.FP_NAV = () => [];
 
 const sandbox = Object.create(null);
 const runner = new Function(
