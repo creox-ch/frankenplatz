@@ -115,7 +115,7 @@
         })
         .then(function (res) {
           if (res.status >= 200 && res.status < 300 && res.data && res.data.ok) {
-            if (window.FPConsent) window.FPConsent.track('newsletter_subscribe', { event_slug: EVENT });
+            if (window.FPConsent) window.FPConsent.track('newsletter_subscribe', { form_key: 'newsletter', event_slug: EVENT });
             form.style.display = 'none';
             note.style.display = 'none';
             // double opt-in: подписка активируется только после перехода по

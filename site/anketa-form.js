@@ -189,7 +189,7 @@
         })
         .then(function (res) {
           if (res.status >= 200 && res.status < 300 && res.data && res.data.ok) {
-            if (window.FPConsent) window.FPConsent.track('speaker_anketa', { event_slug: EVENT });
+            if (window.FPConsent) window.FPConsent.track('speaker_anketa', { form_key: 'speaker', event_slug: EVENT });
             card.querySelector('.fp-ank__row').style.display = 'none';
             card.querySelector('.fp-ank__consent').style.display = 'none';
             setMsg('Готово! Анкета у нас — подтверждение отправили на ' + email +

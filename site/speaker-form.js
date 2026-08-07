@@ -191,7 +191,7 @@
         .then(function (res) {
           if (res.status >= 200 && res.status < 300 && res.data && res.data.ok) {
             // Конверсия в аналитику (уйдёт только при согласии на cookies)
-            if (window.FPConsent) window.FPConsent.track('speaker_application', { event_slug: EVENT });
+            if (window.FPConsent) window.FPConsent.track('speaker_application', { form_key: 'speaker', event_slug: EVENT });
             form.innerHTML = '';
             card.querySelector('.fp-sf__sub').textContent = '';
             card.querySelector('h3').textContent = 'Спасибо! Анкета у нас 🎉';
