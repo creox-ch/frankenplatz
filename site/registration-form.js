@@ -75,7 +75,7 @@
 
   /** Из калькуляторов ссылка на legal лежит уровнем выше. */
   function legalHref() {
-    return (location.pathname.indexOf('/calculators/') !== -1 ? '../' : '') + 'legal.html#datenschutz';
+    return '/legal#datenschutz';
   }
 
   function buildForm() {

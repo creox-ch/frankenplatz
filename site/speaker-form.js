@@ -113,7 +113,7 @@
         '<div class="fp-sf__grid">' + FIELDS.map(fieldHtml).join('') + '</div>' +
         '<div class="fp-sf__hp" aria-hidden="true"><label>Не заполняйте<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>' +
         '<label class="fp-sf__consent"><input type="checkbox" name="consent">' +
-          '<span>Даю согласие на обработку данных для рассмотрения заявки и связи со мной. Подробнее — в <a href="legal.html#datenschutz">политике конфиденциальности</a>.</span>' +
+          '<span>Даю согласие на обработку данных для рассмотрения заявки и связи со мной. Подробнее — в <a href="/legal#datenschutz">политике конфиденциальности</a>.</span>' +
         '</label>' +
         '<div class="fp-sf__actions">' +
           '<button type="submit" class="fp-sf__btn">Отправить анкету</button>' +

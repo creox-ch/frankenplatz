@@ -192,7 +192,7 @@ function Day2() {
           <p className="sub">Для тех, у кого база уже есть: не «с чего начать», а «куда расти». Инвестиции и направления всерьёз — и своё дело: ремесло, бизнес, риски и возможности.</p>
           <div className="d2-marq"><Marquee items={["Инвестиции", "Своё дело", "Новый уровень", "Инвестиции", "Своё дело", "Новый уровень", "Инвестиции", "Своё дело", "Новый уровень"]} /></div>
           <div style={{ marginTop: 44 }}>
-            <Button variant="gold" href="tickets.html">Купить билет</Button>
+            <Button variant="gold" href="/tickets">Купить билет</Button>
           </div>
         </div>
       </header>
@@ -252,7 +252,7 @@ function Day2() {
 
           <div className="cta-mid">
             <p className="cta-mid__note"><b>Билеты уже в продаже.</b> Early Bird −25% — пока не объявлены все спикеры.</p>
-            <Button variant="gold" href="tickets.html">Купить билет</Button>
+            <Button variant="gold" href="/tickets">Купить билет</Button>
           </div>
         </div>
       </section>
@@ -298,7 +298,7 @@ function Day2() {
             title={<>Расти дальше<br />— осознанно</>}
             action={<div className="band-cows band-cows--work"><img src="site/img/cow-work.png" width="1122" height="1402" alt="" aria-hidden="true" /></div>}>
             <p className="fp-band__body">День 2 для тех, кто готов к следующему уровню. Билеты уже в продаже — Early Bird −25%, пока не объявлены все спикеры.</p>
-            <Button variant="gold" href="tickets.html">Купить билет</Button>
+            <Button variant="gold" href="/tickets">Купить билет</Button>
           </ReliefBand>
         </div>
       </section>

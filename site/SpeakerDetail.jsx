@@ -24,11 +24,11 @@ function SpeakerDetail() {
         <TopBar links={SPD_NAV} />
         <header className="hero gridbg spd-hero">
           <div className="inner">
-            <a className="spd-back" href="index.html#lineup">← Ко всем спикерам</a>
+            <a className="spd-back" href="/#lineup">← Ко всем спикерам</a>
             <h1>Спикер не найден</h1>
             <p className="sub">Возможно, ссылка устарела. Посмотри полный состав на главной.</p>
             <div style={{ marginTop: 24 }}>
-              <Button variant="gold" href="index.html#lineup">Все спикеры</Button>
+              <Button variant="gold" href="/#lineup">Все спикеры</Button>
             </div>
           </div>
         </header>
@@ -50,7 +50,7 @@ function SpeakerDetail() {
 
       <header className="hero gridbg spd-hero">
         <div className="inner">
-          <a className="spd-back" href="index.html#lineup">← Ко всем спикерам</a>
+          <a className="spd-back" href="/#lineup">← Ко всем спикерам</a>
           <div className="spd-grid">
             <div className="spd-photo">
               {s.img ? <img src={s.img} loading="lazy" alt={s.name} /> : <span className="spd-photo__ini" aria-hidden="true">{s.ini}</span>}
@@ -95,8 +95,8 @@ function SpeakerDetail() {
             ))}
           </div>
           <div style={{ marginTop: 34, display: "flex", gap: 16, flexWrap: "wrap" }}>
-            <Button variant="gold" href="index.html">Забронировать место на форуме</Button>
-            <Button variant="ghost" href="index.html#lineup">Другие спикеры</Button>
+            <Button variant="gold" href="/">Забронировать место на форуме</Button>
+            <Button variant="ghost" href="/#lineup">Другие спикеры</Button>
           </div>
         </div>
       </section>

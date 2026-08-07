@@ -86,7 +86,7 @@
 
   // Ссылка на «Правовую информацию» — из калькуляторов на уровень выше.
   function legalHref() {
-    return (location.pathname.indexOf('/calculators/') !== -1 ? '../' : '') + 'legal.html#datenschutz';
+    return '/legal#datenschutz';
   }
 
   function showBanner() {

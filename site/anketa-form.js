@@ -146,7 +146,7 @@
       '<div class="fp-ank__hp" aria-hidden="true"><label>Не заполняйте<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>' +
       '<label class="fp-ank__consent"><input type="checkbox">' +
         '<span>Даю согласие на обработку данных анкеты для рассмотрения заявки спикера. ' +
-        'Отписаться можно в любой момент. <a href="legal.html#datenschutz">Политика конфиденциальности</a>.</span></label>' +
+        'Отписаться можно в любой момент. <a href="/legal#datenschutz">Политика конфиденциальности</a>.</span></label>' +
       '<p class="fp-ank__msg" role="status" aria-live="polite"></p>';
 
     var emailInput = card.querySelector('input[type=email]');

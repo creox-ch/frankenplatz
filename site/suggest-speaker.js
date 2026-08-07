@@ -96,7 +96,7 @@
       '<div class="fp-sg__hp" aria-hidden="true"><label>Не заполняйте<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>' +
       '<label class="fp-sg__consent"><input type="checkbox" name="consent">' +
       '<span>Даю согласие на обработку данных этой заявки. Указывай только публичные ссылки на человека — личные контакты без его ведома не присылай. ' +
-      '<a href="legal.html#datenschutz">Политика конфиденциальности</a>.</span></label>' +
+      '<a href="/legal#datenschutz">Политика конфиденциальности</a>.</span></label>' +
       '<button class="fp-sg__btn" type="submit">Отправить</button>' +
       '<p class="fp-sg__msg" role="status" aria-live="polite"></p>' +
       '</form>';

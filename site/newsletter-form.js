@@ -64,7 +64,7 @@
     var note = document.createElement('p');
     note.className = 'fp-nl-note';
     note.innerHTML = 'Нажимая «Подписаться», ты соглашаешься на обработку e-mail для писем форума. ' +
-      'Отписаться можно в любой момент.<br><a href="legal.html#datenschutz">Политика конфиденциальности</a>.';
+      'Отписаться можно в любой момент.<br><a href="/legal#datenschutz">Политика конфиденциальности</a>.';
     form.parentNode.insertBefore(note, form.nextSibling);
 
     var msg = document.createElement('p');
