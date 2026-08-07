@@ -114,19 +114,19 @@
   }
 /* узкие экраны: плашки навигации не наезжают */
 @media(max-width:430px){
-  a[href="index.html"][style*="position:fixed"],a[href="../index.html"][style*="position:fixed"]{font-size:13px!important;padding:0 10px!important;gap:5px!important}
-  a[href="index.html"][style*="position:fixed"]{left:12px!important}
-  a[href="../index.html"][style*="position:fixed"]{right:12px!important}
+  a[href="/calculators"][style*="position:fixed"],a[href="/"][style*="position:fixed"]{font-size:13px!important;padding:0 10px!important;gap:5px!important}
+  a[href="/calculators"][style*="position:fixed"]{left:12px!important}
+  a[href="/"][style*="position:fixed"]{right:12px!important}
 }
 @media(max-width:360px){
-  a[href="../index.html"][style*="position:fixed"]{font-size:0!important;padding:0 12px!important;min-width:44px!important;justify-content:center!important}
-  a[href="../index.html"][style*="position:fixed"]::after{content:"→";font-size:17px}
+  a[href="/"][style*="position:fixed"]{font-size:0!important;padding:0 12px!important;min-width:44px!important;justify-content:center!important}
+  a[href="/"][style*="position:fixed"]::after{content:"→";font-size:17px}
 }
 </style>
 </head>
 <body>
-<a href="index.html" style="position:fixed;top:18px;left:22px;z-index:50;display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:#C3B7D4;text-decoration:none;background:rgba(20,10,31,.55);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:8px 16px;backdrop-filter:blur(8px);white-space:nowrap" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#C3B7D4'">← Все калькуляторы</a>
-<a href="../index.html" style="position:fixed;top:18px;right:22px;z-index:50;display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 14px;font-size:15px;font-weight:700;color:#C3B7D4;text-decoration:none;background:rgba(20,10,31,.72);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-radius:999px;white-space:nowrap">Frankenplatz.ch →</a>
+<a href="/calculators" style="position:fixed;top:18px;left:22px;z-index:50;display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:#C3B7D4;text-decoration:none;background:rgba(20,10,31,.55);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:8px 16px;backdrop-filter:blur(8px);white-space:nowrap" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#C3B7D4'">← Все калькуляторы</a>
+<a href="/" style="position:fixed;top:18px;right:22px;z-index:50;display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 14px;font-size:15px;font-weight:700;color:#C3B7D4;text-decoration:none;background:rgba(20,10,31,.72);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-radius:999px;white-space:nowrap">Frankenplatz.ch →</a>
 <div class="backdrop"></div>
 <div class="pattern"></div>
 <div class="orb v"></div>

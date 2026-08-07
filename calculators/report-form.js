@@ -25,12 +25,12 @@
     '<p>Оставь e-mail — пришлём полный расчёт по твоим цифрам и подробную информацию по теме: всё, что осталось «между строк» калькулятора.</p>'+
     '<form><input type="email" required placeholder="Твой e-mail" value="'+saved.replace(/"/g,'&quot;')+'">'+
     '<button type="submit">Получить полный расчёт</button></form>'+
-    '<a class="fp-rep-forum" href="../index.html">А узнать больше — на форуме Frankenplatz →</a></div>';
+    '<a class="fp-rep-forum" href="/">А узнать больше — на форуме Frankenplatz →</a></div>';
   mount.querySelector('form').addEventListener('submit',function(e){
     e.preventDefault();
     var em=mount.querySelector('input').value.trim();if(!em)return;
     localStorage.setItem('fp_report_email',em);
     mount.querySelector('.fp-rep').innerHTML='<p class="ok">Готово! Полный расчёт и разбор придут на '+em.replace(/</g,'&lt;')+'.</p>'+
-      '<a class="fp-rep-forum" href="../index.html">А узнать больше — на форуме Frankenplatz →</a>';
+      '<a class="fp-rep-forum" href="/">А узнать больше — на форуме Frankenplatz →</a>';
   });
 })();

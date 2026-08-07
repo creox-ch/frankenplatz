@@ -185,7 +185,7 @@
     document.querySelectorAll(".fp-seg").forEach(function (s) {
       var a = document.createElement("a");
       a.className = "fp-top__link";
-      a.href = "speakers.html";
+      a.href = "/speakers";
       a.textContent = "Спикерам";
       s.replaceWith(a);
     });

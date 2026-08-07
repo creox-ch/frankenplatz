@@ -223,7 +223,7 @@ function Speakers() {
           <h1>Самый большой русскоязычный форум о деньгах в Швейцарии.<br /><span className="hl">И у тебя есть возможность выйти на его сцену.</span></h1>
           <p className="sub">Зал на 300 человек — и два дня с разным контекстом: до 600 участников за форум. Мы уже знакомы online, и твоя тема может стать одной из сильнейших.</p>
           <div style={{ marginTop: 28 }}>
-            <Button variant="gold" href="anketa.html">Хочу выступить</Button>
+            <Button variant="gold" href="/anketa">Хочу выступить</Button>
           </div>
         </div>
       </header>
@@ -327,7 +327,7 @@ function Speakers() {
           <ReliefBand variant="final"
             eyebrow={<Eyebrow center>Спикерам · Frankenplatz 2026</Eyebrow>}
             title={<>Есть тема для нас?<br />Herzlich willkommen!</>}
-            action={<Button variant="gold" href="anketa.html">Заполнить анкету спикера</Button>}>
+            action={<Button variant="gold" href="/anketa">Заполнить анкету спикера</Button>}>
             <p className="fp-band__body">Расскажи подробнее — да-да, прямо сразу подробно: о себе, теме и удобных тайм-слотах. Анкета уже открыта. Дата: 24–25 октября 2026 · Baden <SwissFlag /> · 15 мин от Zürich HB.</p>
           </ReliefBand>
         </div>

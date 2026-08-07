@@ -75,11 +75,11 @@ function CalcModal({ calc, onClose }) {
 }
 
 const CALCS = [
-  { icon: "🧾", title: "Семейный бюджет, или куда испаряются франки", href: "calculators/budget.html", body: "Зарплата швейцарская, а к 25-му числу на счету тишина? Krankenkasse, налоги, аренда — посмотри, где течёт, пока не утекло всё.", result: "Твоя оценка утечек: заметная. В среднем можно откладывать больше.", pct: "62%", kind: "people" },
-  { icon: "🏡", title: "Аренда или покупка, или чью ипотеку ты платишь", href: "calculators/rent-vs-buy.html", body: "Ипотеку ты платишь в любом случае — вопрос, свою или хозяина квартиры. Посчитай, что выгоднее в твоём случае, а не «как у всех».", result: "В твоём сценарии аренда пока выгоднее покупки.", pct: "48%", kind: "house" },
-  { icon: "👵", title: "Пенсия в Швейцарии, или сколько тебе светит", href: "calculators/pension.html", body: "Спойлер: меньше, чем ты думаешь. AHV и BVG без 3a — не старость мечты. Посчитай свой дефицит, пока есть время его закрыть.", result: "Прогноз: заметный дефицит без 3a. Есть куда действовать.", pct: "40%", kind: "clock" },
-  { icon: "📈", title: "Зрелость бизнеса, или почему ты всё ещё делаешь всё сам", href: "calculators/shares.html", body: "Идея есть, руки заняты, роста нет? Проверь, где застрял твой бизнес — и что честно мешает следующему уровню.", result: "Стадия: ранний рост. Узкое место — систематизация.", pct: "55%", kind: "money" },
-  { icon: "🧮", title: "Семейные налоги, или сколько ты даришь кантону", href: "calculators/taxes.html", body: "Платишь «как все» — значит, переплачиваешь. Вычеты, кантон, декларация: посмотри, где спрятан твой резерв.", result: "Есть неочевидный резерв по кантону и вычетам.", pct: "58%", kind: "chart" },
+  { icon: "🧾", title: "Семейный бюджет, или куда испаряются франки", href: "/calculators/budget", body: "Зарплата швейцарская, а к 25-му числу на счету тишина? Krankenkasse, налоги, аренда — посмотри, где течёт, пока не утекло всё.", result: "Твоя оценка утечек: заметная. В среднем можно откладывать больше.", pct: "62%", kind: "people" },
+  { icon: "🏡", title: "Аренда или покупка, или чью ипотеку ты платишь", href: "/calculators/rent-vs-buy", body: "Ипотеку ты платишь в любом случае — вопрос, свою или хозяина квартиры. Посчитай, что выгоднее в твоём случае, а не «как у всех».", result: "В твоём сценарии аренда пока выгоднее покупки.", pct: "48%", kind: "house" },
+  { icon: "👵", title: "Пенсия в Швейцарии, или сколько тебе светит", href: "/calculators/pension", body: "Спойлер: меньше, чем ты думаешь. AHV и BVG без 3a — не старость мечты. Посчитай свой дефицит, пока есть время его закрыть.", result: "Прогноз: заметный дефицит без 3a. Есть куда действовать.", pct: "40%", kind: "clock" },
+  { icon: "📈", title: "Зрелость бизнеса, или почему ты всё ещё делаешь всё сам", href: "/calculators/shares", body: "Идея есть, руки заняты, роста нет? Проверь, где застрял твой бизнес — и что честно мешает следующему уровню.", result: "Стадия: ранний рост. Узкое место — систематизация.", pct: "55%", kind: "money" },
+  { icon: "🧮", title: "Семейные налоги, или сколько ты даришь кантону", href: "/calculators/taxes", body: "Платишь «как все» — значит, переплачиваешь. Вычеты, кантон, декларация: посмотри, где спрятан твой резерв.", result: "Есть неочевидный резерв по кантону и вычетам.", pct: "58%", kind: "chart" },
 ];
 
 const CALC_DECOS = {
@@ -182,7 +182,7 @@ function Countdown() {
   }, []);
   const SEGS = cdParts();
   return (
-    <a className="cd-tix" href="tickets.html" ref={rootRef}>
+    <a className="cd-tix" href="/tickets" ref={rootRef}>
       <span className="cd-tix__top">
         <span className="cd-tix__brand">Frankenplatz ’26</span>
         <span className="cd-tix__loc">Baden <SwissFlag /></span>
@@ -260,7 +260,7 @@ function Landing() {
             <p className="hero-sub2">Где деньги в Швейцарии — как их найти и не потерять</p>
             <p className="sub">Одна из самых богатых стран мира — а ощущения богатства нет? Два дня среди своих, чтобы увидеть всю карту: пенсия, налоги, инвестиции, бизнес, недвижимость, защита семьи.</p>
             <div style={{ marginTop: 28 }}>
-              <Button variant="gold" href="tickets.html">Купить билет</Button>
+              <Button variant="gold" href="/tickets">Купить билет</Button>
             </div>
           </div>
         </div>
@@ -281,10 +281,10 @@ function Landing() {
           <h2>Два дня — <span className="hl">полное погружение</span> в структуру и возможности швейцарских финансов</h2>
           <div className="grid g2">
             <DayCard tag="День №1 · база 🇨🇭" title="База 🇨🇭 финансов"
-              sub="С которой стоит начать каждому в Швейцарии." href="day1.html" label="Смотреть темы Дня № 1"
+              sub="С которой стоит начать каждому в Швейцарии." href="/day1" label="Смотреть темы Дня № 1"
               items={["Работа: поиск, условия и типы контрактов в Швейцарии — и о каких пособиях ты не знаешь", "Семейный бюджет: как он устроен — и как может быть устроен ещё", "Пенсия AHV / BVG / 3a: сколько тебе реально светит (спойлер: меньше)", "Налоги, страховки, ипотека: где ты переплачиваешь прямо сейчас", "Самозанятость и ферайны: как начать и не налететь на штрафы", "Любовь и деньги: что будет с твоим при браке и разводе", "Неочевидные источники дохода и с чего начать свой бизнес"]} />
             <DayCard d2 tag="День №2 · LvL UP" title="LvL UP: следующий уровень"
-              sub="Для тех, кто готов расти дальше." href="day2.html" label="Смотреть темы Дня № 2"
+              sub="Для тех, кто готов расти дальше." href="/day2" label="Смотреть темы Дня № 2"
               items={["Деньги лежат на счету и тают? Портфельное инвестирование в Швейцарии", "Недвижимость: где и какая недвижимость — актив. ROI и сделки", "Неочевидные инвестиции", "Клиенты не приходят сами: маркетинг, PR и развитие бизнеса", "Тебя никто не знает — личный бренд и нетворкинг («витамин B»)", "Партнёрства: как не потерять деньги и дружбу", "Масштабирование и налоговое планирование", "Финансовая стратегия: как из отдельных решений собирается система", "Откуда и сколько денег нужно на бизнес в Швейцарии", "Бизнес-стратегии и жизнь: как расти, не выгорая"]} />
           </div>
         </div>
@@ -310,7 +310,7 @@ function Landing() {
               title="Приходи стать богаче"
               action={<span className="band-cow__slot"><img className="band-cow__img" src="site/img/cow-coquette.png" width="1024" height="1536" alt="" aria-hidden="true" /></span>}>
               <p className="fp-band__body">Билеты уже в продаже — Early Bird −25%, пока не объявлены все спикеры. А ещё мы подготовили <a href="#calc">калькуляторы</a> — можно начать прямо сейчас, не дожидаясь форума.</p>
-              <Button variant="gold" href="tickets.html">Купить билет</Button>
+              <Button variant="gold" href="/tickets">Купить билет</Button>
             </ReliefBand>
           </div>
         </div>
@@ -344,11 +344,11 @@ function Landing() {
           <h2>Спикеры форума —<br /><span className="hl">люди, у которых получилось</span></h2>
           <p className="lead">Не теоретики со слайдами, а свои люди с результатом: свой портфель, свой бизнес, свой пройденный путь. Каждый выходит на сцену с одной целью — <strong>чтобы получилось и у тебя</strong>.</p>
           <SpeakerStrip />
-          <p className="spk-note">Состав пополняется каждую неделю.<br />Темы по дням: <a href="day1.html">День №1</a> · <a href="day2.html">День №2</a>.</p>
+          <p className="spk-note">Состав пополняется каждую неделю.<br />Темы по дням: <a href="/day1">День №1</a> · <a href="/day2">День №2</a>.</p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 22 }}>
             <Button variant="gold" href="#reg">Получить полную программу</Button>
-            <Button variant="ghost" href="tickets.html">Купить билет</Button>
-            <Button variant="ghost" href="anketa.html">Предложить спикера</Button>
+            <Button variant="ghost" href="/tickets">Купить билет</Button>
+            <Button variant="ghost" href="/anketa">Предложить спикера</Button>
             <SponsorBox />
           </div>
         </div>
@@ -361,7 +361,7 @@ function Landing() {
           <h2>Лучшая жизнь в Швейцарии —<br /><span className="hl">у коровы</span>. Поэтому наш символ именно она</h2>
           <p className="lead">Зонт от солнца, музыка в коровнике, массажная щётка. И доплата от государства за то, чтобы она жила дольше.</p>
           <div style={{ marginTop: 28 }}>
-            <Button variant="gold" href="cows.html">Знать почему →</Button>
+            <Button variant="gold" href="/cows">Знать почему →</Button>
           </div>
         </div>
       </section>
@@ -391,7 +391,7 @@ function Landing() {
           <h2>Швейцарию нельзя<br />посчитать <span className="hl">на глаз</span></h2>
           <p className="lead">Одиннадцать калькуляторов про деньги здесь: налоги по коммунам, ипотека, пенсия, бюджет, GmbH. <strong>Пять уже открыты</strong> и считают твой случай, а не среднее по стране.</p>
           <div style={{ margin: "22px 0 6px" }}>
-            <Button variant="gold" href="calculators/index.html">Открыть калькуляторы →</Button>
+            <Button variant="gold" href="/calculators">Открыть калькуляторы →</Button>
           </div>
         </div>
       </section>
@@ -435,7 +435,7 @@ function Landing() {
             title="Приходи стать богаче"
             action={<span className="band-cow__slot"><img className="band-cow__img" src="site/img/cow-money-wall-2.png" width="647" height="1007" alt="" aria-hidden="true" /></span>}>
             <p className="fp-band__body">Знать направление — уже половина успеха. Билеты уже в продаже — Early Bird −25%, пока не объявлены все спикеры.</p>
-            <Button variant="gold" href="tickets.html">Купить билет</Button>
+            <Button variant="gold" href="/tickets">Купить билет</Button>
           </ReliefBand>
         </div>
       </section>

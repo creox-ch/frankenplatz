@@ -58,7 +58,7 @@
 
   // Ссылка на страницу с политикой: из подпапки (trips/) уровнем выше.
   function legalHref() {
-    return (location.pathname.indexOf('/trips/') !== -1 ? '../' : '') + 'legal.html#datenschutz';
+    return '/legal#datenschutz';
   }
 
   var CSS = [
