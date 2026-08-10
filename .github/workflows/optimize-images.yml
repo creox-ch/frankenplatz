@@ -1,0 +1,51 @@
+name: Сжать картинки
+
+# Запускается руками (Actions → «Сжать картинки» → Run workflow).
+# Локального node у команды нет, а сжатие требует sharp — поэтому пережимаем
+# в раннере: он ставит sharp, гоняет scripts/optimize_images.js и выкладывает
+# результат отдельной веткой. В main ничего не пишет — только ветка под PR.
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Только показать, что изменится (ничего не коммитить)'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Поставить sharp
+        run: npm install --no-save sharp
+
+      - name: Пережать
+        run: node scripts/optimize_images.js ${{ inputs.dry_run && '--dry' || '' }}
+
+      - name: Ветка с результатом
+        if: ${{ !inputs.dry_run }}
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "Нечего коммитить — картинки уже сжаты."
+            exit 0
+          fi
+          branch="chore/optimize-images-${{ github.run_number }}"
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add -A
+          git commit -m "chore(media): пережать картинки — ≤2400px, JPEG q80, PNG-палитра
+
+          Прогон scripts/optimize_images.js в CI (локального node нет).
+          Схема та же, что применяли к коровьим иллюстрациям.
+          Результат записан только там, где файл стал легче."
+          git push -u origin "$branch"
+          echo "Ветка: $branch"
