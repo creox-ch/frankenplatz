@@ -213,7 +213,7 @@
     <input type="text" id="bizName" placeholder="Салон красоты">
     <label>Сколько примерно нужно денег на старт, CHF
       <span class="hint">Прикидка. Помещение, ремонт, оборудование, первые месяцы</span></label>
-    <input type="number" inputmode="numeric" id="bizBudget" placeholder="150000" step="5000" min="0">
+    <input type="text" inputmode="decimal" id="bizBudget" placeholder="150000">
     <label>Правовая форма<span class="hint">От неё зависит минимальный капитал</span></label>
     <div class="chips" id="formChips">
       <div class="chip on" data-form="GmbH">GmbH<br><small style="color:var(--muted)">мин. 20'000</small></div>
@@ -375,7 +375,7 @@
         '<label>Имя или роль<input type="text" id="nm'+i+'" placeholder="Имя / роль"></label>'+
         '<label>Вносит денег, CHF'+
           '<span class="hint">Сколько реально кладёт в дело. 0 — если не вкладывает</span>'+
-          '<input type="number" inputmode="numeric" id="money'+i+'" placeholder="'+hintShare+'" value="0" min="0" class="moneyInp"></label>'+
+          '<input type="text" inputmode="decimal" id="money'+i+'" placeholder="'+hintShare+'" value="0" class="moneyInp"></label>'+
         '<label style="margin-bottom:2px">Работает в проекте?</label>'+
         '<div class="yn" data-p="'+i+'">'+
           '<div class="chip ynchip" data-work="no">Нет</div>'+
@@ -383,7 +383,7 @@
         '<div class="hoursWrap hidden" id="hoursWrap'+i+'">'+
           '<label>Сколько часов в неделю, фактически'+
           '<span class="hint">40+ — полная занятость</span>'+
-          '<input type="number" inputmode="numeric" id="hours'+i+'" placeholder="20" value="0"></label></div>'+
+          '<input type="text" inputmode="decimal" id="hours'+i+'" placeholder="20" value="0"></label></div>'+
         '<label style="margin-top:12px;margin-bottom:2px">Что приносит с собой</label>'+
         '<div class="sub2" style="margin-bottom:8px">Отметьте и оцените силу вклада</div>'+
         '<div class="bundle">'+bundleHtml+'</div>';

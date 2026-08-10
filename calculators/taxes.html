@@ -148,7 +148,7 @@
     <h2 id="t-inputs">Ваши данные</h2>
     <div id="income-wrap">
       <label id="t-income-l">Налогооблагаемый доход в год <span class="hint" id="t-income-h">после вычетов</span></label>
-      <input type="number" id="income" value="200" min="0" step="0.5" inputmode="decimal">
+      <input type="text" id="income" value="200" inputmode="decimal">
       <span class="hint" id="income-unit" style="margin-left:2px;">× 1000 CHF</span>
       <input type="range" id="income-range" value="200000" min="20000" max="500000" step="5000" style="margin-top:10px;">
       <p class="hint" id="t-income-explain" style="margin-top:8px; line-height:1.5;"></p>
@@ -565,7 +565,7 @@ function renderWealthFields(){
     var wrap=document.createElement('div'); wrap.style.marginBottom='12px';
     var val=state.wealth[f.key]? (state.wealth[f.key]/1000) : '';
     wrap.innerHTML='<label>'+L['w_'+f.key]+' <span class="hint">'+L['w_'+f.key+'_h']+' · '+L.inThousands+'</span></label>'+
-      '<input type="number" data-w="'+f.key+'" value="'+val+'" min="0" step="10" placeholder="0" inputmode="numeric">';
+      '<input type="text" data-w="'+f.key+'" value="'+val+'" placeholder="0" inputmode="decimal">';
     box.appendChild(wrap);
   });
   box.querySelectorAll('[data-w]').forEach(function(inp){
