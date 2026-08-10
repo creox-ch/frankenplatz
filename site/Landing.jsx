@@ -361,7 +361,7 @@ function Landing() {
           <h2>Лучшая жизнь в Швейцарии —<br /><span className="hl">у коровы</span>. Поэтому наш символ именно она</h2>
           <p className="lead">Зонт от солнца, музыка в коровнике, массажная щётка. И доплата от государства за то, чтобы она жила дольше.</p>
           <div style={{ marginTop: 28 }}>
-            <Button variant="gold" href="/cows">Знать почему →</Button>
+            <Button variant="gold" href="/cows">Узнать почему →</Button>
           </div>
         </div>
       </section>
