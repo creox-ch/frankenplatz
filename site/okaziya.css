@@ -1,5 +1,14 @@
 /* Оказия — доска попутной доставки Frankenplatz */
-.kit .ok-tabs{position:sticky;top:64px;z-index:40;display:flex;gap:8px;flex-wrap:wrap;padding:12px 0;margin-top:6px}
+
+/* Полоса вкладок липнет к шапке на ВСЮ страницу.
+   Раньше sticky висел на самих вкладках, а они лежали внутри <header class="hero">
+   высотой ~546px: липкий элемент работает только в пределах родителя, поэтому
+   вкладки уезжали вместе с героем и на остальных ~3300px страницы навигации
+   на экране не было — из середины формы к доске возвращались прокруткой вверх.
+   Теперь sticky на полосе, а полоса — на верхнем уровне страницы.
+   ⚠ При ре-синке дизайна вернуть: вкладки должны остаться ВНЕ героя. */
+.kit .ok-tabsbar{position:sticky;top:64px;z-index:40;background:rgba(13,7,21,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.kit .ok-tabs{display:flex;gap:8px;flex-wrap:wrap;padding:12px 0}
 .kit .ok-tab{font:700 13.5px var(--font-body);color:var(--muted);text-decoration:none;padding:10px 18px;border-radius:999px;border:1px solid var(--line);background:var(--glass);backdrop-filter:blur(8px);cursor:pointer;transition:all .18s;white-space:nowrap;line-height:1;display:inline-flex;align-items:center;gap:7px}
 .kit .ok-tab:hover{color:#fff;border-color:rgba(255,255,255,.25)}
 .kit .ok-tab.is-on{background:var(--grad-gold);color:var(--ink-on-gold);border-color:transparent}
@@ -140,7 +149,9 @@
   background-repeat:no-repeat;background-position:right 16px center}
 .kit .ok-fsel option,.kit select.ok-field option{background:#1C1029}
 @media(max-width:720px){
-  .kit .ok-tabs{top:0;margin-top:6px;gap:8px;padding:12px 0}
+  /* на мобильном шапка сайта не фиксирована — полоса липнет к верху экрана */
+  .kit .ok-tabsbar{top:0}
+  .kit .ok-tabs{gap:8px;padding:10px 0}
   .kit .ok-tab{flex:none}
   .kit .ok-fgroup.ok-collapse .ok-chip{display:none}
   .kit .ok-fgroup.ok-collapse .ok-fsel{display:block}

@@ -64,6 +64,14 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
       <span class="fp-badge fp-badge--lila"><span class="fp-badge__dot"></span>Frankenplatz · сервис сообщества</span>
       <h1 style="margin:20px 0 0">Оказия: кто едет,<br><span class="hl">кому передать</span></h1>
       <p class="sub" style="margin-top:18px">Доска для тех, кто летит между Швейцарией и другими странами и готов взять посылку. И для тех, кому нужно что-то передать.</p>
+    </div>
+  </header>
+
+  <!-- Вкладки ВНЕ героя: sticky работает только в пределах родителя, а внутри
+       <header class="hero"> они уезжали вместе с ним, и на остальной странице
+       навигации не было. ⚠ При ре-синке дизайна не возвращать их внутрь. -->
+  <div class="ok-tabsbar">
+    <div class="inner">
       <nav class="ok-tabs" aria-label="Разделы Оказии">
         <a class="ok-tab" href="#board" data-view="board">Доска</a>
         <a class="ok-tab" href="#place" data-view="place">Разместить</a>
@@ -72,7 +80,7 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
         <a class="ok-tab" href="#profile" data-view="profile" hidden>Профиль</a>
       </nav>
     </div>
-  </header>
+  </div>
 
   <!-- ===================== ДОСКА ===================== -->
   <section class="ok-view" id="ok-board" data-screen-label="Доска">
