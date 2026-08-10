@@ -17,7 +17,7 @@
           {showDay ? <span className="spk-row__day">День {theDay} · {s.theme}</span> : null}
           <span className="spk-row__topic">{dayTopic}</span>
         </span>
-        <p className="spk-row__about">{s.about}{s.topics && s.topics.length ? <a href={"speaker.html?id=" + encodeURIComponent(s.id)} style={{ marginLeft: 6 }}>Подробнее о спикере →</a> : (s.link ? <a href={s.link} target="_blank" rel="noopener" style={{ marginLeft: 6 }}>{s.linkLabel || "Ссылка"}</a> : null)}</p>
+        <p className="spk-row__about">{s.about}{s.topics && s.topics.length ? <a href={"/speaker?id=" + encodeURIComponent(s.id)} style={{ marginLeft: 6 }}>Подробнее о спикере →</a> : (s.link ? <a href={s.link} target="_blank" rel="noopener" style={{ marginLeft: 6 }}>{s.linkLabel || "Ссылка"}</a> : null)}</p>
       </div>
     );
   }
@@ -79,7 +79,7 @@ function FlipCard({ s, day }) {
             {s.dossier && s.dossier.length ? (
               <ul className="fsc__facts">{s.dossier.map((f, i) => <li key={i}>{f}</li>)}</ul>
             ) : null}
-            <a className="fsc__more" href={"speaker.html?id=" + encodeURIComponent(s.id)} onClick={(e) => e.stopPropagation()}>Подробнее о спикере →</a>
+            <a className="fsc__more" href={"/speaker?id=" + encodeURIComponent(s.id)} onClick={(e) => e.stopPropagation()}>Подробнее о спикере →</a>
           </div>
           ) : null}
         </div>

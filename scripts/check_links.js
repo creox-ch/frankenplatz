@@ -55,7 +55,14 @@ function resolveTarget(url, base = '') {
   return null;
 }
 
-const HREF_RE = /href\s*[:=]\s*["']([^"']+)["']/g;
+/* Три формы записи одной и той же ссылки:
+     href="/day1"            — атрибут в разметке
+     href: "/day1"           — поле объекта в JS (карточки, меню)
+     href={"/speaker?id=" +…} — выражение в JSX
+   Третью проверка сначала не видела, и синк дизайна вернул через неё
+   speaker.html?id= — незаметно, потому что редирект всё равно открывает
+   страницу. Ищем все три. */
+const HREF_RE = /href\s*[:=]\s*\{?\s*["']([^"']+)["']/g;
 const EXTERNAL = /^(https?:|\/\/|mailto:|tel:|data:|javascript:)/i;
 /* href бывает не только у ссылок: <link rel=stylesheet href="styles.css">,
    иконки, манифест. Это ресурсы, а не страницы — их пути относительные и
