@@ -67,19 +67,6 @@
   .pillar .note{font-size:12px;color:var(--muted2);margin-top:10px;line-height:1.4}
   .disclaimer{margin-top:22px;font-size:11.5px;color:var(--muted2);line-height:1.55;background:var(--glass);border:1px solid var(--line);border-radius:14px;padding:14px 18px}
   .disclaimer b{color:var(--muted)}
-  /* Канонический блок дисклеймера (регламент, раздел 10). Токены — местные. */
-  .fp-disclaimer{margin-top:22px;font-size:11.5px;line-height:1.55;color:var(--muted2);
-    background:var(--glass);border:1px solid var(--line);border-radius:14px;padding:14px 18px}
-  .fp-disclaimer summary{cursor:pointer;font-weight:600;color:var(--ink);margin-bottom:6px}
-  .fp-disclaimer ul{margin:4px 0 10px 18px;padding:0}
-  .fp-disclaimer li{margin:3px 0}
-  .fp-disc__legal{margin:10px 0;color:var(--muted)}
-  .fp-disc__meta,.fp-disc__privacy{margin:6px 0 0}
-  .fp-disc__legend{display:flex;flex-wrap:wrap;align-items:center;gap:5px 12px;margin-top:8px}
-  .fp-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px;vertical-align:middle}
-  .fp-dot--green{background:var(--green,#8BE59B)}
-  .fp-dot--amber{background:var(--gold,#E6B450)}
-  .fp-dot--grey{background:var(--muted2,#9A8BB3)}
   a{color:var(--lila-bright)} a:hover{color:var(--gold-bright)}
   .introcard{background:linear-gradient(160deg,rgba(123,63,228,.28),rgba(230,180,80,.10));border:1px solid var(--line-strong);border-radius:24px;padding:32px 30px;backdrop-filter:blur(8px)}
   .startbtn{display:block;width:100%;text-align:center;font-family:"Manrope",sans-serif;font-size:16px;font-weight:700;padding:16px 34px;border:none;border-radius:40px;cursor:pointer;background:linear-gradient(135deg,var(--gold),var(--gold-bright));color:#2A1A05;transition:transform .2s,box-shadow .2s;margin-top:18px}
@@ -100,8 +87,8 @@
   }
 /* узкие экраны: плашки навигации не наезжают */
 @media(max-width:430px){
-  a[href="/calculators"][style*="position:fixed"],a[href="/"][style*="position:fixed"]{font-size:13px!important;padding:0 10px!important;gap:5px!important}
-  a[href="/calculators"][style*="position:fixed"]{left:12px!important}
+  a[href="/calculators/"][style*="position:fixed"],a[href="/"][style*="position:fixed"]{font-size:13px!important;padding:0 10px!important;gap:5px!important}
+  a[href="/calculators/"][style*="position:fixed"]{left:12px!important}
   a[href="/"][style*="position:fixed"]{right:12px!important}
 }
 @media(max-width:360px){
@@ -111,7 +98,7 @@
 </style>
 </head>
 <body>
-<a href="/calculators" style="position:fixed;top:18px;left:22px;z-index:50;display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:#C3B7D4;text-decoration:none;background:rgba(20,10,31,.55);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:8px 16px;backdrop-filter:blur(8px);white-space:nowrap" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#C3B7D4'">← Все калькуляторы</a>
+<a href="/calculators/" style="position:fixed;top:18px;left:22px;z-index:50;display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:#C3B7D4;text-decoration:none;background:rgba(20,10,31,.55);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:8px 16px;backdrop-filter:blur(8px);white-space:nowrap" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#C3B7D4'">← Все калькуляторы</a>
 <a href="/" style="position:fixed;top:18px;right:22px;z-index:50;display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 14px;font-size:15px;font-weight:700;color:#C3B7D4;text-decoration:none;background:rgba(20,10,31,.72);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-radius:999px;white-space:nowrap">Frankenplatz.ch →</a>
 <div class="backdrop"></div>
 <div class="pattern"></div>
@@ -196,34 +183,12 @@
     </div>
   </div>
 
-  <!-- Канонический блок регламента: как считается · упрощения модели · юр. строка.
-       Юридическая формулировка одинакова во всех калькуляторах — правится сразу везде. -->
-  <section class="fp-disclaimer" data-fp-year="2026" style="display:none">
-    <details open>
-      <summary>Как считается</summary>
-      <p>Модель использует параметры 2026 года:</p>
-      <ul data-fp="sources">
-        <li><span class="fp-dot fp-dot--amber"></span> AHV: минимальная пенсия CHF 1 260 и максимальная CHF 2 520 в месяц при 44 годах взносов, плафон для пары CHF 3 780</li>
-        <li><span class="fp-dot fp-dot--amber"></span> BVG: координационный вычет CHF 26 000, ставки взносов по возрастным ступеням (7 / 10 / 15 / 18%), минимальный процент 1,25%</li>
-        <li><span class="fp-dot fp-dot--amber"></span> коэффициент конверсии обязательной части 6,8%, выход в 65 лет</li>
-      </ul>
-      <p>Модель упрощена:</p>
-      <ul data-fp="simpl">
-        <li>доход берётся усреднённым, а не по каждому году с Aufwertungsfaktoren</li>
-        <li>правила конкретной пенсионной кассы и сверхобязательная часть не учитываются</li>
-        <li>досрочный и поздний выход на пенсию не считаются</li>
-        <li>6,8% — разовый множитель при выходе, а не доходность</li>
-      </ul>
-      <p class="fp-disc__legend">
-        <span class="fp-dot fp-dot--green"></span><span>официальный источник</span>
-        <span class="fp-dot fp-dot--amber"></span><span>расчётная оценка</span>
-        <span class="fp-dot fp-dot--grey"></span><span>среднее по кантону</span>
-      </p>
-    </details>
-    <p class="fp-disc__legal">Это не налоговая консультация. Расчёт носит ориентировочный характер и не заменяет Steuererklärung, консультацию налогового советника, нотариуса или юриста. Фактическая сумма зависит от муниципалитета, вычетов и личных обстоятельств.</p>
-    <p class="fp-disc__meta">Параметры актуальны на <span data-fp="year">2026</span> год.</p>
-    <p class="fp-disc__privacy">Email нужен, чтобы прислать отчёт и материалы форума. Отписка — одним кликом в любом письме.</p>
-  </section>
+  <div class="disclaimer" style="display:none">
+    <b>Это не индивидуальная финансовая консультация.</b> Расчёты упрощены для наглядности:
+    порядок величин верный, но реальный случай зависит от точного дохода каждого года (с учётом Aufwertungsfaktoren),
+    правил конкретной кассы, координационного вычета и коэффициента конверсии сверхобязательной части.
+    Цифры — на 2026 год. Коэффициент 6,8% — разовый множитель при выходе, а не доходность.
+  </div>
 </div>
 
 <script>
@@ -298,8 +263,7 @@
   $('startBtn').addEventListener('click',function(){
     $('intro').style.display='none';
     $('cols').style.display='';
-    document.querySelector('.fp-disclaimer').style.display='';
-    if(window.FPReport && FPReport.completed) FPReport.completed('calc-pension');
+    document.querySelector('.disclaimer').style.display='';
     window.scrollTo({top:0,behavior:'smooth'});
   });
   render();
@@ -308,6 +272,7 @@
 
 <!-- Захват e-mail: отчёт на почту → общий приёмник форм /api/forms -->
 <script src="report-capture.js"></script>
+<script src="../site/calc-nav.js"></script>
 <script>
   FPReport.init({
     mount: '#report-capture',
@@ -324,8 +289,6 @@
     }
   });
 </script>
-<!-- Меню сайта (модуль в site/*.js — при ре-синке дизайна вернуть эту строку) -->
-<script src="../site/calc-nav.js"></script>
 <!-- Согласие на cookies + Google Analytics -->
 <script src="../site/cookie-consent.js"></script>
 </body>
