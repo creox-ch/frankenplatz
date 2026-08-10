@@ -266,7 +266,7 @@ function Landing() {
         </div>
         <div className="inner">
           <div className="hero-figure">
-            <img className="hero-cows" src="site/img/cows-porsche-road.png" width="1672" height="941" alt="" aria-hidden="true" />
+            <img className="hero-cows" src="site/img/cows-porsche-road.jpg" width="1672" height="941" alt="" aria-hidden="true" />
             <Countdown />
           </div>
         </div>
