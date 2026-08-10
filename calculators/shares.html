@@ -157,8 +157,8 @@
   .err{color:var(--red);font-size:12.5px;margin-top:6px}
 /* узкие экраны: плашки навигации не наезжают */
 @media(max-width:430px){
-  a[href="/calculators/"][style*="position:fixed"],a[href="/"][style*="position:fixed"]{font-size:13px!important;padding:0 10px!important;gap:5px!important}
-  a[href="/calculators/"][style*="position:fixed"]{left:12px!important}
+  a[href="/calculators"][style*="position:fixed"],a[href="/"][style*="position:fixed"]{font-size:13px!important;padding:0 10px!important;gap:5px!important}
+  a[href="/calculators"][style*="position:fixed"]{left:12px!important}
   a[href="/"][style*="position:fixed"]{right:12px!important}
 }
 @media(max-width:360px){
@@ -168,7 +168,7 @@
 </style>
 </head>
 <body>
-<a href="/calculators/" style="position:fixed;top:18px;left:22px;z-index:50;display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:#C3B7D4;text-decoration:none;background:rgba(20,10,31,.55);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:8px 16px;backdrop-filter:blur(8px);white-space:nowrap" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#C3B7D4'">← Все калькуляторы</a>
+<a href="/calculators" style="position:fixed;top:18px;left:22px;z-index:50;display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:#C3B7D4;text-decoration:none;background:rgba(20,10,31,.55);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:8px 16px;backdrop-filter:blur(8px);white-space:nowrap" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#C3B7D4'">← Все калькуляторы</a>
 <a href="/" style="position:fixed;top:18px;right:22px;z-index:50;display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 14px;font-size:15px;font-weight:700;color:#C3B7D4;text-decoration:none;background:rgba(20,10,31,.72);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-radius:999px;white-space:nowrap">Frankenplatz.ch →</a>
 <div class="backdrop"></div>
 <div class="pattern"></div>
@@ -267,20 +267,8 @@
       <h3>Доли посчитали. Теперь их нужно защитить.</h3>
       <p>Что будет, если партнёр с клиентской базой уйдёт и заберёт её? Как зафиксировать неденежный вклад в Gesellschaftsvertrag, чтобы он не обнулился? Когда соц. актив «отрабатывается» и доля пересматривается (vesting)? И хватает ли вам капитала на выбранную форму?</p>
       <p style="margin-top:10px">Это и есть то, из-за чего получаются 40/40/20 и суды. Полный разбор — на форуме Frankenplatz.</p>
-      <div id="emailBlock">
-        <label style="text-align:left">Email — пришлём ваш расклад в PDF + чек-лист для договора
-          <span class="hint">И ссылку на спец-цену форума</span></label>
-        <input type="email" id="email" placeholder="you@example.com">
-        <div class="err hidden" id="emailErr">Введите корректный email.</div>
-        <button class="btn amber" id="getBtn">Получить разбор и спец-цену</button>
-        <div class="formnote">Без спама. Один разбор + приглашение на форум.</div>
-      </div>
-      <div id="offerBlock" class="hidden">
-        <div class="timer" id="timer">24:00:00</div>
-        <div class="price"><s>CHF 290</s> &nbsp; <b>CHF 190</b> <span style="color:var(--muted)">до конца таймера</span></div>
-        <button class="btn amber" id="buyBtn">Забронировать место на форуме</button>
-        <div class="formnote">После таймера цена возвращается к CHF 290 — это правило, не маркетинг.</div>
-      </div>
+      <a class="btn amber" href="/tickets" style="text-decoration:none;text-align:center">Смотреть билеты на форум</a>
+      <div class="formnote">24–25 октября 2026, Баден. Расчёт можно прислать себе на почту — форма выше.</div>
     <div class="foot">
       Расчёт — модель для переговоров между партнёрами, а не юридическая или оценочная экспертиза.
       Минимальный капитал: GmbH — CHF 20'000 (полностью оплачивается при основании, OR 773);
@@ -299,7 +287,15 @@
   var COLORS={money:"#B98BFF",labor:"#E6B450",expertise:"#8BE59B",social:"#7B3FE4"};
   var state={n:0, form:"GmbH", participants:[], builtN:0, budget:0};
   function go(el){window.scrollTo({top:el.getBoundingClientRect().top+window.pageYOffset-16,behavior:"smooth"});}
-  function num(id){var v=parseFloat($(id).value);return isNaN(v)?0:v;}
+  /* Парсер числа: терпит запятую, пробел, неразрывный пробел и швейцарский
+     апостроф (1'200'000 — так суммы копируются из документов). Поля —
+     type="text" inputmode="decimal": type="number" ломает навигацию на мобильном. */
+  function fpNum(v){
+    var s=String(v==null?'':v).replace(/[\s\u00A0\u2009'\u2019]/g,'').replace(',','.');
+    var n=parseFloat(s);
+    return isFinite(n)?n:0;
+  }
+  function num(id){return fpNum($(id).value);}
   function val(id){return ($(id).value||"").trim();}
 
   $("startBtn").addEventListener("click",function(){
@@ -435,7 +431,7 @@
   function totalMoney(){
     var t=0;
     [].forEach.call(document.querySelectorAll(".moneyInp"),function(inp){
-      var v=parseFloat(inp.value); if(!isNaN(v))t+=v;
+      t+=fpNum(inp.value);
     });
     return t;
   }
@@ -508,6 +504,7 @@
     $("step2").classList.add("hidden");
     $("results").classList.remove("hidden");
     $("gateCard").classList.remove("hidden");
+    if(window.FPReport && FPReport.completed) FPReport.completed("calc-shares");
     go($("results"));
   });
 
@@ -559,33 +556,15 @@
     $("step2").classList.remove("hidden");
   });
 
-  $("getBtn").addEventListener("click",function(){
-    var e=val("email");
-    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)){$("emailErr").classList.remove("hidden");return;}
-    $("emailErr").classList.add("hidden");
-    var ends=Date.now()+24*3600*1000;
-    $("emailBlock").classList.add("hidden");
-    $("offerBlock").classList.remove("hidden");
-    startTimer(ends);
-  });
-  function startTimer(ends){
-    var t=$("timer");
-    function tick(){
-      var d=ends-Date.now();
-      if(d<=0){t.textContent="00:00:00";
-        document.querySelector(".price").innerHTML='<b>CHF 290</b> <span style="color:var(--muted)">обычная цена</span>';
-        $("buyBtn").textContent="Перейти на форум (обычная цена)"; clearInterval(iv);return;}
-      var h=Math.floor(d/3600000),m=Math.floor(d%3600000/60000),s=Math.floor(d%60000/1000);
-      t.textContent=[h,m,s].map(function(x){return(x<10?"0":"")+x;}).join(":");
-    }
-    tick();var iv=setInterval(tick,1000);
-  }
-  $("buyBtn").addEventListener("click",function(){window.location.href="#";});
+  /* Здесь была имитация из макета: поле e-mail, которое никуда не отправляло,
+     24-часовой таймер и «CHF 290 → CHF 190». Ни PDF, ни чек-листа мы не шлём,
+     такой цены не существует, кнопка «Забронировать» вела на «#».
+     Реальный сбор e-mail — модуль report-capture.js в блоке #report-capture,
+     реальные цены — на странице /tickets. */
 })();
 </script>
 
 <script src="report-capture.js"></script>
-<script src="../site/calc-nav.js"></script>
 <script>
   FPReport.init({
     mount: '#report-capture',
@@ -608,6 +587,8 @@
     }
   });
 </script>
+<!-- Меню сайта (модуль в site/*.js — при ре-синке дизайна вернуть эту строку) -->
+<script src="../site/calc-nav.js"></script>
 <!-- Согласие на cookies + Google Analytics -->
 <script src="../site/cookie-consent.js"></script>
 </body>

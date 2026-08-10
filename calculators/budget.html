@@ -143,8 +143,8 @@
   }
 /* узкие экраны: плашки навигации не наезжают */
 @media(max-width:430px){
-  a[href="/calculators/"][style*="position:fixed"],a[href="/"][style*="position:fixed"]{font-size:13px!important;padding:0 10px!important;gap:5px!important}
-  a[href="/calculators/"][style*="position:fixed"]{left:12px!important}
+  a[href="/calculators"][style*="position:fixed"],a[href="/"][style*="position:fixed"]{font-size:13px!important;padding:0 10px!important;gap:5px!important}
+  a[href="/calculators"][style*="position:fixed"]{left:12px!important}
   a[href="/"][style*="position:fixed"]{right:12px!important}
 }
 @media(max-width:360px){
@@ -154,7 +154,7 @@
 </style>
 </head>
 <body>
-<a href="/calculators/" style="position:fixed;top:18px;left:22px;z-index:50;display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:#C3B7D4;text-decoration:none;background:rgba(20,10,31,.55);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:8px 16px;backdrop-filter:blur(8px);white-space:nowrap" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#C3B7D4'">← Все калькуляторы</a>
+<a href="/calculators" style="position:fixed;top:18px;left:22px;z-index:50;display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:#C3B7D4;text-decoration:none;background:rgba(20,10,31,.55);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:8px 16px;backdrop-filter:blur(8px);white-space:nowrap" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#C3B7D4'">← Все калькуляторы</a>
 <a href="/" style="position:fixed;top:18px;right:22px;z-index:50;display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 14px;font-size:15px;font-weight:700;color:#C3B7D4;text-decoration:none;background:rgba(20,10,31,.72);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-radius:999px;white-space:nowrap">Frankenplatz.ch →</a>
 <div class="backdrop"></div>
 <div class="pattern"></div>
@@ -812,7 +812,11 @@ function go(n){
 function pay(id){ return state.split ? (payers[id]||'shared') : 'shared'; }
 
 function run(){
-  try { runInner(); }
+  try {
+    runInner();
+    // считаем расчёт состоявшимся только если runInner не упал
+    if(window.FPReport && FPReport.completed) FPReport.completed('calc-budget');
+  }
   catch(err){
     alert('Не получилось посчитать: '+err.message+'. Сообщите об этом — поправим.');
     console.error(err);
@@ -1057,7 +1061,6 @@ function runInner(){
 </script>
 
 <script src="report-capture.js"></script>
-<script src="../site/calc-nav.js"></script>
 <script>
   FPReport.init({
     mount: '#report-capture',
@@ -1071,6 +1074,8 @@ function runInner(){
     }
   });
 </script>
+<!-- Меню сайта (модуль в site/*.js — при ре-синке дизайна вернуть эту строку) -->
+<script src="../site/calc-nav.js"></script>
 <!-- Согласие на cookies + Google Analytics -->
 <script src="../site/cookie-consent.js"></script>
 </body>
