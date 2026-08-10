@@ -74,6 +74,7 @@ let after = 0;
 
 (async () => {
   // 1. Мёртвый груз
+  const removed = new Set();
   for (const rel of DELETE_UNUSED) {
     const abs = path.join(ROOT, rel);
     if (!fs.existsSync(abs)) continue;
@@ -85,6 +86,7 @@ let after = 0;
     }
     const size = fs.statSync(abs).size;
     if (!DRY) fs.unlinkSync(abs);
+    removed.add(rel);
     rows.push({ file: rel, was: kb(size), now: 0, note: 'удалён — ноль ссылок' });
     before += size;
   }
@@ -92,6 +94,9 @@ let after = 0;
   // 2. Пережатие
   for (const abs of walk(ROOT, /\.(png|jpe?g)$/i)) {
     const rel = path.relative(ROOT, abs).replace(/\\/g, '/');
+    // В dry-run удалённые файлы ещё лежат на диске — иначе они попадут
+    // и в список удаления, и в список пережатия, и итог будет завышен.
+    if (removed.has(rel)) continue;
     const orig = fs.statSync(abs).size;
     if (orig < MIN_BYTES) continue;
 
