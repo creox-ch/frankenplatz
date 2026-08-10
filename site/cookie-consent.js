@@ -21,6 +21,19 @@
   var KEY = 'fp-consent-v1';   // 'granted' | 'denied'
   var STYLE_ID = 'fp-cc-style';
 
+  /* Vercel Web Analytics — НАМЕРЕННО вне гейта согласия.
+     В отличие от GA она не ставит cookies и не хранит идентификаторов,
+     поэтому согласие не требуется и баннер её не касается. Грузится
+     всегда, в том числе при отказе от cookies.
+     Живёт здесь, а не в HTML, потому что этот модуль подключён на всех
+     страницах и переживает синхронизацию дизайна. */
+  try {
+    var va = document.createElement('script');
+    va.defer = true;
+    va.src = '/_vercel/insights/script.js';
+    (document.head || document.documentElement).appendChild(va);
+  } catch (e) {}
+
   var CSS = [
     '.fp-cc{position:fixed;left:0;right:0;bottom:0;z-index:9999;display:flex;justify-content:center;',
     'padding:14px;pointer-events:none}',
