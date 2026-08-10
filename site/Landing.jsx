@@ -346,7 +346,10 @@ function Landing() {
           <SpeakerStrip />
           <p className="spk-note">Состав пополняется каждую неделю.<br />Темы по дням: <a href="/day1">День №1</a> · <a href="/day2">День №2</a>.</p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 14, marginTop: 22 }}>
-            <Button variant="gold" href="#reg">Получить полную программу</Button>
+            {/* Ведёт на подписку, а не на билеты: обещание кнопки — про
+                информацию, и рядом уже стоит «Купить билет». Раньше здесь
+                открывалась форма ранней регистрации — отключена 10.08.2026. */}
+            <Button variant="gold" href="#subscribe">Получить полную программу</Button>
             <Button variant="ghost" href="/tickets">Купить билет</Button>
             <Button variant="ghost" href="/anketa">Предложить спикера</Button>
             <SponsorBox />
