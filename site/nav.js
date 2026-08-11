@@ -2,7 +2,12 @@
    Один источник для всех страниц: index, day1, day2, speakers, speaker, anketa, legal.
    Использование в JSX-странице: <TopBar links={window.FP_NAV("day1")} />
    Ключи: index · day1 · day2 · speakers · null (страницы без активного пункта). */
-window.FP_NAV = function (active) {
+window.FP_NAV = function (active, opts) {
+  /* opts.footer — футер берёт РАСШИРЕННЫЙ список: в него входят пункты с
+     footer:true, которых в верхнем меню нет. Так «Билеты» живут только внизу,
+     а вверху остаётся золотая кнопка «Купить билет» (решение дизайна 11.08).
+     Контракт с Footer.jsx / ds.bundle.js: FP_NAV(null, { footer: true }). */
+  var footerMode = !!(opts && opts.footer);
   var home = active === "index";
   if (active === "anketa") active = "speakers-soft";
   var links = [
@@ -18,12 +23,13 @@ window.FP_NAV = function (active) {
        человек кликает и упирается в «скоро». Появится сама — правок не нужно. */
     { key: "collab", label: "Сотрудничество", href: "/collaboration" },
     { key: "trips", label: "Другие форумы", href: "/trips" },
-    /* Пункт «Билеты» убран 2026-08-11 (решение дизайна): в шапке остаётся
-       золотая кнопка «Купить билет», сам раздел — в футере. Дизайн-выгрузка
-       правит только свои страницы, а это меню собирается здесь и живёт на
-       главной, днях, спикерах, анкете и юр. странице — без правки тут шапка
-       выглядела бы по-разному на разных страницах. */
+    /* Только футер: в шапке этот пункт дублировал бы золотую кнопку
+       «Купить билет» (решение дизайна 11.08). */
+    { key: "tickets", label: "Билеты", href: "/tickets", footer: true },
   ];
+  if (!footerMode) {
+    links = links.filter(function (l) { return !l.footer; });
+  }
   if (Array.isArray(window.FP_BLOG) && window.FP_BLOG.length) {
     links.splice(5, 0, { key: "blog", label: "Статьи", href: "/blog" });
   }
