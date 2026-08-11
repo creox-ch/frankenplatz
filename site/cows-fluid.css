@@ -15,11 +15,17 @@
 @media(min-width:768.02px) and (max-width:899.98px){
   .kit .ch-hero__cows{width:626.2px;transform:translate(-8.4px,26.6px)}
 }
+/* 900–1280: коровы стоят справа и плавно уменьшаются — одна непрерывная
+   формула вместо анкеров тюнера, стыкуется с полосой ≥1280 (703px / 68.7 / 66
+   при 1280); прежние анкеры давали разрыв на стыке. Ниже 900px — прежняя
+   стопка: коровы уходят вниз. */
 @media(min-width:900px) and (max-width:1280px){
-  .kit .ch-hero__cows{width:calc(515.1px + 14.61vw);max-width:none;transform:translate(calc(338.2px + -21.05vw),calc(-465.4px + 36.18vw))}
+  .kit .ch-hero__cows{width:calc(-168.5px + 68.09vw);max-width:none;transform:translate(calc(-60.6px + 10.1vw),calc(-58.2px + 9.71vw))}
 }
 @media(min-width:1280.02px){
-  .kit .ch-hero__cows{width:62.34%;max-width:none;transform:translate(68.7px,-2.2px)}
+  /* опущено относительно прежнего -2.2px: с ним верх картинки уходил выше hero
+     и рога срезал overflow:hidden */
+  .kit .ch-hero__cows{width:62.34%;max-width:none;transform:translate(68.7px,66px)}
 }
 
 /* Болтающие коровы в финальной плашке «Форум о деньгах» — по cow-tuner.html

@@ -31,10 +31,22 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
 /* ——— hero: две коровы справа ——— */
 .kit .hero.gridbg{overflow:hidden}
 .kit .ch-hero__grid{position:relative;z-index:1}
-@media(min-width:900px){.kit .ch-hero__grid{max-width:calc(100% - clamp(330px,44%,540px))}}
-.kit .ch-hero__cows{position:absolute;right:0;bottom:0;z-index:0;width:clamp(380px,50%,650px);line-height:0;pointer-events:none;transform:translateY(2%)}
+/* Ниже 900px коровы, как и раньше, уходят вниз под текст-колонку. Выше — стоят
+   справа и плавно уменьшаются одной непрерывной формулой. Текст резервирует под них
+   колонку той же формулой, что задаёт их ширину и сдвиг, — с коэффициентом
+   0.82 на прозрачные поля картинки. Так они не заходят под текст ни на одной
+   ширине: сузили окно — обе величины поехали синхронно. */
+.kit .ch-hero__cows{position:absolute;right:0;bottom:0;z-index:0;line-height:0;pointer-events:none}
 .kit .ch-hero__cows img{display:block;width:100%;height:auto}
-@media(max-width:899px){.kit .ch-hero__cows{position:relative;right:auto;bottom:auto;transform:none;width:min(460px,90vw);margin:20px auto -20px}}
+@media(min-width:900px) and (max-width:1280px){
+  .kit .ch-hero__grid{max-width:calc(100% - (-107.9px + 57.99vw) * .82)}
+}
+@media(min-width:1280.02px){
+  .kit .ch-hero__grid{max-width:calc(100% - (62.34% - 68.7px) * .82)}
+}
+@media(max-width:899.98px){
+  .kit .ch-hero__cows{position:relative;right:auto;bottom:auto;transform:none;width:min(460px,90vw);margin:20px auto -20px}
+}
 .kit .ch-tag{display:block;margin-top:24px;font-family:var(--font-display);font-weight:700;font-size:clamp(19px,2.2vw,24px);line-height:1.3;color:var(--gold)}
 .kit .ch-cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}
 
@@ -132,11 +144,11 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
 
   <header class="fp-top">
     <a class="fp-top__logo" href="/">Frankenplatz.ch</a>
-    <nav class="fp-top__nav">
+    <nav class="fp-top__nav"><div class="fp-top__links">
       <a class="fp-top__link" href="/">Форум</a>
       <a class="fp-top__link" href="/day1">День 1</a>
       <a class="fp-top__link" href="/day2">День 2</a>
-      <a class="fp-top__link fp-top__link--active" aria-current="page" href="/cows">Коровы</a>
+      <a class="fp-top__link fp-top__link--active" aria-current="page" href="/cows">Коровы</a></div>
       <a class="fp-top__link fp-top__link--cta" href="/tickets">Билеты</a>
     </nav>
     <button class="fp-top__burger" aria-label="Меню" aria-expanded="false">☰</button>
@@ -375,6 +387,6 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
 <script src="site/chrome.js" defer></script>
 <script src="site/newsletter-form.js"></script>
 <script src="site/cookie-consent.js"></script>
-<script src="site/newsletter-popup.js"></script>
+<script src="site/nbsp.js" defer></script>
 </body>
 </html>

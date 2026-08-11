@@ -6,21 +6,31 @@
 body{overflow-x:clip}
 .kit .bm-apply__body{position:relative;z-index:2}
 
-/* вешалка, мобильный/планшет */
+/* вешалка, мобильный/планшет.
+   Вертикальный подъём снят: ниже 900px вешалка встаёт ПОД текстом. Прежние
+   значения (−20…−177px) настраивались, когда в hero было две кнопки; третья
+   перенесла ряд на вторую строку, и поднятая вешалка легла на кнопки.
+   Подтяжка бегущей строки ниже ослаблена ровно на снятый подъём — стык
+   вешалки и строки остался прежним. Горизонтальный сдвиг тоже снят: под
+   текстом вешалка стоит по центру, а не жмётся к правому краю. */
+@media(max-width:899.98px){
+  .kit .bm-hero__rack{margin-left:auto;margin-right:auto}
+  .kit .bm-hero__rack img{margin:0 auto}
+}
 @media(max-width:360px){
-  .kit .bm-hero__rack{width:312px;height:334px;overflow:hidden;transform:translate(-3px,-20px)}
+  .kit .bm-hero__rack{width:312px;height:334px;overflow:hidden;transform:none}
 }
 @media(min-width:360.02px) and (max-width:390px){
-  .kit .bm-hero__rack{width:calc(24px + 80vw);height:calc(-902px + 343.33vw);overflow:hidden;transform:translate(calc(-27px + 6.67vw),calc(40px + -16.67vw))}
+  .kit .bm-hero__rack{width:calc(24px + 80vw);height:calc(-902px + 343.33vw);overflow:hidden;transform:none}
 }
 @media(min-width:390.02px) and (max-width:430px){
-  .kit .bm-hero__rack{width:calc(-54px + 100vw);height:calc(-89.5px + 135vw);overflow:hidden;transform:translate(calc(-108.25px + 27.5vw),calc(121.25px + -37.5vw))}
+  .kit .bm-hero__rack{width:calc(-54px + 100vw);height:calc(-89.5px + 135vw);overflow:hidden;transform:none}
 }
 @media(min-width:430.02px) and (max-width:768px){
-  .kit .bm-hero__rack{width:calc(388.72px + -2.96vw);height:calc(513.9px + -5.33vw);overflow:hidden;transform:translate(calc(-117.22px + 29.59vw),calc(134.29px + -40.53vw))}
+  .kit .bm-hero__rack{width:calc(388.72px + -2.96vw);height:calc(513.9px + -5.33vw);overflow:hidden;transform:none}
 }
 @media(min-width:768.02px) and (max-width:899.98px){
-  .kit .bm-hero__rack{width:366px;height:473px;overflow:hidden;transform:translate(110px,-177px)}
+  .kit .bm-hero__rack{width:366px;height:473px;overflow:hidden;transform:none}
 }
 
 /* вешалка, десктоп 900–1280 (дальше — базовые стили страницы) */
@@ -30,19 +40,19 @@ body{overflow-x:clip}
 
 /* бегущая строка: подъём, контент под ней поднимается следом */
 @media(max-width:360px){
-  .kit .bm-marq{transform:translateY(-44px);margin-bottom:-44px}
+  .kit .bm-marq{transform:translateY(-24px);margin-bottom:-24px}
 }
 @media(min-width:360.02px) and (max-width:390px){
-  .kit .bm-marq{transform:translateY(calc(472px + -143.33vw));margin-bottom:calc(472px + -143.33vw)}
+  .kit .bm-marq{transform:translateY(calc(432px + -126.66vw));margin-bottom:calc(432px + -126.66vw)}
 }
 @media(min-width:390.02px) and (max-width:430px){
-  .kit .bm-marq{transform:translateY(calc(88.5px + -45vw));margin-bottom:calc(88.5px + -45vw)}
+  .kit .bm-marq{transform:translateY(calc(-32.75px + -7.5vw));margin-bottom:calc(-32.75px + -7.5vw)}
 }
 @media(min-width:430.02px) and (max-width:768px){
-  .kit .bm-marq{transform:translateY(calc(87.1px + -44.67vw));margin-bottom:calc(87.1px + -44.67vw)}
+  .kit .bm-marq{transform:translateY(calc(-47.19px + -4.14vw));margin-bottom:calc(-47.19px + -4.14vw)}
 }
 @media(min-width:768.02px) and (max-width:899.98px){
-  .kit .bm-marq{transform:translateY(-256px);margin-bottom:-256px}
+  .kit .bm-marq{transform:translateY(-79px);margin-bottom:-79px}
 }
 
 /* коровы в блоке «Участие» */

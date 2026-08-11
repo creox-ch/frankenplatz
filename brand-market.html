@@ -64,8 +64,9 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
 .kit .bm-hero__rack{position:absolute;right:0;bottom:0;z-index:0;line-height:0;pointer-events:none;
   width:45%;transform:translate(-32px,-38px)}
 .kit .bm-hero__rack img{display:block;width:100%;height:auto;max-width:none}
-@media(max-width:899px){.kit .bm-hero__rack{position:relative;right:auto;bottom:auto;width:72vw;max-width:none;margin:12px 0 0 auto;transform:none;height:clamp(150px,34vw,240px);overflow:hidden}.kit .bm-hero__rack img{width:100%;height:auto}}
+@media(max-width:899px){.kit .bm-hero__rack{position:relative;right:auto;bottom:auto;width:72vw;max-width:none;margin:12px auto 0;transform:none;height:clamp(150px,34vw,240px);overflow:hidden}.kit .bm-hero__rack img{width:100%;height:auto}}
 @media(max-width:520px){.kit .bm-hero__rack{width:82vw;height:clamp(130px,36vw,190px);margin-top:8px}}
+@media(max-width:640px){.kit .hero h1{font-size:clamp(44px,13vw,58px);line-height:1.02;letter-spacing:-0.01em;overflow-wrap:anywhere}}
 .kit .bm-hero__tag{margin-top:24px}
 .kit .bm-tag{display:block;margin-top:22px;font-family:var(--font-display);font-weight:700;font-size:clamp(19px,2.2vw,24px);line-height:1.3;color:var(--gold)}
 .kit .bm-cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px}
@@ -262,6 +263,14 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
 .kit .bm2-row__h{font-size:var(--fs-sm);color:var(--muted-2);white-space:nowrap}
 .kit .bm2-row__v{font-size:clamp(26px,3.4vw,36px);color:var(--gold);white-space:nowrap}
 .kit .bm2-hour__fine{margin:20px 0 0;font-size:var(--fs-sm);color:var(--muted-2)}
+.kit{overflow-x:clip}
+@media(max-width:680px){.kit .fp-badge{white-space:normal;line-height:1.5;text-align:left;padding:9px 16px}.kit .fp-eyebrow{white-space:normal}}
+/* как на главной: на мобильном бейдж в hero — золотой eyebrow с чёрточкой */
+@media(max-width:640px){
+  .kit .hero .fp-badge{background:none;border:none;padding:0;border-radius:0;color:var(--gold);font-size:13px;font-weight:var(--fw-bold);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;gap:10px;line-height:1.4}
+  .kit .hero .fp-badge::before{content:"";width:26px;height:1.5px;background:var(--gold);flex:none;display:inline-block}
+  .kit .hero .fp-badge .fp-badge__dot{display:none}
+}
 
 /* подлинность + бейдж «проверено» */
 .kit .bm2-verify{display:inline-flex;align-items:center;gap:9px;margin-top:22px;padding:9px 16px 9px 13px;border:1px solid rgba(230,180,80,.5);border-radius:var(--r-round);background:rgba(230,180,80,.10)}
@@ -303,19 +312,25 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
 
   <header class="fp-top">
     <a class="fp-top__logo" href="/">Frankenplatz.ch</a>
-    <nav class="fp-top__nav">
+    <nav class="fp-top__nav"><div class="fp-top__links">
       <a class="fp-top__link" href="/">Форум</a>
-      <a class="fp-top__link" href="/sponsor">Спонсорам и маркету</a>
-      <a class="fp-top__link" href="/calculators">Калькуляторы</a>
-      <a class="fp-top__link" href="/trips">Другие форумы</a>
+      <a class="fp-top__link fp-top__link--active" aria-current="page" href="/brand-market">Маркет</a>
+      <a class="fp-top__link" href="/market-catalog">Каталог</a>
+      <a class="fp-top__link" href="/brand-market-philosophy">Философия</a>
+      <a class="fp-top__link" href="/brand-market-authenticity">Проверка подлинности</a>
+      <a class="fp-top__link" href="/brand-market-agb">Условия участия</a>
+      <a class="fp-top__link" href="/collaboration">Сотрудничество</a></div>
       <a class="fp-top__link fp-top__link--cta" href="#apply">Хочу продать</a>
     </nav>
     <button class="fp-top__burger" id="bmBurger" aria-label="Меню" aria-expanded="false">☰</button>
     <div class="fp-top__menu" id="bmMenu">
       <a class="fp-top__link" href="/">Форум</a>
-      <a class="fp-top__link" href="/sponsor">Спонсорам и маркету</a>
-      <a class="fp-top__link" href="/calculators">Калькуляторы</a>
-      <a class="fp-top__link" href="/trips">Другие форумы</a>
+      <a class="fp-top__link fp-top__link--active" aria-current="page" href="/brand-market">Маркет</a>
+      <a class="fp-top__link" href="/market-catalog">Каталог</a>
+      <a class="fp-top__link" href="/brand-market-philosophy">Философия</a>
+      <a class="fp-top__link" href="/brand-market-authenticity">Проверка подлинности</a>
+      <a class="fp-top__link" href="/brand-market-agb">Условия участия</a>
+      <a class="fp-top__link" href="/collaboration">Сотрудничество</a>
       <a class="fp-top__link fp-top__link--cta" href="#apply">Хочу продать</a>
     </div>
   </header>
@@ -330,6 +345,7 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
           <p class="bm-tag">На вырученные деньги можно<br />купить билет на форум 😉</p>
           <div class="bm-cta-row">
             <a class="fp-btn fp-btn--gold" href="#apply">Хочу продать вещи</a>
+            <a class="fp-btn fp-btn--ghost" href="/market-catalog">Каталог вещей →</a>
             <a class="fp-btn fp-btn--ghost" href="#how">Как это работает</a>
           </div>
         </div>
@@ -628,6 +644,28 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
     </div>
   </section>
 
+  <section>
+    <div class="inner">
+      <div class="fp-eyebrow">Деньги</div>
+      <h2>Как проходит оплата</h2>
+      <p class="lead">У каждой вещи свой QR-код. Продалась онлайн по брони или на маркете при сканировании — сделка попадает в твой личный кабинет автоматически. Ты в любой момент видишь, что продано, что забронировано и сколько всего вышло.</p>
+      <p class="para">Деньги можно принимать двумя способами:</p>
+      <div class="bm2-gar">
+        <div class="bm2-gar__i">
+          <div class="bm2-gar__n">Напрямую</div>
+          <h4>Наличными или переводом от покупателя</h4>
+          <p>Комиссию мы выставим отдельным счётом после маркета.</p>
+        </div>
+        <div class="bm2-gar__i">
+          <div class="bm2-gar__n">Через нас</div>
+          <h4>Покупатель платит на нашу систему</h4>
+          <p>Ты получаешь свою сумму на счёт за вычетом комиссии. Ничего не выставляешь, с наличными не возишься. Оплата картой добавляет 3% платёжного сбора.</p>
+        </div>
+      </div>
+      <p class="para">Переключить режим можно в кабинете в любой момент до маркета. Подробности — в <a href="/brand-market-agb">условиях участия</a>.</p>
+    </div>
+  </section>
+
   <section class="gridbg">
     <div class="inner">
       <div class="fp-eyebrow">Подготовка</div>
@@ -757,8 +795,7 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
 <script src="site/chrome.js" defer></script>
 <script src="site/newsletter-form.js"></script>
 <script src="site/forum-form.js"></script>
-<!-- Покупка пакета маркета → /api/market/create (модуль вне разметки, переживает синк дизайна) -->
-<script src="site/market-buy.js"></script>
 <script src="site/cookie-consent.js"></script>
+<script src="site/nbsp.js" defer></script>
 </body>
 </html>

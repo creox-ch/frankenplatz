@@ -336,11 +336,11 @@ function Footer({
   useFpStyle("fp-foot-css", CSS);
   const [sent, setSent] = React.useState(false);
   const h = React.createElement;
-  /* Футер = ровно то же, что в верхнем меню (site/nav.js), без золотой кнопки.
-     Единственное исключение: на главной добавляется «Калькуляторы». */
-  const onIndex = typeof location !== "undefined" && /(^\/?$|index\.html$)/.test(location.pathname);
+  /* Футер = ровно то же, что в верхнем меню (site/nav.js), плюс «Билеты»
+     (footer: true) и без золотой кнопки. «Калькуляторы» приходят из FP_NAV —
+     вручную их дописывать не нужно, иначе на главной выходит дубль. */
   const fromNav = typeof window !== "undefined" && window.FP_NAV
-    ? window.FP_NAV(null).filter((l) => !l.cta).map((l) => ({ label: l.label, href: l.href }))
+    ? window.FP_NAV(null, { footer: true }).filter((l) => !l.cta).map((l) => ({ label: l.label, href: l.href }))
     : [
         { label: "Программа", href: "index.html#program" },
         { label: "День №1", href: "day1.html" },
@@ -350,7 +350,7 @@ function Footer({
         { label: "Сотрудничество", href: "collaboration.html" },
         { label: "Другие форумы", href: "trips.html" },
       ];
-  const nav = links.length ? links : (onIndex ? fromNav.concat([{ label: "Калькуляторы", href: "calculators/index.html" }]) : fromNav);
+  const nav = links.length ? links : fromNav;
   return h("footer", _extends({ className: ["fp-foot", className].filter(Boolean).join(" ") }, rest),
     h("div", { className: "fp-foot__grid" },
       h("div", null,
@@ -398,6 +398,16 @@ const CSS = `
 .fp-top__logo{font-family:var(--font-display);font-weight:800;font-size:18px;letter-spacing:.01em;color:#fff;
   display:flex;align-items:center;gap:9px;min-height:44px;text-decoration:none}
 .fp-top__nav{display:flex;gap:10px;align-items:center}
+/* Логотип слева и золотая CTA справа стоят на месте; в две строки уходят
+   ТОЛЬКО пункты меню — они лежат в своей группе .fp-top__links и переносятся
+   внутри неё, центрируясь относительно друг друга. Группа должна быть
+   сжимаемой (flex:0 1 auto; min-width:0), иначе перенос не сработает и меню
+   уедет за край. Шапка держится своей колонки: логотип и CTA выровнены по
+   контенту страницы — отрицательный «выдох» в отступ ломал бы эту сетку ради
+   того, чтобы избежать переноса, а перенос здесь и есть нужное поведение. */
+.fp-top__nav{flex:0 1 auto;min-width:0;flex-wrap:nowrap;margin-left:auto}
+.fp-top__links{display:flex;flex-wrap:wrap;align-items:center;align-content:center;justify-content:center;gap:0px 10px;flex:0 1 auto;min-width:0}
+.fp-top__nav > .fp-top__link--cta{flex:0 0 auto}
 /* логотип: при наведении по надписи пробегает золото-лиловый градиент */
 .fp-top__logo{background-image:none;background-size:220% 100%;background-position:220% 0;-webkit-background-clip:border-box;background-clip:border-box}
 .fp-top__logo:hover,.fp-top__logo:focus-visible{background-image:linear-gradient(100deg,#fff 0%,var(--gold,#E6B450) 28%,var(--lila-bright,#B98BFF) 52%,#fff 78%);
@@ -412,6 +422,17 @@ const CSS = `
 .fp-top__link--active:hover{color:var(--gold-bright)}
 .fp-top__link--cta{background:var(--grad-gold);color:var(--ink-on-gold);font-weight:var(--fw-bold);border-radius:var(--r-full);padding:12px 24px;font-size:16px}
 .fp-top__link--cta:hover{transform:translateY(-1px);box-shadow:var(--shadow-gold-sm);color:var(--ink-on-gold)}
+/* Узкий десктоп (до бургера): сначала уплотняем интервалы — на ~1366px этого
+   хватает, чтобы всё осталось в одну строку. Если и так не влезает (≈1280px),
+   меню переносится на вторую строку, строки центрируются относительно друг
+   друга, шапка подрастает. Правила ниже базовых: при равной специфичности
+   иначе победил бы базовый padding ссылки. */
+@media (min-width:1280px) and (max-width:1599px){
+  .fp-top .fp-top__link{padding:8px 10px}
+  .fp-top .fp-top__link--cta{padding:12px 20px}
+  .fp-top .fp-top__links{gap:0px 6px}
+}
+
 /* mobile menu */
 .fp-top__burger{display:none;background:none;border:none;color:#fff;font-size:22px;line-height:1;
   cursor:pointer;padding:6px 8px;min-width:44px;min-height:44px;border-radius:var(--r-sm)}
@@ -471,7 +492,9 @@ function TopBar({
     "aria-hidden": "true"
   }, logoGlyph) : null, brand), /*#__PURE__*/React.createElement("nav", {
     className: "fp-top__nav"
-  }, linkEls), /*#__PURE__*/React.createElement("button", {
+  }, /*#__PURE__*/React.createElement("span", {
+    className: "fp-top__links"
+  }, linkEls.filter((_, i) => !links[i].cta)), linkEls.filter((_, i) => links[i].cta)), /*#__PURE__*/React.createElement("button", {
     className: "fp-top__burger",
     "aria-label": open ? "Закрыть меню" : "Открыть меню",
     "aria-expanded": open,

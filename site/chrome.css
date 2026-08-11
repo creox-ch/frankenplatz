@@ -83,3 +83,21 @@ html{overflow-x:clip}
 /* Флаг Швейцарии вместо эмодзи: вектор, поэтому резкий на любом кегле и
    одинаковый во всех системах. Размер — по кеглю строки, как у символа. */
 .fp-flag{display:inline-block;width:1.05em;height:1.05em;vertical-align:-.16em;flex:none}
+
+/* ── Меню в две строки на «средних» ширинах ────────────────────────────────
+   Между бургером (≤1279px) и просторным десктопом бывает полоса, где пунктов
+   больше, чем влезает в одну строку. Пункты НЕ сокращаем и не прячем: меню
+   переносится на вторую строку, строки центрируются относительно друг друга,
+   шапка подрастает по высоте. Одна строка ведёт себя как раньше — прижата
+   вправо, потому что при одной строке центрирование не даёт эффекта. */
+/* .fp-top НЕ переносим: в wrap-контейнере меню срывается целиком под логотип.
+   Сжимается и переносится само меню — логотип остаётся слева. */
+.fp-top .fp-top__nav,.fp-top__nav{flex:0 1 auto;min-width:0;flex-wrap:nowrap;margin-left:auto}
+.fp-top .fp-top__links,.fp-top__links{display:flex;flex-wrap:wrap;align-items:center;align-content:center;justify-content:center;gap:0px 10px;flex:0 1 auto;min-width:0}
+.fp-top .fp-top__nav > .fp-top__link--cta{flex:0 0 auto}
+/* сначала уплотняем интервалы — вторая строка появляется только когда реально нужна */
+@media (min-width:1280px) and (max-width:1599px){
+  .fp-top .fp-top__link{padding:8px 10px}
+  .fp-top .fp-top__link--cta{padding:12px 20px}
+  .fp-top .fp-top__links,.fp-top__links{gap:0px 6px}
+}
