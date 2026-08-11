@@ -28,7 +28,7 @@
 <!-- HEADER (канонический, site/chrome.html) -->
 <header class="fp-top">
   <a class="fp-top__logo" href="/">Frankenplatz.ch</a>
-  <nav class="fp-top__nav">
+  <nav class="fp-top__nav"><div class="fp-top__links">
     <a class="fp-top__link" href="/#program">Программа</a>
     <a class="fp-top__link" href="/day1">День №1</a>
     <a class="fp-top__link" href="/day2">День №2</a>
@@ -36,9 +36,8 @@
     <a class="fp-top__link" href="/brand-market">Маркет</a>
     <a class="fp-top__link fp-top__link--active" aria-current="page" href="/blog">Статьи</a>
     <a class="fp-top__link" href="/trips">Другие форумы</a>
-    <a class="fp-top__link" href="/tickets">Билеты</a>
     <a class="fp-top__cta" href="/tickets">Купить билет</a>
-  </nav>
+  </div></nav>
   <button class="fp-top__burger" aria-label="Открыть меню" aria-expanded="false">☰</button>
   <div class="fp-top__menu">
     <a class="fp-top__link" href="/#program">Программа</a>
@@ -48,7 +47,6 @@
     <a class="fp-top__link" href="/brand-market">Маркет</a>
     <a class="fp-top__link fp-top__link--active" aria-current="page" href="/blog">Статьи</a>
     <a class="fp-top__link" href="/trips">Другие форумы</a>
-    <a class="fp-top__link" href="/tickets">Билеты</a>
     <a class="fp-top__cta" href="/tickets">Купить билет</a>
   </div>
 </header>
@@ -106,5 +104,6 @@
 <script src="site/cookie-consent.js"></script>
 <!-- окно подписки: один раз, первому визиту, через 40 с после решения по кукисам -->
 <script src="site/newsletter-popup.js"></script>
+<script src="site/nbsp.js" defer></script>
 </body>
 </html>

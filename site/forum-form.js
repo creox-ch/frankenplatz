@@ -46,6 +46,16 @@
       fields: [['select', 'Тип билета'], ['.field.full input', 'Сколько человек едет']]
     },
     {
+      /* market-catalog.html — бронь/предложить цену/вопрос по вещи из каталога.
+         Одна форма на три сценария: заголовок #mcBookT меняется кнопкой, по нему
+         и понятно, чего человек хочет. Что за вещь — берём из открытой карточки
+         (она вне формы, поэтому в outside). */
+      form: '#mcBook', form_key: 'market-item', role: 'Заявка по вещи · маркет',
+      name: '#mcBName', email: '#mcBMail',
+      fields: [['#mcBookT', 'Тип обращения'], ['#mcBPrice', 'Предложенная цена, CHF'], ['#mcBNote', 'Комментарий']],
+      outside: [['#mcMName', 'Вещь'], ['#mcMBrand', 'Бренд'], ['#mcMPrice', 'Цена в каталоге'], ['#mcMSeller', 'Продавец']]
+    },
+    {
       // sponsor.html — «Хочу место в фойе»
       form: '#spForm', form_key: 'sponsor', role: 'Заявка спонсора/маркета',
       email: '#spEmail',
@@ -139,6 +149,13 @@
       var payload = {};
       (cfg.fields || []).forEach(function (f) {
         var v = val(form, f[0]);
+        if (v) payload[f[1]] = v;
+      });
+      /* Контекст за пределами формы: карточка товара, выбранный тариф и т.п.
+         Без него заявка «хочу забронировать» не говорит, ЧТО забронировать. */
+      (cfg.outside || []).forEach(function (f) {
+        var el = document.querySelector(f[0]);
+        var v = el ? String(el.value != null && el.value !== '' ? el.value : el.textContent || '').trim() : '';
         if (v) payload[f[1]] = v;
       });
       if (cfg.checkboxGroup) {
