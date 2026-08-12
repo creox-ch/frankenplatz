@@ -101,6 +101,10 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
 .kit .bm-cats{display:grid;gap:26px 22px;margin-top:30px}
 @media(min-width:620px){.kit .bm-cats{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(min-width:1000px){.kit .bm-cats{grid-template-columns:repeat(4,minmax(0,1fr))}}
+/* «Как проходит оплата» — тех же плиток всего две, поэтому им нужна своя
+   сетка: иначе на широком экране они займут половину ряда из четырёх. */
+.kit .bm-cats--2{grid-template-columns:minmax(0,1fr)}
+@media(min-width:760px){.kit .bm-cats--2{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .kit .bm-cat{padding-top:14px;border-top:2px solid var(--line-strong)}
 .kit .bm-cat--yes{border-top-color:var(--gold)}
 .kit .bm-cat--maybe{border-top-color:rgba(185,139,255,.6)}
@@ -650,14 +654,14 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
       <h2>Как проходит оплата</h2>
       <p class="lead">У каждой вещи свой QR-код. Продалась онлайн по брони или на маркете при сканировании — сделка попадает в твой личный кабинет автоматически. Ты в любой момент видишь, что продано, что забронировано и сколько всего вышло.</p>
       <p class="para">Деньги можно принимать двумя способами:</p>
-      <div class="bm2-gar">
-        <div class="bm2-gar__i">
-          <div class="bm2-gar__n">Напрямую</div>
+      <div class="bm-cats bm-cats--2">
+        <div class="bm-cat bm-cat--yes">
+          <div class="bm-cat__k">Напрямую</div>
           <h4>Наличными или переводом от покупателя</h4>
           <p>Комиссию мы выставим отдельным счётом после маркета.</p>
         </div>
-        <div class="bm2-gar__i">
-          <div class="bm2-gar__n">Через нас</div>
+        <div class="bm-cat bm-cat--maybe">
+          <div class="bm-cat__k">Через нас</div>
           <h4>Покупатель платит на нашу систему</h4>
           <p>Ты получаешь свою сумму на счёт за вычетом комиссии. Ничего не выставляешь, с наличными не возишься. Оплата картой добавляет 3% платёжного сбора.</p>
         </div>
