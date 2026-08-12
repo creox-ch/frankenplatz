@@ -30,13 +30,17 @@ html{overflow-x:clip}
 .fp-top__link--active:hover{color:#F5C969}
 .fp-top__link--cta{background:linear-gradient(135deg,#E6B450,#F5C969);color:#2A1A05;font-weight:700;border-radius:9999px;padding:12px 24px;font-size:16px}
 .fp-top__link--cta:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(230,180,80,.30);color:#2A1A05}
-.fp-top__burger{display:none;background:none;border:none;color:#fff;font-size:22px;line-height:1;cursor:pointer;padding:6px 8px;min-width:44px;min-height:44px;border-radius:10px}
+.fp-top__burger{display:none;position:relative;background:none;border:none;color:#fff;font-size:0;line-height:1;cursor:pointer;padding:6px 8px;min-width:44px;min-height:44px;border-radius:10px}
+.fp-top__burger::before,.fp-top__burger::after{content:"";position:absolute;left:50%;top:50%;width:20px;height:2px;border-radius:2px;background:#fff;transform:translate(-50%,-50%);transition:transform .22s,box-shadow .22s}
+.fp-top__burger::before{box-shadow:0 -6px 0 #fff,0 6px 0 #fff}
+.fp-top__burger[aria-expanded="true"]::before{box-shadow:none;transform:translate(-50%,-50%) rotate(45deg)}
+.fp-top__burger[aria-expanded="true"]::after{transform:translate(-50%,-50%) rotate(-45deg)}
 .fp-top__burger:hover{background:rgba(255,255,255,.06)}
 .fp-top__menu{position:absolute;top:100%;left:0;right:0;display:none;flex-direction:column;gap:2px;padding:8px 16px 16px;background:rgba(20,10,31,.96);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.10)}
 .fp-top__menu.is-open{display:flex}
 .fp-top__menu .fp-top__link{font-size:16px;padding:13px 12px}
 .fp-top__menu .fp-top__link--cta{text-align:center;margin-top:6px}
-@media (max-width:1279px){.fp-top__nav{display:none}.fp-top__burger{display:block;font-size:26px;padding:8px 10px}}
+@media (max-width:1279px){.fp-top__nav{display:none}.fp-top__burger{display:block;padding:0}}
 /* мобильное меню — панель справа на всех «бургерных» ширинах */
 .fp-top__menu{left:auto;right:12px;width:min(86vw,340px);margin-top:8px;border:1px solid rgba(255,255,255,.10);border-radius:18px;padding:14px 16px 18px;box-shadow:0 24px 60px rgba(0,0,0,.5)}
 /* выезжает справа, а не появляется рывком */
