@@ -27,19 +27,90 @@
       menu.appendChild(foot);
     }
     if (burger && menu) {
-      burger.addEventListener("click", function () {
-        var open = menu.classList.toggle("is-open");
-        burger.setAttribute("aria-expanded", open ? "true" : "false");
-        burger.textContent = open ? "✕" : "☰";
-        burger.setAttribute("aria-label", open ? "Закрыть меню" : "Открыть меню");
-      });
+      /* Панель закрывается всеми привычными способами: повторный тап по кнопке,
+         тап мимо панели, Escape, переход по ссылке, разворот окна на десктоп.
+         Раньше был только повторный тап по кнопке 44×44 — промахнулся, и меню
+         продолжало висеть поверх страницы. */
+      var docEl = document.documentElement;
+      var mq = window.matchMedia("(max-width:1279px)");
+      var isOpen = false;
+
+      /* Подложку добавляем скриптом: разметка шапки скопирована в каждую
+         статическую страницу, и менять её ради одного div пришлось бы во всех. */
+      var scrim = document.createElement("div");
+      scrim.className = "fp-top__scrim";
+      document.body.appendChild(scrim);
+
+      /* Иконку рисует CSS на псевдоэлементах — глиф из разметки убираем, чтобы
+         текст и полоски не накладывались друг на друга. */
+      burger.textContent = "";
+      if (!menu.id) menu.id = "fp-top-menu";
+      menu.setAttribute("tabindex", "-1");
+      burger.setAttribute("aria-controls", menu.id);
+      burger.setAttribute("aria-expanded", "false");
+
+      function focusables() {
+        return Array.prototype.slice
+          .call(menu.querySelectorAll('a[href],button:not([disabled]),[tabindex]:not([tabindex="-1"])'))
+          .filter(function (el) { return el.getClientRects().length > 0; });
+      }
+
+      /* Прокрутку фона глушим на <html>; ширину полосы прокрутки компенсируем,
+         иначе на планшете страница дёргается вбок в момент открытия. */
+      function lockScroll(on) {
+        if (on) {
+          var gap = window.innerWidth - docEl.clientWidth;
+          docEl.style.overflow = "hidden";
+          if (gap > 0) docEl.style.paddingRight = gap + "px";
+        } else {
+          docEl.style.overflow = "";
+          docEl.style.paddingRight = "";
+        }
+      }
+
+      function setOpen(next, returnFocus) {
+        if (next === isOpen) return;
+        isOpen = next;
+        menu.classList.toggle("is-open", next);
+        scrim.classList.toggle("is-open", next);
+        burger.setAttribute("aria-expanded", next ? "true" : "false");
+        burger.setAttribute("aria-label", next ? "Закрыть меню" : "Открыть меню");
+        lockScroll(next);
+        /* Фокус переносим следующим кадром: в момент клика панель ещё
+           visibility:hidden, стиль не пересчитан, и focus() по такому элементу
+           браузер молча игнорирует — фокус оставался на кнопке. */
+        if (next) requestAnimationFrame(function () { if (isOpen) menu.focus({ preventScroll: true }); });
+        else if (returnFocus) burger.focus({ preventScroll: true });
+      }
+
+      burger.addEventListener("click", function () { setOpen(!isOpen, true); });
+      scrim.addEventListener("click", function () { setOpen(false, false); });
+
       menu.querySelectorAll("a:not(.fp-top__menu-ig)").forEach(function (a) {
-        a.addEventListener("click", function () {
-          menu.classList.remove("is-open");
-          burger.setAttribute("aria-expanded", "false");
-          burger.textContent = "☰";
-        });
+        a.addEventListener("click", function () { setOpen(false, false); });
       });
+
+      document.addEventListener("keydown", function (e) {
+        if (!isOpen) return;
+        if (e.key === "Escape") { setOpen(false, true); return; }
+        if (e.key !== "Tab") return;
+        /* Пока панель открыта, Tab ходит по кругу внутри неё: без этого фокус
+           уходил на скрытую за подложкой страницу, и с клавиатуры было не понять,
+           где ты находишься. */
+        var list = focusables();
+        if (!list.length) return;
+        var first = list[0];
+        var last = list[list.length - 1];
+        var active = document.activeElement;
+        if (e.shiftKey && (active === first || active === menu)) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
+      });
+
+      /* Растянули окно до десктопа с открытой панелью — закрываем: иначе на
+         странице оказывались сразу и горизонтальное меню, и панель. */
+      var onWidthChange = function () { if (!mq.matches) setOpen(false, false); };
+      if (mq.addEventListener) mq.addEventListener("change", onWidthChange);
+      else if (mq.addListener) mq.addListener(onWidthChange);
     }
     // Newsletter form → "sent" message
     var form = document.querySelector(".fp-foot__form");
