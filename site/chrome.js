@@ -27,17 +27,19 @@
       menu.appendChild(foot);
     }
     if (burger && menu) {
+      /* Иконку рисует CSS по aria-expanded (полоски на ::before/::after).
+         Текст в кнопку не пишем: текстовый глиф убран из разметки как мёртвый,
+         и возвращать его отсюда нельзя — он снова окажется в DOM. */
       burger.addEventListener("click", function () {
         var open = menu.classList.toggle("is-open");
         burger.setAttribute("aria-expanded", open ? "true" : "false");
-        burger.textContent = open ? "✕" : "☰";
         burger.setAttribute("aria-label", open ? "Закрыть меню" : "Открыть меню");
       });
       menu.querySelectorAll("a:not(.fp-top__menu-ig)").forEach(function (a) {
         a.addEventListener("click", function () {
           menu.classList.remove("is-open");
           burger.setAttribute("aria-expanded", "false");
-          burger.textContent = "☰";
+          burger.setAttribute("aria-label", "Открыть меню");
         });
       });
     }

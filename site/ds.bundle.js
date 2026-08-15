@@ -434,8 +434,12 @@ const CSS = `
 }
 
 /* mobile menu */
-.fp-top__burger{display:none;background:none;border:none;color:#fff;font-size:22px;line-height:1;
-  cursor:pointer;padding:6px 8px;min-width:44px;min-height:44px;border-radius:var(--r-sm)}
+.fp-top__burger{display:none;position:relative;background:none;border:none;color:#fff;font-size:0;line-height:1;
+  cursor:pointer;padding:0;min-width:44px;min-height:44px;border-radius:var(--r-sm)}
+.fp-top__burger::before,.fp-top__burger::after{content:"";position:absolute;left:50%;top:50%;width:20px;height:2px;border-radius:2px;background:#fff;transform:translate(-50%,-50%);transition:transform .22s,box-shadow .22s}
+.fp-top__burger::before{box-shadow:0 -6px 0 #fff,0 6px 0 #fff}
+.fp-top__burger[aria-expanded="true"]::before{box-shadow:none;transform:translate(-50%,-50%) rotate(45deg)}
+.fp-top__burger[aria-expanded="true"]::after{transform:translate(-50%,-50%) rotate(-45deg)}
 .fp-top__burger:hover{background:rgba(255,255,255,.06)}
 .fp-top__menu{position:absolute;top:100%;left:0;right:0;display:none;flex-direction:column;gap:2px;
   padding:8px 16px 16px;background:rgba(20,10,31,.96);backdrop-filter:blur(var(--blur-nav));
@@ -499,7 +503,7 @@ function TopBar({
     "aria-label": open ? "Закрыть меню" : "Открыть меню",
     "aria-expanded": open,
     onClick: () => setOpen(v => !v)
-  }, open ? "✕" : "☰"), /*#__PURE__*/React.createElement("div", {
+  }), /*#__PURE__*/React.createElement("div", {
     className: ["fp-top__menu", open ? "is-open" : ""].filter(Boolean).join(" ")
   }, linkEls, /*#__PURE__*/React.createElement("div", {
     className: "fp-top__menu-foot"
