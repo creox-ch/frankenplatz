@@ -183,6 +183,11 @@
 </style>
 </head>
 <body>
+<!-- Меню сайта. Подключено в начале <body> намеренно: скрипт строит шапку,
+     и в конце страницы она появлялась уже после первой отрисовки —
+     на полсекунды меню просто не было. При ре-синке дизайна вернуть сюда. -->
+<script src="../site/nav.js"></script>
+<script src="../site/calc-nav.js"></script>
 <a href="/calculators" style="position:fixed;top:18px;left:22px;z-index:50;display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;color:#C3B7D4;text-decoration:none;background:rgba(20,10,31,.55);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:8px 16px;backdrop-filter:blur(8px);white-space:nowrap" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#C3B7D4'">← Все калькуляторы</a>
 <a href="/" style="position:fixed;top:18px;right:22px;z-index:50;display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:0 14px;font-size:15px;font-weight:700;color:#C3B7D4;text-decoration:none;background:rgba(20,10,31,.72);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.12);border-radius:999px;white-space:nowrap">Frankenplatz.ch →</a>
 <div class="backdrop"></div>
@@ -602,9 +607,6 @@
     }
   });
 </script>
-<!-- Меню сайта (модуль в site/*.js — при ре-синке дизайна вернуть эту строку) -->
-<script src="../site/nav.js"></script>
-<script src="../site/calc-nav.js"></script>
 <!-- Согласие на cookies + Google Analytics -->
 <script src="../site/cookie-consent.js"></script>
 </body>
