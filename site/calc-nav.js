@@ -30,7 +30,13 @@
      Отличие одно и осознанное: header у калькуляторов fixed, а не sticky —
      их body центрирует контент флексом, sticky-ребёнок встал бы в колонку. */
   var CSS = [
-    '.fp-top{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px max(26px,(100% - 1240px)/2);background:rgba(20,10,31,.6);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.10);box-sizing:border-box;min-height:0;overflow:visible}',
+    /* Отбивка — та же, что на остальном сайте. На пятнадцати страницах её
+       задаёт align-left.css: max(var(--fp-gutter),(100% - 1240px)/2), где
+       --fp-gutter это clamp(20px,6vw,80px). Страницы калькуляторов не грузят
+       ни одного CSS-файла, токена там нет, поэтому clamp вписан значением.
+       Разница видна на планшете и узком десктопе: на 768px логотип отступает
+       на 46px, на 1000px — на 60px, как на главной, а не на 26px. */
+    '.fp-top{position:fixed;top:0;left:0;right:0;z-index:80;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:16px max(clamp(20px,6vw,80px),(100% - 1240px)/2);background:rgba(20,10,31,.6);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.10);box-sizing:border-box;min-height:0;overflow:visible}',
     '.fp-top::before,.fp-top::after{content:none;display:none}',
     '.fp-top .fp-top__nav{position:static;inset:auto;background:none;border:none;box-shadow:none;border-radius:0;clip-path:none;max-width:none;padding:0;margin:0 0 0 auto;min-height:0;height:auto;width:auto;backdrop-filter:none;-webkit-backdrop-filter:none}',
     '.fp-top__logo{font-family:"Unbounded","Manrope",system-ui,sans-serif;font-weight:800;font-size:18px;letter-spacing:.01em;color:#fff;display:flex;align-items:center;gap:9px;min-height:44px;text-decoration:none}',
