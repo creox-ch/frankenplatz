@@ -26,6 +26,27 @@
   var here = (document.currentScript && document.currentScript.src) || '../site/calc-nav.js';
   var base = here.replace(/calc-nav\.js.*$/, '');
 
+  /* ---- Место под фиксированную шапку резервируем СРАЗУ ----
+     Шапка position:fixed, поэтому место под неё держит padding-top у body.
+     Раньше он добавлялся в build(), то есть после DOMContentLoaded и после
+     сетевой загрузки nav.js — страница к этому моменту уже отрисована и
+     отцентрирована (body у калькуляторов display:flex + justify-content:center),
+     и контент прыгал вниз на высоту шапки.
+
+     Теперь резерв ставится в момент выполнения скрипта, до отрисовки. Исходный
+     padding страницы clamp-овый и держит вертикальный ритм, поэтому он не
+     переписывается, а запоминается и складывается с высотой шапки.
+     HEADER_H — высота шапки в одну строку: 16 + 44 + 16 + 1px границы. */
+  var HEADER_H = 77;
+  var pad0 = null;
+
+  function reservePad(h) {
+    if (!document.body) return;
+    if (pad0 === null) pad0 = parseFloat(getComputedStyle(document.body).paddingTop) || 0;
+    document.body.style.paddingTop = (pad0 + h) + 'px';
+  }
+  reservePad(HEADER_H);
+
   /* ---- CSS: блок TopBar из site/chrome.css, значения дословно ----
      Отличие одно и осознанное: header у калькуляторов fixed, а не sticky —
      их body центрирует контент флексом, sticky-ребёнок встал бы в колонку. */
@@ -159,13 +180,11 @@
 
     document.body.insertBefore(header, document.body.firstChild);
 
-    /* Место под фиксированную шапку. Не переписываем padding страницы
-       (у калькуляторов он clamp-овый и держит вертикальный ритм), а
-       ПРИБАВЛЯЕМ фактическую высоту шапки — она меняется с шириной. */
-    var pad0 = parseFloat(getComputedStyle(document.body).paddingTop) || 0;
-    var fit = function () {
-      document.body.style.paddingTop = (pad0 + header.offsetHeight) + 'px';
-    };
+    /* Уточняем резерв по фактической высоте: она меняется с шириной окна —
+       на узком десктопе меню уходит в две строки и шапка подрастает.
+       Базовое значение уже стоит с момента выполнения скрипта, поэтому здесь
+       обычно ничего не сдвигается. */
+    var fit = function () { reservePad(header.offsetHeight); };
     fit();
     window.addEventListener('resize', fit);
     if (window.ResizeObserver) new ResizeObserver(fit).observe(header);
@@ -180,7 +199,15 @@
     document.head.appendChild(s);
   }
 
-  if (document.readyState === 'loading') {
+  /* Собираем сразу, не дожидаясь DOMContentLoaded: скрипт подключён последним
+     в <body>, так что document.body и весь контент страницы уже разобраны.
+     Ждать было нечего, а из-за ожидания шапка появлялась после отрисовки, и
+     уточнение резерва по её фактической высоте дёргало страницу — заметно на
+     узком десктопе, где меню уходит в две строки и шапка выше обычного.
+     Если тела ещё нет (скрипт перенесли в <head>) — работает прежний путь. */
+  if (document.body) {
+    start();
+  } else if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', start);
   } else {
     start();
