@@ -794,6 +794,10 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
 <!-- инлайн-заглушка (авто-попап + фейк-сабмит) удалена; #bmForm пишет в базу через forum-form.js -->
 <script src="site/chrome.js" defer></script>
 <script src="site/newsletter-form.js"></script>
+<!-- ⚠ market-buy.js — единственный способ купить пакет маркета (модалка → Payrexx).
+     Выгрузка дизайна 11.08 уже вырезала эту строку: страница продавала, кнопки не было.
+     При ре-синке дизайна строку вернуть; за этим следит scripts/check_page_scripts.js. -->
+<script src="site/market-buy.js"></script>
 <script src="site/forum-form.js"></script>
 <script src="site/cookie-consent.js"></script>
 <script src="site/nbsp.js" defer></script>
