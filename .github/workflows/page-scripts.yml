@@ -1,0 +1,25 @@
+name: Подключения
+
+# Выгрузка дизайна перезаписывает разметку и уносит с собой <script>-теги боевых
+# модулей: покупка и формы тихо перестают работать, а на вид страница целая.
+# Проверяем на каждый push и PR — дешевле, чем неделя без продаж.
+on:
+  push:
+    paths:
+      - '**/*.html'
+      - 'site/**'
+      - 'scripts/check_page_scripts.js'
+      - '.github/workflows/page-scripts.yml'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Обязательные модули на страницах
+        run: node scripts/check_page_scripts.js
