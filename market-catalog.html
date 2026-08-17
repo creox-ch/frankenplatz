@@ -295,11 +295,9 @@ a{color:var(--lila-bright)}a:hover{color:var(--gold-bright)}
 
 <script src="site/chrome.js" defer></script>
 <script src="site/newsletter-form.js"></script>
-<script src="site/market-catalog.js?v=15" defer></script>
-<!-- ⚠ Вещи в market-catalog.js придуманы. Этот модуль честно помечает их образцом
-     и снимает бронь, пока каталог не пойдёт из базы. Не удалять при синке дизайна;
-     за подключением следит scripts/check_page_scripts.js. -->
-<script src="site/market-demo-notice.js" defer></script>
+<!-- ⚠ Файл логики: тянет каталог из базы кабинета продавца. Из выгрузки дизайна
+     не брать — там вернутся демо-вещи. За подключением следит scripts/check_page_scripts.js. -->
+<script src="site/market-catalog.js?v=16" defer></script>
 <script src="site/market-float.js" defer></script>
 <script src="site/forum-form.js"></script>
 <script src="site/cookie-consent.js"></script>

@@ -46,7 +46,7 @@ site/newsletter-form.js site/newsletter-popup.js site/registration-form.js
 site/forum-form.js      site/anketa-form.js    site/anketa-data.js
 site/effects.js         site/tickets-buy.js    site/okaziya-form.js
 site/okaziya-ui.js      site/calc-nav.js       site/blog.js
-site/blog-data.js       site/market-catalog.js (только обработчик submit)
+site/blog-data.js       site/market-catalog.js
 calculators/*.html      calculators/report-capture.js  calculators/report-form.js
 ```
 
@@ -54,6 +54,12 @@ calculators/*.html      calculators/report-capture.js  calculators/report-form.j
 и никуда не шлют — это тихая потеря заявок. Известные случаи: `site/okaziya.js`
 (не брать вообще), обработчик `submit` в `site/market-catalog.js`, инлайн-попап
 на `brand-market.html`. Живые формы подключает `site/forum-form.js`.
+
+`site/market-catalog.js` с 17.08.2026 целиком наш: каталог тянет настоящие вещи
+из кабинета продавца (`GET /api/market/catalog` в `slswiss-tickets`). В выгрузке
+дизайна лежит прежняя версия с 19 придуманными вещами — принять её значит вернуть
+на прод несуществующий товар. Тем же синком может приехать удалённый
+`site/market-demo-notice.js`: он помечал те вещи образцом и больше не нужен.
 
 **Инструменты дизайна не брать.** В выгрузку иногда попадают тюнеры — они
 инжектятся в страницу и дают двигать элементы мышкой. Сайту они не нужны: сюда
