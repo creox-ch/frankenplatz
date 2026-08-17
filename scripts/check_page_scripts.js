@@ -30,8 +30,7 @@ const REQUIRED = {
     'site/cookie-consent.js',
   ],
   'market-catalog.html': [
-    'site/market-catalog.js', // сам каталог
-    'site/market-demo-notice.js', // пометка «вещи придуманы» + снятие брони до наполнения
+    'site/market-catalog.js', // каталог из базы кабинета продавца
     'site/forum-form.js', // бронь/очередь/вопрос по вещи (#mcBook) → /api/forms
     'site/cookie-consent.js',
   ],
