@@ -31,6 +31,7 @@ const REQUIRED = {
   ],
   'market-catalog.html': [
     'site/market-catalog.js', // сам каталог
+    'site/market-demo-notice.js', // пометка «вещи придуманы» + снятие брони до наполнения
     'site/forum-form.js', // бронь/очередь/вопрос по вещи (#mcBook) → /api/forms
     'site/cookie-consent.js',
   ],
