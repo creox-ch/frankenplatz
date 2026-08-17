@@ -42,6 +42,17 @@ const REQUIRED = {
   'collaboration.html': ['site/forum-form.js', 'site/cookie-consent.js'],
   'okaziya.html': ['site/okaziya-form.js', 'site/cookie-consent.js'],
   'anketa.html': ['site/anketa-form.js', 'site/cookie-consent.js'],
+  // «Предложить спикера» — модуль перехватывает ссылку на анкету и открывает
+  // форму на два поля. Без него ссылка снова ведёт на 37 вопросов о самом
+  // отправителе, и рекомендация теряется. Та же выгрузка 11.08 вырезала и его —
+  // вместе с market-buy.js, только заметили позже.
+  // Ссылка сейчас есть на index (Landing.jsx) и day1 (Day1.jsx); day2 и speakers
+  // держим в списке, потому что формулировка кочует между страницами спикеров с
+  // каждой выгрузкой, а без ссылки модуль просто молчит.
+  'index.html': ['site/suggest-speaker.js'],
+  'day1.html': ['site/suggest-speaker.js'],
+  'day2.html': ['site/suggest-speaker.js'],
+  'speakers.html': ['site/suggest-speaker.js'],
 };
 
 const problems = [];
