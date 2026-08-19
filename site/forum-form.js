@@ -52,8 +52,16 @@
          (она вне формы, поэтому в outside). */
       form: '#mcBook', form_key: 'market-item', role: 'Заявка по вещи · маркет',
       name: '#mcBName', email: '#mcBMail',
-      fields: [['#mcBookT', 'Тип обращения'], ['#mcBPrice', 'Предложенная цена, CHF'], ['#mcBNote', 'Комментарий']],
-      outside: [['#mcMName', 'Вещь'], ['#mcMBrand', 'Бренд'], ['#mcMPrice', 'Цена в каталоге'], ['#mcMSeller', 'Продавец']]
+      /* Код вещи, продавец, цена и ссылка — из скрытых полей, которые кладёт
+         site/market-catalog.js. Выскабливание их из вёрстки давало мусор:
+         «Продавец: Продавец: Иванна» и слипшиеся старую с новой ценой. */
+      fields: [
+        ['#mcBookT', 'Тип обращения'], ['#mcBItem', 'Код вещи'],
+        ['#mcBPrice', 'Предложенная цена, CHF'], ['#mcBNote', 'Комментарий'],
+        ['#mcBSellerN', 'Продавец'], ['#mcBPriceC', 'Цена в каталоге'],
+        ['#mcBLink', 'Карточка вещи']
+      ],
+      outside: [['#mcMName', 'Вещь'], ['#mcMBrand', 'Бренд']]
     },
     {
       // sponsor.html — «Хочу место в фойе»
@@ -100,9 +108,15 @@
     document.head.appendChild(s);
   }
 
+  /* Значение поля. Читаем и value, и текст: часть «полей» — это не инпуты,
+     а заголовки, по которым и понятно, чего человек хочет. Раньше тут стоял
+     только value, и «Тип обращения» из заголовка #mcBookT терялся всегда —
+     бронь, торг и вопрос приезжали в почту неразличимыми. */
   function val(root, sel) {
     var el = sel && root.querySelector(sel);
-    return el ? String(el.value || '').trim() : '';
+    if (!el) return '';
+    var v = el.value != null && el.value !== '' ? el.value : el.textContent || '';
+    return String(v).trim();
   }
 
   function wire(cfg) {
