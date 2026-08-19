@@ -28,7 +28,12 @@
     if(document.getElementById('mc-photo-css'))return;
     var st=document.createElement('style');st.id='mc-photo-css';
     st.textContent=
-      '.kit .mc-ph img,.mc-modal__main img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}'+
+      /* В сетке кадрируем: карточки держат единый квадрат, иначе ряд «прыгает».
+         В модалке — наоборот, вещь должна быть видна целиком. Вертикальное фото
+         пальто или сумки в квадрате теряет верх и подол, а решение о покупке
+         принимается именно по этой картинке. */
+      '.kit .mc-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}'+
+      '.mc-modal__main img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}'+
       '.mc-modal__thumb{padding:0;overflow:hidden;border-style:solid;cursor:pointer}'+
       '.mc-modal__thumb img{width:100%;height:100%;object-fit:cover;display:block}'+
       '.mc-modal__thumb.is-on{border-color:var(--gold,#E6B450)}'+
