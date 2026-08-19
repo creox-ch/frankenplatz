@@ -52,6 +52,12 @@
          (она вне формы, поэтому в outside). */
       form: '#mcBook', form_key: 'market-item', role: 'Заявка по вещи · маркет',
       name: '#mcBName', email: '#mcBMail',
+      /* Цель обработки называем прямо: контакт уходит продавцу — частному лицу,
+         и человек должен узнать об этом до отправки, а не из письма. Условия
+         участия рядом, потому что по §1.3 бронирование означает согласие с
+         ними — а лежали они только в шапке страницы, не у кнопки. */
+      consentNote: 'Имя и e-mail получит продавец вещи, чтобы ответить напрямую.',
+      terms: { href: '/brand-market-agb', label: 'Условия участия' },
       /* Код вещи, продавец, цена и ссылка — из скрытых полей, которые кладёт
          site/market-catalog.js. Выскабливание их из вёрстки давало мусор:
          «Продавец: Продавец: Иванна» и слипшиеся старую с новой ценой. */
@@ -132,11 +138,20 @@
     hp.setAttribute('aria-hidden', 'true');
     hp.innerHTML = '<label>Не заполняйте<input type="text" name="website" tabindex="-1" autocomplete="off"></label>';
 
+    /* Текст согласия. Собирается из частей, потому что у форм разные цели.
+       Про отписку тут больше ни слова: все формы этого реестра — разовые
+       заявки, а не подписка, и фраза «отписаться можно в любой момент»
+       создавала впечатление, что человек подписывается на рассылку.
+       consentNote — цель обработки, если она не очевидна из формы.
+       terms — документ, с которым человек соглашается действием. */
+    var consentParts = ['Даю согласие на обработку данных заявки.'];
+    if (cfg.consentNote) consentParts.push(cfg.consentNote);
+    var links = '<a href="' + legalHref() + '">Политика конфиденциальности</a>';
+    if (cfg.terms) links += ' · <a href="' + cfg.terms.href + '">' + cfg.terms.label + '</a>';
     var consentLabel = document.createElement('label');
     consentLabel.className = 'fp-ff-consent';
     consentLabel.innerHTML =
-      '<input type="checkbox"><span>Даю согласие на обработку данных заявки.<br>' +
-      'Отписаться можно в любой момент. <a href="' + legalHref() + '">Политика конфиденциальности</a>.</span>';
+      '<input type="checkbox"><span>' + consentParts.join(' ') + '<br>' + links + '.</span>';
 
     var msg = document.createElement('p');
     msg.className = 'fp-ff-msg';
