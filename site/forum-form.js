@@ -74,7 +74,17 @@
   var CSS = [
     '.fp-ff-consent{display:flex;align-items:flex-start;gap:9px;cursor:pointer;font-size:12.5px;',
     'color:var(--muted-2,#9A8BB3);line-height:1.45;margin:4px 0 2px}',
-    '.fp-ff-consent input{accent-color:var(--gold,#E6B450);width:16px;height:16px;min-height:0;padding:0;margin-top:1px;cursor:pointer;flex:none}',
+    /* Селектор с [type] намеренно: на странице может лежать своё правило вида
+       `.kit .mc-book input{width:100%;padding:11px 13px;border:…}` — оно бьёт по
+       любому input в форме, включая наш чекбокс. У каталога так и вышло 19.08:
+       галочка раздувалась на всю ширину формы (422px вместо 16), а текст
+       согласия сжимался в колонку и уезжал за карточку. Поэтому здесь и
+       специфичность выше, и все свойства коробки сбрасываются явно. */
+    '.fp-ff-consent input[type="checkbox"]{accent-color:var(--gold,#E6B450);',
+    'appearance:auto;-webkit-appearance:checkbox;width:16px;min-width:16px;height:16px;min-height:0;',
+    'padding:0;margin:1px 0 0;border:0;border-radius:0;background:none;cursor:pointer;flex:none;box-sizing:border-box}',
+    /* Текст занимает остаток строки: без этого он тоже сжимается чужим правилом. */
+    '.fp-ff-consent span{flex:1 1 auto;min-width:0}',
     '.fp-ff-consent a{color:var(--lila-bright,#B98BFF)}',
     '.fp-ff-msg{font-size:13.5px;line-height:1.5;margin:6px 0 0}',
     '.fp-ff-msg.ok{color:var(--green-text,#8BE59B);font-weight:700}',
