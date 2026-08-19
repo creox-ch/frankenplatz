@@ -226,6 +226,13 @@
       thumbs.appendChild(d);
     });
   }
+  /* Скрытое поле формы: заводим сами, чтобы не трогать разметку страницы —
+     её приносит выгрузка дизайна и перезапишет при следующем синке. */
+  function stash(form,id,value){
+    var el=form.querySelector('#'+id);
+    if(!el){el=document.createElement('input');el.type='hidden';el.id=id;form.appendChild(el)}
+    el.value=value==null?'':String(value);
+  }
   function openModal(it){
     if(!modal)return;
     gallery(it);
@@ -247,7 +254,19 @@
        были придуманы, и возвращать их до появления реальной статистики нельзя. */
     var se=$('#mcMSeller');
     if(se){se.innerHTML=it.seller?'Продавец: <b>'+esc(it.seller)+'</b>':'';se.style.display=it.seller?'block':'none'}
-    var bf=$('#mcBook');if(bf){bf.hidden=true;var ok=$('#mcBookOk');if(ok)ok.hidden=true}
+    /* Что за вещь — в скрытые поля формы, а не выскабливанием из вёрстки.
+       Раньше заявка собирала текст карточки, и в письмо приезжало
+       «Продавец: Продавец: Иванна» и «Цена в каталоге: 1000 CHF 500 CHF»
+       (зачёркнутая и настоящая цена слиплись). Кода вещи не было вовсе —
+       при сотне позиций по заявке не понять, о чём речь. */
+    var bf=$('#mcBook');
+    if(bf){
+      bf.hidden=true;var ok=$('#mcBookOk');if(ok)ok.hidden=true;
+      stash(bf,'mcBItem',it.no||'');
+      stash(bf,'mcBSellerN',it.seller||'');
+      stash(bf,'mcBPriceC',money(it.price)+' CHF');
+      stash(bf,'mcBLink',location.origin+location.pathname+(it.no?'#'+it.no:''));
+    }
     var bb=$('#mcMBook');if(bb){bb.querySelector('span').textContent=it.st==='booked'?'Встать в очередь':'Забронировать';bb.querySelector('small').textContent=it.st==='booked'?'если бронь сорвётся — ты следующая':'без оплаты · ни к чему не обязывает';bb.setAttribute('data-mode',it.st==='booked'?'queue':'book')}
     modal.classList.add('is-open');
     document.body.style.overflow='hidden';
