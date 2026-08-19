@@ -155,6 +155,45 @@
       msg.className = 'fp-ff-msg' + (kind ? ' ' + kind : '');
     }
 
+    var btnLabel = btn ? btn.textContent : '';
+
+    /* Возврат формы в исходное состояние.
+
+       Нужен там, где форма одна на много карточек: в каталоге бренд-маркета
+       #mcBook живёт в модалке и переиспользуется для каждой вещи. После
+       успешной отправки поля скрыты, поэтому на следующей вещи человек видел
+       чужое «Готово! Заявка у нас» и не видел формы вообще — отправить заявку
+       по второй вещи было нельзя до перезагрузки страницы. */
+    function reset() {
+      Array.prototype.forEach.call(form.children, function (c) { c.style.display = ''; });
+      setMsg('');
+      if (btn) { btn.disabled = false; btn.textContent = btnLabel; }
+      // Контакты оставляем: человек смотрит несколько вещей подряд и вводить
+      // их заново незачем. Остальное относилось к прошлой вещи.
+      // Селекторы есть не у всех форм (у «Вопроса о маркете» только email),
+      // а querySelector(undefined) бросает исключение.
+      var keep = [cfg.name, cfg.email, cfg.telegram, cfg.phone]
+        .filter(Boolean)
+        .map(function (sel) { return form.querySelector(sel); });
+      Array.prototype.forEach.call(form.querySelectorAll('input,textarea'), function (el) {
+        if (el === hpInput || el === consent || el.type === 'hidden') return;
+        if (keep.indexOf(el) >= 0) return;
+        el.value = '';
+      });
+      // Согласие снимаем: новая заявка — новое согласие, а не унаследованное
+      // от предыдущей вещи.
+      if (consent) consent.checked = false;
+    }
+
+    /* Сбрасываем в момент, когда форму снова показывают. Слушаем сам атрибут
+       hidden, а не событие страницы: так модуль не знает про каталог, его
+       модалку и кнопки — и работает на любой странице, где форму прячут. */
+    if (typeof MutationObserver === 'function') {
+      new MutationObserver(function () {
+        if (!form.hidden) reset();
+      }).observe(form, { attributes: true, attributeFilter: ['hidden'] });
+    }
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       setMsg('');
