@@ -15,6 +15,16 @@
   'use strict';
 
   var ENDPOINT = 'https://slswiss-tickets.vercel.app/api/market/create';
+  // Проверка промокода до оплаты: иначе единственный способ узнать, работает ли
+  // код, — начать платить. Скидку считает сервер (свои promo_codes, не купоны
+  // Payrexx), здесь она только показывается.
+  var PROMO_ENDPOINT = 'https://slswiss-tickets.vercel.app/api/promo/check';
+
+  /** Рапены → «109» / «87.20». Цены показываем без лишних нулей. */
+  function chf(rappen) {
+    var v = (Number(rappen) || 0) / 100;
+    return v.toFixed(2).replace(/\.00$/, '');
+  }
 
   // Пакеты для показа. price — обычная; eb — цена «первым N» (сервер решает, активна ли).
   var PACKS = [
@@ -61,6 +71,13 @@
       '.mk-note{margin:12px 2px 0;font-size:11.5px;line-height:1.5;color:#7A6C93}' +
       '.mk-msg{margin:12px 2px 0;font-size:13px;min-height:1em}' +
       '.mk-msg.err{color:#FF9B9B}' +
+      '.mk-promo{display:flex;gap:8px;align-items:stretch}' +
+      '.mk-promo .mk-field{flex:1;min-width:0;text-transform:uppercase}' +
+      '.mk-promo__btn{margin-top:10px;padding:0 16px;border:1px solid rgba(255,255,255,.2);border-radius:12px;background:rgba(255,255,255,.06);color:#F3EEF9;font:700 13px/1 inherit;cursor:pointer;white-space:nowrap}' +
+      '.mk-promo__btn:disabled{opacity:.55;cursor:default}' +
+      '.mk-promo__msg{margin:8px 2px 0;font-size:12.5px;line-height:1.5;color:#9A8BB3;min-height:1em}' +
+      '.mk-promo__msg.ok{color:#86E0B0}' +
+      '.mk-promo__msg.err{color:#FF9B9B}' +
       '.mk-banner{margin:0 0 22px;padding:14px 18px;border-radius:14px;font-size:15px;font-weight:600;line-height:1.5}' +
       '.mk-banner--ok{background:rgba(134,224,176,.14);border:1px solid rgba(134,224,176,.4);color:#B8F0CE}' +
       '.mk-banner--warn{background:rgba(230,180,80,.12);border:1px solid rgba(230,180,80,.4);color:#F5D9A0}';
@@ -115,6 +132,11 @@
       '<div class="mk-opts">' + opts + '</div>' +
       '<input class="mk-field" type="email" name="mkemail" placeholder="E-mail — на него придёт подтверждение" autocomplete="email" required>' +
       '<input class="mk-field" type="text" name="mkname" placeholder="Имя (по желанию)" autocomplete="name">' +
+      '<div class="mk-promo">' +
+      '<input class="mk-field" type="text" name="mkpromo" placeholder="Промокод (если есть)" autocomplete="off" spellcheck="false">' +
+      '<button class="mk-promo__btn" type="button">Применить</button>' +
+      '</div>' +
+      '<p class="mk-promo__msg" role="status" aria-live="polite"></p>' +
       '<label class="mk-consent"><input type="checkbox" name="mkconsent"><span>Даю согласие на обработку данных для оформления. <a href="/legal#datenschutz">Политика конфиденциальности</a>.</span></label>' +
       '<button class="mk-pay" type="button" disabled>Выбери пакет</button>' +
       /* Дату открытия кабинета здесь не называем: обещанное «с 10.08» протухло и
@@ -137,6 +159,13 @@
     var nameInput = card.querySelector('input[name=mkname]');
     var consentInput = card.querySelector('input[name=mkconsent]');
 
+    var promoInput = card.querySelector('input[name=mkpromo]');
+    var promoBtn = card.querySelector('.mk-promo__btn');
+    var promoMsg = card.querySelector('.mk-promo__msg');
+    // Применённый код: {code, total} в рапенах. Живёт до смены пакета — цена
+    // другая, значит и скидку надо пересчитать на сервере, а не домножать здесь.
+    var applied = null;
+
     function selectedPack() {
       var r = card.querySelector('input[name=mkpack]:checked');
       return r ? r.value : null;
@@ -150,9 +179,67 @@
       var p = pack(key);
       var price = p.eb ? p.eb : p.price;
       payBtn.disabled = false;
-      payBtn.textContent = 'Оплатить ' + price + ' CHF →';
+      payBtn.textContent = 'Оплатить ' + (applied ? chf(applied.total) : price) + ' CHF →';
     }
-    card.querySelectorAll('input[name=mkpack]').forEach(function (r) { r.addEventListener('change', refresh); });
+    function setPromoMsg(t, kind) {
+      promoMsg.textContent = t || '';
+      promoMsg.className = 'mk-promo__msg' + (kind ? ' ' + kind : '');
+    }
+    function dropPromo() {
+      applied = null;
+      setPromoMsg('');
+      refresh();
+    }
+
+    function checkPromo(silent) {
+      var code = (promoInput.value || '').trim();
+      var key = selectedPack();
+      if (!code) { dropPromo(); return; }
+      if (!key) { setPromoMsg('Сначала выбери пакет.', 'err'); return; }
+
+      promoBtn.disabled = true;
+      if (!silent) setPromoMsg('Проверяем…');
+      fetch(PROMO_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ scope: 'market', package: key, promo: code }),
+      })
+        .then(function (r) { return r.json().catch(function () { return {}; }); })
+        .then(function (d) {
+          promoBtn.disabled = false;
+          if (d && d.ok && d.applied) {
+            applied = { code: d.code, total: d.total };
+            setPromoMsg('Код ' + d.code + ' применён: −' + chf(d.discount) + ' CHF.', 'ok');
+          } else {
+            // Не подошёл — цену возвращаем к обычной, чтобы на кнопке не осталась
+            // скидка, которой уже нет.
+            applied = null;
+            setPromoMsg((d && d.message) || (d && d.error) || 'Код не подошёл.', 'err');
+          }
+          refresh();
+        })
+        .catch(function () {
+          promoBtn.disabled = false;
+          applied = null;
+          setPromoMsg('Не получилось проверить код. Попробуй ещё раз.', 'err');
+          refresh();
+        });
+    }
+
+    promoBtn.addEventListener('click', function () { checkPromo(false); });
+    promoInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); checkPromo(false); }
+    });
+    // Правят код — прежняя скидка больше не действует: пусть кнопка не врёт.
+    promoInput.addEventListener('input', function () { if (applied) dropPromo(); });
+
+    card.querySelectorAll('input[name=mkpack]').forEach(function (r) {
+      r.addEventListener('change', function () {
+        // Цена сменилась — пересчитываем скидку на сервере, а не переносим её.
+        if (applied) { applied = null; checkPromo(true); }
+        refresh();
+      });
+    });
 
     function setMsg(t, kind) { msg.textContent = t || ''; msg.className = 'mk-msg' + (kind ? ' ' + kind : ''); }
 
@@ -169,7 +256,14 @@
       fetch(ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ package: key, email: email, name: (nameInput.value || '').trim() }),
+        body: JSON.stringify({
+          package: key,
+          email: email,
+          name: (nameInput.value || '').trim(),
+          // Код шлём как есть: скидку считает сервер заново, показанной здесь
+          // сумме он не верит — как и цене пакета.
+          promo: (promoInput.value || '').trim(),
+        }),
       })
         .then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { return { status: r.status, data: d }; }); })
         .then(function (res) {

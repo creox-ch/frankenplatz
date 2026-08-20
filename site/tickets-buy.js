@@ -14,6 +14,9 @@
   'use strict';
 
   var ENDPOINT = 'https://slswiss-tickets.vercel.app/api/forum/create';
+  // Проверка промокода до оплаты: иначе узнать, работает ли код, можно только
+  // начав платить. Скидку считает сервер (свои promo_codes, не купоны Payrexx).
+  var PROMO_ENDPOINT = 'https://slswiss-tickets.vercel.app/api/promo/check';
   var LUNCH_PER_DAY = 35; // CHF/день, EB на ланч не действует
   var CAT_LABEL = { vip: 'VIP', premium: 'Premium', standard: 'Standard' };
 
@@ -50,6 +53,115 @@
     return String(s).replace(/[&<>"']/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
+  }
+
+  // ---------- промокод ----------
+  /* Один виджет на обе модалки: разметка, стили и разговор с сервером живут
+     здесь, чтобы «Итого» в двух местах не разъехалось. Стили инжектим из JS —
+     остальной CSS модалки лежит в tickets.html, а его перезаписывает синк
+     дизайна. Скидку считает сервер: показанной здесь сумме он не верит. */
+
+  /** Рапены → «112» / «89.60». */
+  function chf(rappen) {
+    return ((Number(rappen) || 0) / 100).toFixed(2).replace(/\.00$/, '');
+  }
+
+  function injectPromoCss() {
+    if (document.getElementById('tk-promo-css')) return;
+    var st = document.createElement('style');
+    st.id = 'tk-promo-css';
+    st.textContent =
+      '.tk-promo{display:flex;gap:8px;align-items:stretch}' +
+      '.tk-promo .tk-field{flex:1;min-width:0;text-transform:uppercase}' +
+      '.tk-promo__btn{margin-top:8px;padding:0 16px;border:1px solid var(--line-strong,rgba(255,255,255,.16));border-radius:12px;background:rgba(255,255,255,.06);color:var(--ink,#F3EEF9);font:700 13px/1 inherit;cursor:pointer;white-space:nowrap}' +
+      '.tk-promo__btn:disabled{opacity:.55;cursor:default}' +
+      '.tk-promo__msg{margin:8px 2px 0;font-size:12.5px;line-height:1.5;color:var(--muted-2,#9A8BB3);min-height:1em}' +
+      '.tk-promo__msg.ok{color:#86E0B0}' +
+      '.tk-promo__msg.err{color:#FF9B9B}';
+    document.head.appendChild(st);
+  }
+
+  function promoMarkup() {
+    return (
+      '<div class="tk-promo">' +
+      '<input class="tk-field" type="text" name="tkpromo" placeholder="Промокод (если есть)" autocomplete="off" spellcheck="false">' +
+      '<button class="tk-promo__btn" type="button">Применить</button>' +
+      '</div>' +
+      '<p class="tk-promo__msg" role="status" aria-live="polite"></p>'
+    );
+  }
+
+  /**
+   * Подключить поле к карточке модалки.
+   * selection() отдаёт текущий выбор {product, category, lunch} или null.
+   * onChange() зовётся, когда скидка появилась или пропала, — там пересчёт «Итого».
+   */
+  function attachPromo(card, selection, onChange) {
+    var input = card.querySelector('input[name=tkpromo]');
+    var btn = card.querySelector('.tk-promo__btn');
+    var out = card.querySelector('.tk-promo__msg');
+    var applied = null; // {code, total} в рапенах
+
+    function setMsg(t, kind) {
+      out.textContent = t || '';
+      out.className = 'tk-promo__msg' + (kind ? ' ' + kind : '');
+    }
+    function drop() { applied = null; setMsg(''); onChange(); }
+
+    function check(silent) {
+      var code = (input.value || '').trim();
+      if (!code) { drop(); return; }
+      var sel = selection();
+      if (!sel) { setMsg('Сначала выбери билет.', 'err'); return; }
+
+      btn.disabled = true;
+      if (!silent) setMsg('Проверяем…');
+      fetch(PROMO_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          scope: 'forum',
+          product: sel.product,
+          category: sel.category,
+          lunch: sel.lunch,
+          promo: code,
+        }),
+      })
+        .then(function (r) { return r.json().catch(function () { return {}; }); })
+        .then(function (d) {
+          btn.disabled = false;
+          if (d && d.ok && d.applied) {
+            applied = { code: d.code, total: d.total };
+            setMsg('Код ' + d.code + ' применён: −' + chf(d.discount) + ' CHF.', 'ok');
+          } else {
+            // Не подошёл — итог возвращаем к обычному, чтобы на кнопке не
+            // осталась скидка, которой уже нет.
+            applied = null;
+            setMsg((d && d.message) || (d && d.error) || 'Код не подошёл.', 'err');
+          }
+          onChange();
+        })
+        .catch(function () {
+          btn.disabled = false;
+          applied = null;
+          setMsg('Не получилось проверить код. Попробуй ещё раз.', 'err');
+          onChange();
+        });
+    }
+
+    btn.addEventListener('click', function () { check(false); });
+    input.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') { e.preventDefault(); check(false); }
+    });
+    // Правят код — прежняя скидка больше не действует.
+    input.addEventListener('input', function () { if (applied) drop(); });
+
+    return {
+      code: function () { return (input.value || '').trim(); },
+      total: function () { return applied ? applied.total : null; },
+      // Выбор изменился — цена другая, скидку пересчитывает сервер, а не мы.
+      recheck: function () { if (applied) { applied = null; check(true); } },
+    };
   }
 
   // ---------- модалка покупки ----------
@@ -94,6 +206,7 @@
       ' <span style="color:var(--muted-2,#9A8BB3)">(Early Bird на ланч не действует)</span></span></label>' +
       '<input class="tk-field" type="email" name="tkemail" placeholder="E-mail — на него придёт билет" autocomplete="email" required>' +
       '<input class="tk-field" type="text" name="tkname" placeholder="Имя (по желанию)" autocomplete="name">' +
+      promoMarkup() +
       '<label class="tk-consent"><input type="checkbox" name="tkconsent"><span>Даю согласие на обработку данных для оформления билета. <a href="/legal#datenschutz">Политика конфиденциальности</a>.</span></label>' +
       '<div class="tk-total"><span>Итого</span><b class="tk-total__val">—</b></div>' +
       '<button class="tk-pay" type="button" disabled>Выбери категорию</button>' +
@@ -125,13 +238,25 @@
         o.classList.toggle('is-on', o.getAttribute('data-cat') === cat);
       });
       if (!cat) { totalEl.textContent = '—'; payBtn.disabled = true; payBtn.textContent = 'Выбери категорию'; return; }
-      var total = p.cats[cat].eb + (lunchInput.checked ? LUNCH_PER_DAY * p.days : 0);
+      var withPromo = promo.total();
+      var total = withPromo != null
+        ? chf(withPromo)
+        : p.cats[cat].eb + (lunchInput.checked ? LUNCH_PER_DAY * p.days : 0);
       totalEl.textContent = total + ' CHF';
       payBtn.disabled = false;
       payBtn.textContent = 'Оплатить ' + total + ' CHF';
     }
-    card.querySelectorAll('input[name=tkcat]').forEach(function (r) { r.addEventListener('change', recalc); });
-    lunchInput.addEventListener('change', recalc);
+    var promo = attachPromo(
+      card,
+      function () {
+        var cat = selectedCat();
+        return cat ? { product: product, category: cat, lunch: lunchInput.checked } : null;
+      },
+      recalc
+    );
+    function onSelectionChange() { promo.recheck(); recalc(); }
+    card.querySelectorAll('input[name=tkcat]').forEach(function (r) { r.addEventListener('change', onSelectionChange); });
+    lunchInput.addEventListener('change', onSelectionChange);
 
     function setMsg(t, kind) { msg.textContent = t || ''; msg.className = 'tk-msg' + (kind ? ' ' + kind : ''); }
 
@@ -154,6 +279,9 @@
           lunch: lunchInput.checked,
           email: email,
           name: (nameInput.value || '').trim(),
+          // Код шлём как есть: сервер считает скидку заново — показанной здесь
+          // сумме он не верит, как и цене билета.
+          promo: promo.code(),
         }),
       })
         .then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { return { status: r.status, data: d }; }); })
@@ -204,6 +332,7 @@
       ' <span style="color:var(--muted-2,#9A8BB3)">(Early Bird на ланч не действует)</span></span></label>' +
       '<input class="tk-field" type="email" name="tkemail" placeholder="E-mail — на него придёт билет" autocomplete="email" required>' +
       '<input class="tk-field" type="text" name="tkname" placeholder="Имя (по желанию)" autocomplete="name">' +
+      promoMarkup() +
       '<label class="tk-consent"><input type="checkbox" name="tkconsent"><span>Даю согласие на обработку данных для оформления билета. <a href="/legal#datenschutz">Политика конфиденциальности</a>.</span></label>' +
       '<div class="tk-total"><span>Итого</span><b class="tk-total__val">—</b></div>' +
       '<button class="tk-pay" type="button" disabled>Выбери день</button>' +
@@ -236,13 +365,25 @@
       });
       if (!prod) { totalEl.textContent = '—'; payBtn.disabled = true; payBtn.textContent = 'Выбери день'; return; }
       var p = PRICES[prod];
-      var total = p.cats[cat].eb + (lunchInput.checked ? LUNCH_PER_DAY * p.days : 0);
+      var withPromo = promo.total();
+      var total = withPromo != null
+        ? chf(withPromo)
+        : p.cats[cat].eb + (lunchInput.checked ? LUNCH_PER_DAY * p.days : 0);
       totalEl.textContent = total + ' CHF';
       payBtn.disabled = false;
       payBtn.textContent = 'Оплатить ' + total + ' CHF';
     }
-    card.querySelectorAll('input[name=tkprod]').forEach(function (r) { r.addEventListener('change', recalc); });
-    lunchInput.addEventListener('change', recalc);
+    var promo = attachPromo(
+      card,
+      function () {
+        var prod = selectedProd();
+        return prod ? { product: prod, category: cat, lunch: lunchInput.checked } : null;
+      },
+      recalc
+    );
+    function onSelectionChange() { promo.recheck(); recalc(); }
+    card.querySelectorAll('input[name=tkprod]').forEach(function (r) { r.addEventListener('change', onSelectionChange); });
+    lunchInput.addEventListener('change', onSelectionChange);
 
     function setMsg(t, kind) { msg.textContent = t || ''; msg.className = 'tk-msg' + (kind ? ' ' + kind : ''); }
 
@@ -265,6 +406,9 @@
           lunch: lunchInput.checked,
           email: email,
           name: (nameInput.value || '').trim(),
+          // Код шлём как есть: сервер считает скидку заново — показанной здесь
+          // сумме он не верит, как и цене билета.
+          promo: promo.code(),
         }),
       })
         .then(function (r) { return r.json().catch(function () { return {}; }).then(function (d) { return { status: r.status, data: d }; }); })
@@ -316,6 +460,7 @@
   }
 
   function start() {
+    injectPromoCss();
     document.addEventListener('click', function (e) {
       var btn = e.target.closest && e.target.closest('.tk-buy');
       if (!btn) return;
